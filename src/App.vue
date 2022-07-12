@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="grey"
       dark
     >
       <div class="d-flex align-center">
@@ -24,6 +24,10 @@
           width="100"
         />
       </div>
+
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/csv">CSV</router-link> |
 
       <v-spacer></v-spacer>
 
