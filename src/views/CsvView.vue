@@ -5,7 +5,9 @@
 </template>
 
 <script>
-import CsvService from '../services/csvService.js';
+// !!!!!!!!!!!!!!!!!!!! A décommenter plus tard (Crée une erreur pour le moment)!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// import CsvService from '../services/csvService.js';
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 export default {
   name: "csv-view",
@@ -23,7 +25,11 @@ export default {
             
             //todo use papaparse to convert from csv to json
             //todo send to the service the json produced
-            const response = await CsvService.sendJsonList();
+
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! A décommenter plus tard !!!!!!!!!!!!!!!!!! 
+            // const response = await CsvService.sendJsonList();
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (response crée une erreur pour le moment)
+            
             //todo handle the answer with zip or pdf to download
 
         }catch(e){

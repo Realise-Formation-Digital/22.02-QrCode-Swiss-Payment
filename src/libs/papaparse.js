@@ -5,7 +5,8 @@
 class ParseCsv {
 
     config = {
-        
+        download: true,
+        header: true,
     }
 
     static csvToJson(csvFile) {
