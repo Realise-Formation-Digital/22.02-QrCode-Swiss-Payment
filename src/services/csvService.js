@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "@/libs/consts";
+import { BASE_URL, API_KEY } from "@/libs/consts";
 /**
  * @class
  * @classdesc - Service for csv page
@@ -15,7 +15,7 @@ class CsvService {
     static async sendJsonList(jsonList){
         try{
             console.log('[Service][CsvService][sendCsvList] Called sendCsvList with params', csvList)
-            const response = await axios.post(BASE_URL + '/', {})
+            const response = await axios.post(BASE_URL + '/' + API_KEY, {})
             return response
         }catch(e){
             console.error('[Service][CsvService][sendCsvList] An error has occured when sending the list to the api', e)
