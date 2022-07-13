@@ -22,7 +22,7 @@ class CsvService {
             // csvList !!!!!!!!!!!!!!! A décommenté plus tard (csvList) et remettre après la virgule après params
             // (Crée une erreur pour le moment)
             )
-            const response = await axios.post(BASE_URL + 'lien html à placer' + API_KEY, {})
+            const response = await axios.post(BASE_URL + '/v2/payment-part-receipt/bulk/list' + API_KEY, {})
             return response
         }catch(e){
             console.error('[Service][CsvService][sendCsvList] An error has occured when sending the list to the api', e)
