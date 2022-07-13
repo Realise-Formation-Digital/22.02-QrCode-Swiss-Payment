@@ -12,7 +12,7 @@ class CsvService {
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
      */
-    //!!!!!!!!!!!!! jsonList (A inserer dans le paramètre plus tard (sendJsonList))!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!! jsonList (A inserer dans le paramètre de la fonction (sendJsonList) plus tard )!!!!!!!!!!!!!!!!!!!!!
     static async sendJsonList(){
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(Crée une erreur pour le moment)!!!!!!!!!!!!!!!!!!!!!
 
