@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @click="sendCsvList()">
         CSV
     </div>
 </template>
@@ -25,12 +25,17 @@ export default {
             
             //todo use papaparse to convert from csv to json
             //todo send to the service the json produced
+            const response = await CsvService.sendJsonList();
 
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! A décommenter plus tard !!!!!!!!!!!!!!!!!! 
-            // const response = await CsvService.sendJsonList();
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (response crée une erreur pour le moment)
-            
-            //todo handle the answer with zip or pdf to download
+            // set the blog type to final pdf
+            const file = new Blob([response.data], {type: 'application/pdf'});
+
+            // process to auto download it
+            const fileURL = URL.createObjectURL(file);
+            const link = document.createElement('a');
+            link.href = fileURL;
+            link.download = "FileName" + new Date().getTime() + ".pdf";
+            link.click();
 
         }catch(e){
             console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
