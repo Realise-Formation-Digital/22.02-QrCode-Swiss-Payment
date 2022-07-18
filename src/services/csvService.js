@@ -12,6 +12,17 @@ class CsvService {
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
      */
+    //!!!!!!!!!!!!! jsonList (A inserer dans le paramètre plus tard (sendJsonList))!!!!!!!!!!!!!!!!!!!!!
+    static async sendJsonList(){
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(Crée une erreur pour le moment)!!!!!!!!!!!!!!!!!!!!!
+
+        try{
+            console.log('[Service][CsvService][sendCsvList] Called sendCsvList with params', 
+            
+            // csvList !!!!!!!!!!!!!!! A décommenté plus tard (csvList) et remettre après la virgule après params
+            // (Crée une erreur pour le moment)
+            )
+            const response = await axios.post(BASE_URL + 'lien html à placer' + API_KEY, {})
     static async sendJsonList(csvList){
         try{
             const data = {
