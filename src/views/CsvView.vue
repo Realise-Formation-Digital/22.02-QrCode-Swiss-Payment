@@ -56,7 +56,7 @@ export default {
   }),
   methods: {
 
-    async sendCsvList(){
+     async sendCsvList(){
         try{
             console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params', )
             
@@ -74,16 +74,10 @@ export default {
             link.download = "FileName" + new Date().getTime() + ".pdf";
             link.click();
 
-        //todo use papaparse to convert from csv to json
-        //todo send to the service the json produced
-        const response = await CsvService.sendJsonList();
-        console.log(response)
-        //todo handle the answer with zip or pdf to download
-
-      } catch (e) {
-        console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
-        //todo handle the error
-      }
+        }catch(e){
+            console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
+            //todo handle the error
+        }
     }
   },
   papaparse(convert) {
