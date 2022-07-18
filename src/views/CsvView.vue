@@ -26,7 +26,6 @@ export default {
             
             //todo use papaparse to convert from csv to json
             //todo send to the service the json produced
-            //todo handle the answer with zip or pdf to download
             const response = await CsvService.sendJsonList();
 
             // set the blog type to final pdf
