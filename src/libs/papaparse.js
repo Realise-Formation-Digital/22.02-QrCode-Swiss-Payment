@@ -9,10 +9,9 @@ class ParseCsv {
         header: true,
     }
 
-    static csvToJson(csvFile) {
+    static csvToJson(csvFile, config) {
         return this.$papa.parse(csvFile, config)
     }
-
 }
 
 export default ParseCsv

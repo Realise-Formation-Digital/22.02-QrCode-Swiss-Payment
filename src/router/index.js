@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/csv',
-    name: 'csv-view',
+    name: 'csvView',
     component: CsvView
   },
   {
