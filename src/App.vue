@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color=""
       dark
     >
       <div class="d-flex align-center">
@@ -24,6 +24,8 @@
           width="100"
         />
       </div>
+
+      <router-link to="/FormQr"> FormQr</router-link>
 
       <v-spacer></v-spacer>
 
