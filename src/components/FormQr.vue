@@ -160,11 +160,13 @@
 </template>
 
 <script lang="ts">
-import axios from "axios"
+ import axios from "axios"
+ import { BASE_URL, API_KEY } from "@/libs/consts";
 
 
 export default {
   name: "FormQr",
+  
 
   data: () => ({
     return: {
@@ -282,39 +284,51 @@ export default {
   }),
 
   methods: {
-    validate() {
-      this.$refs.form.validate();
-      const data = JSON.stringify({
-        qrInvoice:{
-          creditorInformation:{
-      iban: this.iban ,
-      name: this.name ,
-      streetname: this.street,
-      housenumber: this.nrsreet,
-      postalcode:this.npa,
-      city:this.place,
-      country:this.country,
-        }
-      },
-      ultimateDebtor:{
-      name:this.dnom,
-      streetName:this.street,
-      houseNumber:this.dnr,
-      postalCode:this.dnpa,
-      city:this.dplace,
-      country:this.dcountry,
-      },
-      paymentAmountInformation:{
-      amount:this.amount,
-      },
-      paymentReference:{
-      reference:this.nrref,
-      addtionalReference:{
-      unstructuredMessage:this.infosupp,
+    async validate() {
+      const isValid = await this.$refs.form.validate();
+      if (isValid) {
+        const data = JSON.stringify({
+          qrInvoice:{
+            creditorInformation:{
+              iban: this.iban ,
+              name: this.name ,
+              streetname: this.street,
+              housenumber: this.nrsreet,
+              postalcode:this.npa,
+              city:this.place,
+              country:this.country,
+            }
+          },
+          ultimateDebtor:{
+            name:this.dnom,
+            streetName:this.street,
+            houseNumber:this.dnr,
+            postalCode:this.dnpa,
+            city:this.dplace,
+            country:this.dcountry,
+          },
+          paymentAmountInformation:{
+            amount:this.amount,
+          },
+          paymentReference:{
+            reference:this.nrref,
+            addtionalReference:{
+              unstructuredMessage:this.infosupp,
+            }
+          }
+        });
+
+        // POST request using axios with set headers
+        const headers = { 
+          'Content-Type': 'application/json',
+          'accept': 'application/pdf',
+          'Accept-Language': 'fr'
+        };
+
+        const resultat =  await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY, data, { headers });
+
+        console.log(resultat);
       }
-    }
-    })
-    console.log(data)
     },
     reset() {
       this.$refs.form.reset();
@@ -322,11 +336,7 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-  },
-  mounted () {
-    axios
-      .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      .then(response => (this.info = response))
   }
 };
+
 </script>
