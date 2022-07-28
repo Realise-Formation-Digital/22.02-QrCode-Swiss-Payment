@@ -1,5 +1,7 @@
+<!-- Form to send to payload to get back a PDF/Qr file -->
 <template>
   <v-app>
+    <h1>Bénéficiaire</h1>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
         v-model="iban"
@@ -13,55 +15,129 @@
         v-model="name"
         :counter="5"
         :rules="nameRules"
-        label="Name"
+        label="Nom"
         required
       ></v-text-field>
 
       <v-text-field
-        v-model="rue"
+        v-model="street"
         :counter="5"
-        :rules="rueRules"
+        :rules="streetRules"
+        label="Rue"
+        required
+      ></v-text-field>
+
+      <v-divider></v-divider>
+
+      <v-text-field
+        v-model="nrstreet"
+        :counter="5"
+        :rules="nrstreetRules"
+        label="N°"
+        required
+      ></v-text-field>
+
+       <v-text-field
+        v-model="npa"
+        :counter="5"
+        :rules="npaRules"
+        label="NPA"
+        required
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
+
+       <v-text-field
+        v-model="place"
+        :counter="5"
+        :rules="placeRules"
+        label="Lieu"
+        required
+      ></v-text-field>
+
+       <v-text-field
+        v-model="country"
+        :counter="5"
+        :rules="countryRules"
+        label="Pays"
+        required
+      ></v-text-field>
+
+      <h1>Débiteur</h1>
+
+       <v-text-field
+        v-model="dnom"
+        :counter="5"
+        :rules="dnomRules"
+        label="Nom"
+        required
+      ></v-text-field>
+      
+      <v-text-field
+        v-model="dstreet"
+        :counter="5"
+        :rules="dstreetRules"
         label="Rue"
         required
       ></v-text-field>
 
       <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
+        v-model="dnr"
+        :counter="5"
+        :rules="dnrRules"
+        label="N°"
         required
       ></v-text-field>
-      <v-row>
-        <v-col cols="12" sm="6" md="4">
-          <v-menu
-            ref="menu"
-            v-model="menu"
-            :close-on-content-click="false"
-            :return-value.sync="date"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="date"
-                label="Picker in menu"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="date" no-title scrollable>
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-              <v-btn text color="primary" @click="$refs.menu.save(date)">
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-menu>
-        </v-col>
-      </v-row>
+
+      <v-text-field
+        v-model="dnpa"
+        :counter="5"
+        :rules="dnpaRules"
+        label="NPA"
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="dplace"
+        :counter="5"
+        :rules="dplaceRules"
+        label="Lieu"
+        required
+      ></v-text-field>
+
+       <v-text-field
+        v-model="dcountry"
+        :counter="5"
+        :rules="dcountryRules"
+        label="Pays"
+        required
+      ></v-text-field>
+
+      <h1>Information sur le montant du paiement</h1>
+
+       <v-text-field
+        v-model="amount"
+        :counter="5"
+        :rules="amountRules"
+        label="Montant"
+        required
+      ></v-text-field>
+
+       <v-text-field
+        v-model="nrref"
+        :counter="5"
+        :rules="nrrefRules"
+        label="N° de référence"
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="infosupp"
+        :counter="5"
+        :rules="infosuppRules"
+        label="Informations supplémentaires"
+        required
+      ></v-text-field>
 
       <v-checkbox
         v-model="checkbox"
@@ -84,25 +160,41 @@
 </template>
 
 <script lang="ts">
+ import axios from "axios"
+ import { BASE_URL, API_KEY } from "@/libs/consts";
 
 
 export default {
   name: "FormQr",
+  
 
   data: () => ({
     return: {
+      //variables pour le "le beneficiaire"
       iban:"",
       name:"",
-      rue:"",
-      email:"",
+      street:"",
+      nrrue:"",
+      npa:"",
+      place:"",
+      country:"",
+      //Variables pour le "debiteur"
+      dnom:"",
+      dstreet:"",
+      dnr:"",
+      dnpa:"",
+      dplace:"",
+      dcountry:"",
+      //Variables pour les "information sur le montant du paiement"
+      amount:"",
+      nrref:"",
+      infosupp:"",
+
     },
 
-    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10),
-    menu: false,
+    // Validation pour "le beneficiaire"
     valid: true,
-     iban: "",
+    iban: "",
     ibanRules: [
       (v) => !!v || "IBAN is required",
       (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
@@ -112,15 +204,77 @@ export default {
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
     ],
-    rue: "",
-    rueRules: [
+    street: "",
+    streetRules: [
       (v) => !!v || "Address is required",
       (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
     ],
-    email: "",
-    emailRules: [
-      (v) => !!v || "E-mail is required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    nrstreet: "",
+    nrstreetRules: [
+      (v) => !!v || "Address is required",
+      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
+    ],
+    npa: "",
+    npaRules: [
+      (v) => !!v || "NPA is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    place: "",
+    placeRules: [
+      (v) => !!v || "Lieu is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    country: "",
+    countryRules: [
+      (v) => !!v || "Country is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    //Validation pour "le debiteur"
+    ],
+    dnom: "",
+    dnomRules: [
+      (v) => !!v || "Name is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    dstreet: "",
+    dstreetRules: [
+      (v) => !!v || "Street is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    dnr: "",
+    dnrRules: [
+      (v) => !!v || "Nr is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    dnpa: "",
+    dnpaRules: [
+      (v) => !!v || "NPA is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    dplace: "",
+    dplaceRules: [
+      (v) => !!v || "Place is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    dcountry: "",
+    dcountryRules: [
+      (v) => !!v || "country is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    //Validation pour "Information sur le montant du paiement"
+    amount: "",
+    amountRules: [
+      (v) => !!v || "amount is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    nrref: "",
+    nrrefRules: [
+      (v) => !!v || "Nr reference is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+    ],
+    infosupp: "",
+    infosuppRules: [
+      (v) => !!v || "Info supp is required",
+      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     select: null,
     checkbox: false,
@@ -130,10 +284,51 @@ export default {
   }),
 
   methods: {
-    validate() {
-      this.$refs.form.validate();
-      console.log("name")
-      // var data = '{ "Iban":"' + this.iban + '" , "Name":"' + this.name + '", "Rue":"' + this.rue + '" , "Email":"' + this.email + '"   }';
+    async validate() {
+      const isValid = await this.$refs.form.validate();
+      if (isValid) {
+        const data = JSON.stringify({
+          qrInvoice:{
+            creditorInformation:{
+              iban: this.iban ,
+              name: this.name ,
+              streetname: this.street,
+              housenumber: this.nrsreet,
+              postalcode:this.npa,
+              city:this.place,
+              country:this.country,
+            }
+          },
+          ultimateDebtor:{
+            name:this.dnom,
+            streetName:this.street,
+            houseNumber:this.dnr,
+            postalCode:this.dnpa,
+            city:this.dplace,
+            country:this.dcountry,
+          },
+          paymentAmountInformation:{
+            amount:this.amount,
+          },
+          paymentReference:{
+            reference:this.nrref,
+            addtionalReference:{
+              unstructuredMessage:this.infosupp,
+            }
+          }
+        });
+
+        // POST request using axios with set headers
+        const headers = { 
+          'Content-Type': 'application/json',
+          'accept': 'application/pdf',
+          'Accept-Language': 'fr'
+        };
+
+        const resultat =  await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY, data, { headers });
+
+        console.log(resultat);
+      }
     },
     reset() {
       this.$refs.form.reset();
@@ -141,6 +336,7 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-  },
+  }
 };
+
 </script>
