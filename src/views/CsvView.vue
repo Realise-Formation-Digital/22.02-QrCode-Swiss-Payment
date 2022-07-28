@@ -6,7 +6,7 @@
     <!-- <div v-for="item in payload" :key="item.REF">
     {{ item.REF}}
     </div> -->
-    <v-btn @click="sendCsvList"></v-btn>
+    <v-btn @click="sendCsvList">Envoi a l'api</v-btn>
   </div>
 </template>
 
@@ -16,12 +16,37 @@ import CsvService from '../services/csvService.js';
 export default {
   name: "csvView",
   data: () => ({
-    datarray: [],
-    payload: { //CSV de Réalise 
-    },
-    loading: false,
+    payload: {},
+    loading: true,
   }),
   methods: {
+
+        // Json the csv file
+    papaparse(convert) {
+      this.$papa.parse(convert, {
+        header: true,
+        download: true,
+        complete: function (result) {
+          // crée un tableau vide qui contiendra le payload
+          const mapping = []
+          result.data.map((item) => {
+            mapping.push({
+              // adapte le payload Réalise avec le payload de l'API
+              reference: item.REF,   
+              amount: parseFloat(item.MONTANT),         
+              name: item.NOM,
+              streetName: item.ADRESSE,
+              houseNumber: item.NUMERO,
+              postalCode: item.CODEPOSTAL,
+              city: item.VILLE,
+              addressLine1: item.ADRESSEPR,
+              addressLine2: item.ADRESSESEC,            
+            })
+          });
+          console.log('mapping', mapping)         
+        },
+      })
+    },
 
     async sendCsvList() {
       try {
@@ -46,37 +71,6 @@ export default {
         //todo handle the error
       }
     },
-
-    papaparse(convert) {
-      this.$papa.parse(convert, {
-        header: true,
-        download: true,
-        complete: function (result) {
-
-          const payload = []
-          result.data.map((item) => {
-            payload.push({
-
-              /**
-               * Essai import csv payload (map)
-               */
-              reference: item.REF,   
-              amount: parseFloat(item.MONTANT),         
-              name: item.NOM,
-              streetName: item.ADRESSE,
-              houseNumber: item.NUMERO,
-              postalCode: item.CODEPOSTAL,
-              city: item.VILLE,
-              addressLine1: item.ADRESSEPR,
-              addressLine2: item.ADRESSESEC,
-             
-            })
-          });
-          this.datarray = payload;
-          console.log('payload_final', this.datarray)
-        },
-      })
-    },
-  }
+  },
 }
 </script>
