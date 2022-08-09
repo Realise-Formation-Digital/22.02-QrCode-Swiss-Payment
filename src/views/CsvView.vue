@@ -1,17 +1,14 @@
 <template>
-  <div>
-    CSV
-    <v-file-input accept="csv/*" label="Fichier Excel" @change="papaparse"></v-file-input>
-
-    <!-- <div v-for="item in payload" :key="item.REF">
-    {{ item.REF}}
-    </div> -->
-    <v-btn @click="sendCsvList">Envoi a l'api</v-btn>
-  </div>
+  <v-row>
+    <v-col>
+      <v-file-input accept="csv/*" label="Fichier Excel" @change="papaparse"></v-file-input>
+      <v-btn @click="sendCsvList">Envoi a l'api</v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import CsvService from '../services/csvService.js';
+import ApiService from '../services/apiService.js';
 
 export default {
   name: "csvView",
@@ -54,7 +51,7 @@ export default {
 
         //todo use papaparse to convert from csv to json
         //todo send to the service the json produced
-        const response = await CsvService.sendJsonList();
+        const response = await ApiService.sendJsonList();
 
         // set the blog type to final pdf
         const file = new Blob([response.data], { type: 'application/pdf' });
