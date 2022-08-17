@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import ParseCsv from '@/libs/papaparse';
 import ApiService from '../services/apiService.js';
 
 export default {
@@ -15,19 +16,17 @@ export default {
   data: () => ({
     payload: {},
     loading: true,
+    cazzo:null
   }),
   methods: {
 
         // Json the csv file
-    papaparse(convert) {
-      this.$papa.parse(convert, {
-        header: true,
-        download: true,
-        complete: function (result) {
-          // crée un tableau vide qui contiendra le payload
-          const mapping = []
-          result.data.map((item) => {
-            mapping.push({
+    async papaparse(convert) {
+
+      let test = await ParseCsv.csvToJson(convert)
+
+      this.cazzo = test.map((item) => {
+            return {
               // adapte le payload Réalise avec le payload de l'API
               reference: item.REF,   
               amount: parseFloat(item.MONTANT),         
@@ -38,11 +37,8 @@ export default {
               city: item.VILLE,
               addressLine1: item.ADRESSEPR,
               addressLine2: item.ADRESSESEC,            
-            })
+            }
           });
-          console.log('mapping', mapping)         
-        },
-      })
     },
 
     async sendCsvList() {
@@ -51,7 +47,8 @@ export default {
 
         //todo use papaparse to convert from csv to json
         //todo send to the service the json produced
-        const response = await ApiService.sendJsonList();
+                console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params', this.cazzo)
+        const response = await ApiService.sendJsonList(this.cazzo);
 
         // set the blog type to final pdf
         const file = new Blob([response.data], { type: 'application/pdf' });

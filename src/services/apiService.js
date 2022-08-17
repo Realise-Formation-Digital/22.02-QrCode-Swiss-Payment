@@ -15,15 +15,28 @@ class ApiService {
      */
     static async sendJsonList(csvList) {
         try {
+            console.log('[Service][apiService][sendJsonList] Called sendCsvList with params', csvList)
 
-            const payload = null
-
-            const data = {
-                "creditorInformation": {
-                    "iban": "CH",
-                    "creditor": {
+            const payload = csvList.map((ligneCSV) => {
+                console.log("Ligne CSV", ligneCSV)
+                return {
+                    "creditorInformation": {
+                        "iban": "CH",
+                        "creditor": {
+                            "addressType": "STRUCTURED",
+                            "name": "Réalise S.A.",
+                            "streetName": "Rue Viguet",
+                            "houseNumber": "8",
+                            "postalCode": "1227",
+                            "city": "Genève",
+                            "addressLine1": "Rue Viguet 8 1227 les Acacias",
+                            "addressLine2": "1227 Les acacias genève",
+                            "country": "CH"
+                        }
+                    },
+                    "ultimateCreditor": {
                         "addressType": "STRUCTURED",
-                        "name": "Réalise S.A.",
+                        "name": "Réalise Genève",
                         "streetName": "Rue Viguet",
                         "houseNumber": "8",
                         "postalCode": "1227",
@@ -31,54 +44,41 @@ class ApiService {
                         "addressLine1": "Rue Viguet 8 1227 les Acacias",
                         "addressLine2": "1227 Les acacias genève",
                         "country": "CH"
-                    }
-                },
-                "ultimateCreditor": {
-                    "addressType": "STRUCTURED",
-                    "name": "Réalise Genève",
-                    "streetName": "Rue Viguet",
-                    "houseNumber": "8",
-                    "postalCode": "1227",
-                    "city": "Genève",
-                    "addressLine1": "Rue Viguet 8 1227 les Acacias",
-                    "addressLine2": "1227 Les acacias genève",
-                    "country": "CH"
-                },
-                "paymentAmountInformation": {
-                    "amount": "",
-                    "currency": "CHF"
-                },
-                 
-                "ultimateDebtor": {
-                    "addressType": "STRUCTURED",
-                    "name":"",
-                    "streetName": "",
-                    "houseNumber": "",
-                    "postalCode": "",
-                    "city": "",
-                    "addressLine1": "",
-                    "addressLine2": "",
-                    "country": "CH"
-                },
-                "paymentReference": {
-                    "referenceType": "SCOR",
-                    "reference": "",
-                    "additionalInformation": {
-                        "unstructuredMessage": "Bill No. 3139 for garden work and disposal of cuttings",
-                        "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30",
-                        "billInformationObject": {}
-                    }
-                },
-                "alternativeSchemes": {
-                    "alternativeSchemeParameters": [
-                        "Name AV1: UV;UltraPay005;12345"
-                    ]
-                },
-            }  
+                    },
+                    "paymentAmountInformation": {
+                        "amount": parseFloat(ligneCSV.amount),
+                        "currency": "CHF"
+                    },
+                    "ultimateDebtor": {
+                        "addressType": "STRUCTURED",
+                        "name":ligneCSV.name,
+                        "streetName": ligneCSV.streetName,
+                        "houseNumber": ligneCSV.houseNumber,
+                        "postalCode": ligneCSV.postalCode,
+                        "city": ligneCSV.city,
+                        "addressLine1": ligneCSV.addressLine1,
+                        "addressLine2": ligneCSV.addressLine2,
+                        "country": "CH"
+                    },
+                    "paymentReference": {
+                        "referenceType": "SCOR",
+                        "reference": ligneCSV.reference,
+                        "additionalInformation": {
+                            "unstructuredMessage": "Bill No. 3139 for garden work and disposal of cuttings",
+                            "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30",
+                            "billInformationObject": {}
+                        }
+                    },
+                    "alternativeSchemes": {
+                        "alternativeSchemeParameters": [
+                            "Name AV1: UV;UltraPay005;12345"
+                        ]
+                    },
+                }
+            })
             console.log("payload", payload)           
-            console.log('[Service][CsvService][sendCsvList] Called sendCsvList with params', csvList, data)
             console.log(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS)
-            const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, data,
+            const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
                 {
                     responseType: "blob",
                     headers: {

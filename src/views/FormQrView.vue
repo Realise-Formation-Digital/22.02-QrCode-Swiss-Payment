@@ -5,9 +5,9 @@
       Here little descriptio what the user have to do :)
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
-      <h1>Bénéficiaire</h1>
+      <!-- <h1>Bénéficiaire</h1> -->
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-text-field
+        <!-- <v-text-field
             v-model="iban"
             :rules="ibanRules"
             label="IBAN"
@@ -54,7 +54,7 @@
             :rules="countryRules"
             label="Pays"
             required
-        ></v-text-field>
+        ></v-text-field> -->
 
         <h1>Débiteur</h1>
 
@@ -118,25 +118,13 @@
 
         <v-text-field
             v-model="infosupp"
-            :rules="infosuppRules"
             label="Informations supplémentaires"
-            required
         ></v-text-field>
 
-        <v-checkbox
-            v-model="checkbox"
-            :rules="[(v) => !!v || 'You must agree to continue!']"
-            label="Do you agree?"
-            required
-        ></v-checkbox>
-
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
-          Validate
+          Valider
         </v-btn>
-
-        <v-btn color="error" class="mr-4" @click="reset"> Reset Form</v-btn>
-
-        <v-btn color="warning" @click="resetValidation"> Reset Validation</v-btn>
+        <v-btn color="error" class="mr-4" @click="reset"> Recommencer le formulaire</v-btn>
       </v-form>
     </v-col>
   </v-row>
@@ -152,6 +140,7 @@ import ApiService from "@/services/apiService.js";
 export default {
   name: "FormQr",
   data: () => ({
+    valid: false,
     return: {
       //variables pour le "le beneficiaire"
       iban: "",
@@ -172,91 +161,48 @@ export default {
       amount: "",
       nrref: "",
       infosupp: "",
-    },
-
-    // Validation pour "le beneficiaire"
-    valid: true,
-    iban: "",
-    ibanRules: [
-      (v) => !!v || "IBAN is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    name: "",
-    nameRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
-    ],
-    street: "",
-    streetRules: [
-      (v) => !!v || "Address is required",
-      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
-    ],
-    nrstreet: "",
-    nrstreetRules: [
-      (v) => !!v || "Address is required",
-      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
-    ],
-    npa: "",
-    npaRules: [
-      (v) => !!v || "NPA is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    place: "",
-    placeRules: [
-      (v) => !!v || "Lieu is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    country: "",
-    countryRules: [
-      (v) => !!v || "Country is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-      //Validation pour "le debiteur"
-    ],
+    },   
+      //Validation pour "le débiteur"  
     dnom: "",
     dnomRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     dstreet: "",
     dstreetRules: [
-      (v) => !!v || "Street is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     dnr: "",
     dnrRules: [
-      (v) => !!v || "Nr is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     dnpa: "",
     dnpaRules: [
-      (v) => !!v || "NPA is required",
+      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
       (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     dplace: "",
     dplaceRules: [
-      (v) => !!v || "Place is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     dcountry: "",
     dcountryRules: [
-      (v) => !!v || "country is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères.",
     ],
     //Validation pour "Information sur le montant du paiement"
     amount: "",
     amountRules: [
-      (v) => !!v || "amount is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le montant est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      (v) => (v && v.length <= 12) || "Le montant peut contenir 12 caractères au maximum.",
     ],
     nrref: "",
     nrrefRules: [
-      (v) => !!v || "Nr reference is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    infosupp: "",
-    infosuppRules: [
-      (v) => !!v || "Info supp is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le numéro de référence est obligatoire. (Vous ne pouvez pas le laisser vide)",
+      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
     ],
     select: null,
     checkbox: false,
@@ -320,10 +266,6 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
   }
 };
-
 </script>
