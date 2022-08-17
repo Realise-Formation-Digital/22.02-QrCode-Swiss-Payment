@@ -204,6 +204,11 @@ export default {
       (v) => !!v || "Le numéro de référence est obligatoire.",
       (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères",
     ],
+    infosupp: "",
+    infosuppRules: [
+      (v) => !!v || "Le numéro de référence est obligatoire.",
+      (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères",
+    ],
     select: null,
     checkbox: false,
   }),
