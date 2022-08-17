@@ -197,7 +197,7 @@ export default {
     amount: "",
     amountRules: [
       (v) => !!v || "Le montant est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      (v) => (v && v.length <= 12) || "Le montant peut contenir 12 caractères au maximum.",
+      (v) => (v && v.length <= 12) || "Le montant ne peut contenir que 12 caractères au maximum.",
     ],
     nrref: "",
     nrrefRules: [
