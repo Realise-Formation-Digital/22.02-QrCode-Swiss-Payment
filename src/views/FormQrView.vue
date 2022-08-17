@@ -82,14 +82,14 @@
         <v-text-field
             v-model="dnpa"
             :rules="dnpaRules"
-            label="NPA"
+            label="Code postal"
             required
         ></v-text-field>
 
         <v-text-field
             v-model="dplace"
             :rules="dplaceRules"
-            label="Lieu"
+            label="Ville"
             required
         ></v-text-field>
 
@@ -165,44 +165,44 @@ export default {
       //Validation pour "le débiteur"  
     dnom: "",
     dnomRules: [
-      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le nom est obligatoire.",
+      (v) => (v && v.length <= 70) || "Le nom ne peut excéder 70 caractères.",
     ],
     dstreet: "",
     dstreetRules: [
-      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "La rue est obligatoire.",
+      (v) => (v && v.length <= 70) || "La rue ne peut excéder 70 caractères.",
     ],
     dnr: "",
     dnrRules: [
-      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le n° de rue est obligatoire.",
+      (v) => (v && v.length <= 16) || "Le n° de rue ne peut excéder 16 caractères.",
     ],
     dnpa: "",
     dnpaRules: [
-      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le n° postal est obligatoire.",
+      (v) => (v && v.length <= 16) || "Le code postal ne peut excéder 16 caractères.",
     ],
     dplace: "",
     dplaceRules: [
-      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "La ville est obligatoire.",
+      (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
     ],
     dcountry: "",
     dcountryRules: [
-      (v) => !!v || "Ce champ est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères.",
+      (v) => !!v || "Le pays est obligatoire et doit contenir 2 caractères. (ex:CH)",
+      (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères. (ex:CH)",
     ],
     //Validation pour "Information sur le montant du paiement"
     amount: "",
     amountRules: [
-      (v) => !!v || "Le montant est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      (v) => (v && v.length <= 12) || "Le montant ne peut contenir que 12 caractères au maximum.",
+      (v) => !!v || "Le montant est obligatoire.",
+      (v) => (v && v.length <= 12) || "Le montant ne peut excéder 12 caractères",
     ],
     nrref: "",
     nrrefRules: [
-      (v) => !!v || "Le numéro de référence est obligatoire. (Vous ne pouvez pas le laisser vide)",
-      // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le numéro de référence est obligatoire.",
+      (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères",
     ],
     select: null,
     checkbox: false,
