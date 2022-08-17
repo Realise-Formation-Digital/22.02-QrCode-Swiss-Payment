@@ -132,8 +132,8 @@
 
 <script>
 /* eslint-disable */
-import axios from "axios"
-import {BASE_URL, API_KEY} from "@/libs/consts";
+// import axios from "axios"
+// import {BASE_URL, API_KEY} from "@/libs/consts";
 import ApiService from "@/services/apiService.js";
 
 
