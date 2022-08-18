@@ -132,17 +132,21 @@
 
 <script>
 /* eslint-disable */
-// import axios from "axios"
-// import {BASE_URL, API_KEY} from "@/libs/consts";
+import axios from "axios"
+import {BASE_URL, API_KEY} from "@/libs/consts";
 import ApiService from "@/services/apiService.js";
 
+const regex = /,/gm;
+// const amount = ``;
+const subst = `.`;
 
 export default {
   name: "FormQr",
   data: () => ({
     valid: false,
-    return: {
-      //variables pour le "le beneficiaire"
+    return: 
+    {
+      //variables pour le "le bénéficiaire"
       iban: "",
       name: "",
       street: "",
@@ -150,7 +154,8 @@ export default {
       npa: "",
       place: "",
       country: "",
-      //Variables pour le "debiteur"
+
+    // Variables pour le "débiteur"      
       dnom: "",
       dstreet: "",
       dnr: "",
@@ -159,9 +164,12 @@ export default {
       dcountry: "",
       //Variables pour les "information sur le montant du paiement"
       amount: "",
+      regex: /,/gm,
+      subst: `.`,
       nrref: "",
       infosupp: "",
-    },   
+    },  
+     
       //Validation pour "le débiteur"  
     dnom: "",
     dnomRules: [
@@ -239,7 +247,7 @@ export default {
               country: this.dcountry,
             },
             paymentAmountInformation: {
-              amount: this.amount,
+              amount: this.amount.replace(regex, subst),
             },
             paymentReference: {
               reference: this.nrref,
