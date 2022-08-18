@@ -58,74 +58,65 @@
 
         <h1>Débiteur</h1>
 
-        <v-text-field
-            v-model="dnom"
-            :rules="dnomRules"
-            label="Nom"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" required></v-text-field>
 
-        <v-text-field
-            v-model="dstreet"
-            :rules="dstreetRules"
-            label="Rue"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dstreet" :rules="dstreetRules" label="Rue" required></v-text-field>
 
-        <v-text-field
-            v-model="dnr"
-            :rules="dnrRules"
-            label="N°"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dnr" :rules="dnrRules" label="N°" required></v-text-field>
 
-        <v-text-field
-            v-model="dnpa"
-            :rules="dnpaRules"
-            label="Code postal"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dnpa" :rules="dnpaRules" label="Code postal" required></v-text-field>
 
-        <v-text-field
-            v-model="dplace"
-            :rules="dplaceRules"
-            label="Ville"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dplace" :rules="dplaceRules" label="Ville" required></v-text-field>
 
-        <v-text-field
-            v-model="dcountry"
-            :rules="dcountryRules"
-            label="Pays"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dcountry" :rules="dcountryRules" label="Pays" required></v-text-field>
 
         <h1>Information sur le montant du paiement</h1>
 
-        <v-text-field
-            v-model="amount"
-            :rules="amountRules"
-            label="Montant"
-            required
-        ></v-text-field>
+        <v-text-field v-model="amount" :rules="amountRules" label="Montant" required></v-text-field>
 
-        <v-text-field
-            v-model="nrref"
-            :rules="nrrefRules"
-            label="N° de référence"
-            required
-        ></v-text-field>
+        <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
 
-        <v-text-field
-            v-model="infosupp"
-            label="Informations supplémentaires"
-        ></v-text-field>
+        <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
 
-        <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
-          Valider
-        </v-btn>
-        <v-btn color="error" class="mr-4" @click="reset"> Recommencer le formulaire</v-btn>
+
+        <!-- Button to Open the Modal and validate form -->
+        <v-btn :disabled="!valid" type="button" class="mr-6" color="success" data-bs-toggle="modal"
+          data-bs-target="#myModal">Valider</v-btn>
+
+          <v-btn type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+          Open modal test
+          </v-btn>
+
+        <v-btn color="error" class="ml-6" @click="reset"> Recommencer le formulaire</v-btn>
+
       </v-form>
+
+
+
+      <!-- The Modal -->
+      <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Modal Heading</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" color="">
+              Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate" data-bs-dismiss="modal">Confirmer</v-btn>
+
+              <v-btn type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</v-btn>
+            </div>
+          </div>
+        </div>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -133,20 +124,17 @@
 <script>
 /* eslint-disable */
 import axios from "axios"
-import {BASE_URL, API_KEY} from "@/libs/consts";
+import { BASE_URL, API_KEY } from "@/libs/consts";
 import ApiService from "@/services/apiService.js";
 
 const regex = /,/gm;
 const subst = `.`;
-let szero = "0010200";
-szero*=1
-console.log("sans zéro", szero)
 
 export default {
   name: "FormQr",
   data: () => ({
     valid: false,
-    return: 
+    return:
     {
       //variables pour le "le bénéficiaire"
       iban: "",
@@ -157,7 +145,7 @@ export default {
       place: "",
       country: "",
 
-    // Variables pour le "débiteur"      
+      // Variables pour le "débiteur"      
       dnom: "",
       dstreet: "",
       dnr: "",
@@ -165,14 +153,14 @@ export default {
       dplace: "",
       dcountry: "",
       //Variables pour les "information sur le montant du paiement"
-      amount:"",
+      amount: "",
       regex: /,/gm,
       subst: `.`,
       nrref: "",
       infosupp: "",
-    },  
-     
-      //Validation pour "le débiteur"  
+    },
+
+    //Validation pour "le débiteur"  
     dnom: "",
     dnomRules: [
       (v) => !!v || "Le nom est obligatoire.",
