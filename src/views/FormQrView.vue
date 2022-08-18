@@ -137,8 +137,10 @@ import {BASE_URL, API_KEY} from "@/libs/consts";
 import ApiService from "@/services/apiService.js";
 
 const regex = /,/gm;
-// const amount = ``;
 const subst = `.`;
+let szero = "0010200";
+szero*=1
+console.log("sans zéro", szero)
 
 export default {
   name: "FormQr",
@@ -163,7 +165,7 @@ export default {
       dplace: "",
       dcountry: "",
       //Variables pour les "information sur le montant du paiement"
-      amount: "",
+      amount:"",
       regex: /,/gm,
       subst: `.`,
       nrref: "",
@@ -247,7 +249,7 @@ export default {
               country: this.dcountry,
             },
             paymentAmountInformation: {
-              amount: this.amount.replace(regex, subst),
+              amount: parseFloat(this.amount.replace(regex, subst))
             },
             paymentReference: {
               reference: this.nrref,
