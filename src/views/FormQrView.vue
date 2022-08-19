@@ -77,54 +77,56 @@
         <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
 
         <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
-
-
-        <!-- Button to Open the Modal and validate form -->
-        <v-btn :disabled="!valid" type="button" class="mr-6" color="success" data-bs-toggle="modal"
-          data-bs-target="#myModal">Valider</v-btn>
-
-          <v-btn type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-          Open modal test
-          </v-btn>
-
-        <v-btn color="error" class="ml-6" @click="reset"> Recommencer le formulaire</v-btn>
-
       </v-form>
 
+        <v-btn color="success" outlined @click="showDialog()">Valider</v-btn>
+        <v-btn color="error" outlined @click="reset()">Effacer</v-btn>
 
+          <v-dialog v-model="dialog" persistent max-width="80%">
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">User Profile</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
 
-      <!-- The Modal -->
-      <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
+        <h1>Information sur le montant du paiement</h1>
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Modal Heading</h4>
-            </div>
+        <v-text-field v-model="amount" :rules="amountRules" label="Montant" required></v-text-field>
 
-            <!-- Modal body -->
-            <div class="modal-body" color="">
-              Modal body..
-            </div>
+        <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate" data-bs-dismiss="modal">Confirmer</v-btn>
+        <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
 
-              <v-btn type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</v-btn>
-            </div>
-          </div>
-        </div>
-      </div>
+        <v-text-field v-model="amount" :rules="amountRules" label="Montant" required></v-text-field>
+
+        <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
+
+        <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
+
+                  </v-row>
+                </v-container>
+                <small>*indicates required field</small>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                 <v-btn color="success" text @click="confirm()">
+                  Confirmer
+                </v-btn>
+                <v-btn color="error" text @click="hideDialog()">
+                  Retour
+                </v-btn>
+               
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script>
 /* eslint-disable */
-import axios from "axios"
-import { BASE_URL, API_KEY } from "@/libs/consts";
 import ApiService from "@/services/apiService.js";
 
 const regex = /,/gm;
@@ -133,6 +135,7 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
+    dialog: false,
     valid: false,
     return:
     {
@@ -204,8 +207,8 @@ export default {
     ],
     infosupp: "",
     infosuppRules: [
-      (v) => !!v || "Le numéro de référence est obligatoire.",
-      (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères",
+      (v) => !!v || "",
+      (v) => (v && v.length <= 27) || "",
     ],
     select: null,
     checkbox: false,
@@ -214,7 +217,7 @@ export default {
   methods: {
     async validate() {
       try {
-        const isValid = await this.$refs.form.validate();
+        const isValid = this.$refs.form.validate();
         if (isValid) {
           const data = JSON.stringify({
             qrInvoice: {
@@ -269,6 +272,19 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
+    showDialog() {
+      const isValid = this.$refs.form.validate();
+      if (isValid) {
+        this.dialog = true;
+      }
+    },
+    hideDialog() {
+      this.dialog = false;
+    },
+    confirm() {
+      this.validate();
+      this.dialog = false;
+    }
   }
 };
 </script>
