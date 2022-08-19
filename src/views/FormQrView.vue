@@ -283,7 +283,7 @@ export default {
     },
     confirm() {
       this.validate();
-      this.dialog = false;
+      this.hideDialog();
     }
   }
 };
