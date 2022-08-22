@@ -1,9 +1,9 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
 <template>
   <v-row>
-    <v-col lg="4" md="4" sm="12" xs="12">
+    <!-- <v-col lg="4" md="4" sm="12" xs="12">
       Here little descriptio what the user have to do :)
-    </v-col>
+    </v-col> -->
     <v-col lg="8" md="8" sm="12" xs="12">
       <!-- <h1>Bénéficiaire</h1> -->
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -79,48 +79,49 @@
         <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
       </v-form>
 
-        <v-btn color="success" outlined @click="showDialog()">Valider</v-btn>
-        <v-btn color="error" outlined @click="reset()">Effacer</v-btn>
+      <v-btn color="success" outlined @click="showDialog()">Valider</v-btn>
+      <v-btn color="error" outlined @click="reset()">Effacer</v-btn>
 
-          <v-dialog v-model="dialog" persistent max-width="80%">
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">User Profile</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-row>
+      <v-dialog v-model="dialog" persistent max-width="80%">
+        <v-card>
+          <v-card-title>
+            <v-subheader>
+              <h1>Vérification avant confirmation d'envoi</h1>
+            </v-subheader>
+          </v-card-title>
+          <v-card-text>
 
-        <h1>Information sur le montant du paiement</h1>
+            <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" readonly></v-text-field>
 
-        <v-text-field v-model="amount" :rules="amountRules" label="Montant" required></v-text-field>
+            <v-text-field v-model="dstreet" :rules="dstreetRules" label="Rue" readonly></v-text-field>
 
-        <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
+            <v-text-field v-model="dnr" :rules="dnrRules" label="N°" readonly></v-text-field>
 
-        <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
+            <v-text-field v-model="dnpa" :rules="dnpaRules" label="Code postal" readonly></v-text-field>
 
-        <v-text-field v-model="amount" :rules="amountRules" label="Montant" required></v-text-field>
+            <v-text-field v-model="dplace" :rules="dplaceRules" label="Ville" readonly></v-text-field>
 
-        <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
+            <v-text-field v-model="dcountry" :rules="dcountryRules" label="Pays" readonly></v-text-field>
 
-        <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
+            <v-text-field v-model="amount" :rules="amountRules" label="Montant" readonly></v-text-field>
 
-                  </v-row>
-                </v-container>
-                <small>*indicates required field</small>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                 <v-btn color="success" text @click="confirm()">
-                  Confirmer
-                </v-btn>
-                <v-btn color="error" text @click="hideDialog()">
-                  Retour
-                </v-btn>
-               
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+            <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" readonly></v-text-field>
+
+            <v-text-field v-model="infosupp" label="Informations supplémentaires" readonly></v-text-field>
+
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="success" text @click="confirm()">
+              Confirmer
+            </v-btn>
+            <v-btn color="error" text @click="hideDialog()">
+              Retour
+            </v-btn>
+
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
