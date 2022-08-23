@@ -81,7 +81,11 @@
 
       <v-btn color="success" outlined @click="showDialog()">Valider</v-btn>
       <v-btn color="error" outlined @click="reset()">Effacer</v-btn>
-
+      <!--
+      <v-btn dark color="success" @click="showSnackbarSuccess()">
+        Test success Snackbar
+      </v-btn>
+      -->
       <v-dialog v-model="dialog" persistent max-width="80%">
         <v-card>
           <v-card-title>
@@ -89,8 +93,8 @@
               <h1>Vérification avant confirmation d'envoi</h1>
             </v-subheader>
           </v-card-title>
-          <v-card-text>
 
+          <v-card-text>
             <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" readonly></v-text-field>
 
             <v-text-field v-model="dstreet" :rules="dstreetRules" label="Rue" readonly></v-text-field>
@@ -108,13 +112,14 @@
             <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" readonly></v-text-field>
 
             <v-text-field v-model="infosupp" label="Informations supplémentaires" readonly></v-text-field>
-
           </v-card-text>
+
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" text @click="confirm()">
+            <v-btn color="success" :disabled="dialogSendApi" :loading="dialogSendApi" @click="confirm()">
               Confirmer
             </v-btn>
+
             <v-btn color="error" text @click="hideDialog()">
               Retour
             </v-btn>
@@ -122,6 +127,25 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <v-dialog v-model="dialogSendApi" hide-overlay persistent width="300">
+        <v-card color="primary" dark>
+          <v-card-text>
+            En attente de réception
+            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+
+      <v-snackbar v-model="snackbarError" color="red accent-2">
+        {{ textE }}
+      </v-snackbar>
+
+      <v-snackbar v-model="snackbarSuccess" color="success">
+        {{ textS }}
+      </v-snackbar>
+
+
     </v-col>
   </v-row>
 </template>
@@ -138,33 +162,14 @@ export default {
   data: () => ({
     dialog: false,
     valid: false,
-    return:
-    {
-      //variables pour le "le bénéficiaire"
-      iban: "",
-      name: "",
-      street: "",
-      nrrue: "",
-      npa: "",
-      place: "",
-      country: "",
+    dialogSendApi: false,
 
-      // Variables pour le "débiteur"      
-      dnom: "",
-      dstreet: "",
-      dnr: "",
-      dnpa: "",
-      dplace: "",
-      dcountry: "",
-      //Variables pour les "information sur le montant du paiement"
-      amount: "",
-      regex: /,/gm,
-      subst: `.`,
-      nrref: "",
-      infosupp: "",
-    },
+    snackbarError: false,
+    textE: "Echec de réception du code QR.",
+    snackbarSuccess: false,
+    textS: "Réception du code QR confirmée.",
 
-    //Validation pour "le débiteur"  
+    //Validation pour "le débiteur"
     dnom: "",
     dnomRules: [
       (v) => !!v || "Le nom est obligatoire.",
@@ -215,6 +220,13 @@ export default {
     checkbox: false,
   }),
 
+  watch: {
+    dialogSendApi(val) {
+      if (!val) return
+      // setTimeout(() => (this.dialogSendApi = false), 5000)
+    },
+  },
+
   methods: {
     async validate() {
       try {
@@ -264,8 +276,12 @@ export default {
           link.href = fileURL;
           link.download = "FileName" + new Date().getTime() + ".pdf";
           link.click();
+          this.showSnackbarSuccess();
+          this.dialogSendApi = false;
         }
       } catch (e) {
+        this.showSnackbarError();
+        this.dialogSendApi = false;
         console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
         //todo handle error
       }
@@ -285,6 +301,19 @@ export default {
     confirm() {
       this.validate();
       this.hideDialog();
+      this.dialogSendApi = true;
+    },
+    showSnackbarError() {
+      this.snackbarError = true
+    },
+    hideSnackBarError() {
+      this.snackbarError = false
+    },
+    showSnackbarSuccess() {
+      this.snackbarSuccess = true
+    },
+    hideSnackbarSuccess() {
+      this.snackbarSuccess = false
     }
   }
 };
