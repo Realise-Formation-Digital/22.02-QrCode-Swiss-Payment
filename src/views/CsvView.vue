@@ -30,12 +30,15 @@
 import ParseCsv from '@/libs/papaparse';
 import ApiService from '../services/apiService.js';
 
+const regex = /,/gm;
+const subst = `.`;
+
 export default {
   name: "csvView",
   data: () => ({
     payload: {},
     loading: true,
-    cazzo: null,
+    payloadArray: null,
 
     dialogSendApi: false,
 
@@ -56,13 +59,13 @@ export default {
     // Json the csv file
     async papaparse(convert) {
 
-      let test = await ParseCsv.csvToJson(convert)
+      let conversion = await ParseCsv.csvToJson(convert)
 
-      this.cazzo = test.map((item) => {
+      this.payloadArray = conversion.map((item) => {
         return {
           // adapte le payload Réalise avec le payload de l'API
           reference: item.REFERENCE,
-          amount: parseFloat(item.MONTANT),
+          amount: parseFloat(item.MONTANT.replace(regex, subst)),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
@@ -95,8 +98,8 @@ export default {
 
         //todo use papaparse to convert from csv to json
         //todo send to the service the json produced
-        console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params', this.cazzo)
-        const response = await ApiService.sendJsonList(this.cazzo);
+        console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params', this.payloadArray)
+        const response = await ApiService.sendJsonList(this.payloadArray);
 
         // set the blog type to final pdf
         const file = new Blob([response.data], { type: 'application/pdf' });
