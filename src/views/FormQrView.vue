@@ -154,6 +154,10 @@
 /* eslint-disable */
 import ApiService from "@/services/apiService.js";
 
+const regex = /,/gm;
+const subst = `.`;
+
+
 export default {
   name: "FormQr",
   data: () => ({
@@ -250,7 +254,7 @@ export default {
               country: this.dcountry,
             },
             paymentAmountInformation: {
-              amount: parseFloat(this.amount)
+              amount: parseFloat(this.amount.replace(regex, subst))
             },
             paymentReference: {
               reference: this.nrref,

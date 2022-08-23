@@ -60,12 +60,13 @@ export default {
     async papaparse(convert) {
 
       let conversion = await ParseCsv.csvToJson(convert)
-
+console.log(conversion)
       this.payloadArray = conversion.map((item) => {
+        console.log(item.MONTANT)
         return {
           // adapte le payload Réalise avec le payload de l'API
           reference: item.REFERENCE,
-          amount: parseFloat(item.MONTANT.replace(regex, subst)),
+          amount: parseFloat((item.MONTANT).replace(regex, subst)),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
