@@ -7,31 +7,36 @@
     <v-btn to="/" text plain x-large>
       <span class="mr-1">
         <v-icon>mdi-home</v-icon>
-        Home</span>
+        Home
+      </span>
     </v-btn>
 
     <v-spacer></v-spacer>
 
     <v-btn to="/csv" text plain>
-      <span class="mr-2">
+      <span class="mr-2 hide">
         <v-icon>mdi-file-delimited-outline</v-icon>
-        Importer une facture</span>
-      
+        Importer un fichier
+      </span>
+
     </v-btn>
     <v-btn to="/form-qr" text plain>
-      <span class="mr-2">
+      <span class="mr-2 hide">
         <v-icon>mdi-qrcode</v-icon>
-        Créer une facture</span>
-     
+        Créer une facture
+      </span>
     </v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
-  name: "Nav-bar"
+  name: "Nav-bar",
 }
 </script>
 
 <style scoped>
+.hide {
+  display:visible;
+}
 </style>

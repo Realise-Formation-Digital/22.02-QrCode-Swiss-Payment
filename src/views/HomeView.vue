@@ -22,12 +22,5 @@
 
 export default {
   name: 'HomeView',
-  components: {
-  },
-  data: () => ({
-    alignments: [
-      "center",
-    ]
-  })
 }
 </script>

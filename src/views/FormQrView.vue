@@ -79,8 +79,8 @@
         <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
       </v-form>
 
-      <v-btn color="success" outlined @click="showDialog()">Valider</v-btn>
-      <v-btn color="error" outlined @click="reset()">Effacer</v-btn>
+      <v-btn color="success" class="mr-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider</v-btn>
+      <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
       <!--
       <v-btn dark color="success" @click="showSnackbarSuccess()">
         Test success Snackbar
@@ -116,11 +116,11 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" :disabled="dialogSendApi" :loading="dialogSendApi" @click="confirm()">
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="dialogSendApi" :loading="dialogSendApi" @click="confirm()">
               Confirmer
             </v-btn>
 
-            <v-btn color="error" text @click="hideDialog()">
+            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
 
