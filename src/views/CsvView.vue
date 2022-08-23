@@ -48,7 +48,6 @@ export default {
    watch: {
     dialogSendApi(val) {
       if (!val) return
-      // setTimeout(() => (this.dialogSendApi = false), 5000)
     },
   },
 
@@ -62,15 +61,15 @@ export default {
       this.cazzo = test.map((item) => {
         return {
           // adapte le payload Réalise avec le payload de l'API
-          reference: item.REF,
+          reference: item.REFERENCE,
           amount: parseFloat(item.MONTANT),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
           postalCode: item.CODEPOSTAL,
           city: item.VILLE,
-          addressLine1: item.ADRESSEPR,
-          addressLine2: item.ADRESSESEC,
+          country: item.PAYS,
+          unstructuredMessage: item.INFOSUPLEMENTAIRE,
         }
       });
     },
