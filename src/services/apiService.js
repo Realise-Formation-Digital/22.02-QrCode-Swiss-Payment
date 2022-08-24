@@ -1,5 +1,6 @@
 import axios from "axios";
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS } from "@/libs/consts";
+import {BASE_URL, API_KEY, CSVLIST_OPTIONS} from "@/libs/consts";
+
 /**
  * @class
  * @classdesc - Service for csv page
@@ -12,8 +13,8 @@ class ApiService {
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
      */
-    static async sendJsonList(csvList){
-        try{
+    static async sendJsonList(csvList) {
+        try {
             const data = {
                 "creditorInformation": {
                     "iban": "CH4431999123000889012",
@@ -58,17 +59,17 @@ class ApiService {
             console.log('[Service][ApiService][sendCsvList] Called sendCsvList with params', csvList)
             console.log(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS)
             const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, data,
-              {
-                  responseType: "blob",
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'accept': 'application/pdf',
-                      'Accept-Language': 'fr'
-                  }
-              },
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/pdf',
+                        'Accept-Language': 'fr'
+                    }
+                },
             )
             return response
-        }catch(e){
+        } catch (e) {
             console.error('[Service][ApiService][sendCsvList] An error has occured when sending the list to the api', e)
             throw new Error(e)
         }
@@ -82,6 +83,7 @@ class ApiService {
     static async sendSinglePayment(payload) {
         try {
             console.log("payload", payload)
+
             const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
                 {
                     responseType: "blob",
@@ -93,7 +95,7 @@ class ApiService {
                 },
             )
             return response
-        }catch (e) {
+        } catch (e) {
             console.error('[Service][CsvService][sendSinglePayment] An error has occurred when sending a single payment to the api', e)
             throw new Error(e)
         }

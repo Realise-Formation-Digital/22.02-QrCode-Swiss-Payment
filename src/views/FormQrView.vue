@@ -22,14 +22,14 @@
       </v-form>
 
       <!--Buttons calling functions for the form-->
-      <v-btn color="success" class="mr-10" outlined x-large rounded elevation="10"  @click="showDialog()">Valider</v-btn>
+      <v-btn color="success" class="mr-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider</v-btn>
       <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
 
       <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" persistent max-width="80%">
         <v-card>
           <v-card-title>
-              <h1>Vérification avant confirmation d'envoi</h1>
+            <h1>Vérification avant confirmation d'envoi</h1>
           </v-card-title>
 
           <!-- Checkform in the modal -->
@@ -48,15 +48,15 @@
                 <p></p>
               </v-col>
               <v-col cols="10">
-                <p>{{form.dnom}}</p>
-                <p>{{form.dstreet}}</p>
-                <p>{{form.dnr}}</p>
-                <p>{{form.dnpa}}</p>
-                <p>{{form.dplace}}</p>
-                <p>{{form.dcountry}}</p>
-                <p>{{form.amount}}</p>
-                <p>{{form.nrref}}</p>
-                <p>{{form.infosupp}}</p>
+                <p>{{ form.dnom }}</p>
+                <p>{{ form.dstreet }}</p>
+                <p>{{ form.dnr }}</p>
+                <p>{{ form.dnpa }}</p>
+                <p>{{ form.dplace }}</p>
+                <p>{{ form.dcountry }}</p>
+                <p>{{ form.amount }}</p>
+                <p>{{ form.nrref }}</p>
+                <p>{{ form.infosupp }}</p>
               </v-col>
             </v-row>
           </v-card-text>
@@ -176,46 +176,86 @@ export default {
      * @return ????
      */
     async confirm() {
-      try{
+      try {
         const isValidForm = this.validateForm()
-        if (isValidForm){
+        if (isValidForm) {
+          console.log(typeof  parseFloat(this.form.amount.replace(regex, subst)))
           this.isSendData = true
-          const data = {
-            qrInvoice: {
-              // Currently creditorInformation is not used
-              // todo realise infos
-              creditorInformation: {
-                iban: this.form.iban,
-                name: this.form.name,
-                streetname: this.form.street,
-                housenumber: this.form.nrsreet,
-                postalcode: this.form.npa,
-                city: this.form.place,
-                country: this.country,
+          /*const ciao = {
+            "creditorInformation": {
+              "iban": "CH4431999123000889012",
+              "creditor": {
+                "addressType": "STRUCTURED",
+                "name": "Robert Schneider AG",
+                "streetName": "Rue du Lac",
+                "houseNumber": "1268",
+                "postalCode": "2501",
+                "city": "Biel",
+                "country": "CH"
               }
             },
-            ultimateDebtor: { //this is fix :) realise coordinates
-              name: this.form.dnom,
-              streetName:  this.form.street,
-              houseNumber:  this.form.dnr,
-              postalCode:  this.form.dnpa,
-              city:  this.form.dplace,
-              country: this.form.dcountry,
+            "paymentAmountInformation": {"amount": 1949.75, "currency": "CHF"},
+            "ultimateDebtor": {
+              "addressType": "STRUCTURED",
+              "name": "Pia-Maria Rutschmann-Schnyder",
+              "streetName": "Grosse Marktgasse",
+              "houseNumber": "28",
+              "postalCode": "9400",
+              "city": "Rorschach",
+              "country": "CH"
             },
-            paymentAmountInformation: {
-              amount: parseFloat(this.form.amount.replace(regex, subst))
-            },
-            paymentReference: {
-              reference: this.form.nrref,
-              addtionalReference: {
-                unstructuredMessage: this.form.infosupp,
+            "paymentReference": {
+              "referenceType": "QRR",
+              "reference": "210000000003139471430009017",
+              "additionalInformation": {
+                "unstructuredMessage": "Instruction of 03.04.2019",
+                "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"
               }
-            }
-          };
-          const response = await ApiService.sendSinglePayment(data)
+            },
+            "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
+          }*/
+          const test = {
+            "creditorInformation": {
+              //"iban": "CH0509000000120187130",
+              "iban": "CH3908704016075473007",
+              "creditor": {
+                "addressType": "STRUCTURED",
+                "name": "Realise",
+                "streetName": "Rue du Lac",
+                "houseNumber": "1268",
+                "postalCode": "2501",
+                "city": "Geneve",
+                "country": "CH"
+              }
+            },
+            "paymentAmountInformation": {
+              "amount": 1949.75,
+              "currency": "CHF"
+            },
+            "ultimateDebtor": {
+              "addressType": "STRUCTURED",
+              "name": "Pia-Maria Rutschmann-Schnyder",
+              "streetName": "Grosse Marktgasse",
+              "houseNumber": "28",
+              "postalCode": "9400",
+              "city": "Rorschach",
+              "country": "CH"
+            },
+            "paymentReference": {
+              "referenceType": "QRR",
+              "reference": "210000000003139471430009017",
+              "additionalInformation": {
+                "unstructuredMessage": "Instruction of 03.04.2019",
+                "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"
+              }
+            },
+            "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
+          }
+
+          const response = await ApiService.sendSinglePayment(test)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], { type: 'application/pdf' });
+          const file = new Blob([response.data], {type: 'application/pdf'});
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
@@ -225,14 +265,13 @@ export default {
           link.click();
           this.showSnackbarSuccess();
         }
-      }catch (e) {
+      } catch (e) {
         this.showSnackbarError();
         console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
-      }finally {
+      } finally {
         this.isSendData = false
       }
     },
-
 
 
     /*
