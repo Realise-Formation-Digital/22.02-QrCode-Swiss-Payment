@@ -73,6 +73,31 @@ class ApiService {
             throw new Error(e)
         }
     }
+
+    /**
+     * Sending Single Payment to the api
+     * @param payload
+     * @returns {Promise<*>}
+     */
+    static async sendSinglePayment(payload) {
+        try {
+            console.log("payload", payload)
+            const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/pdf',
+                        'Accept-Language': 'fr'
+                    }
+                },
+            )
+            return response
+        }catch (e) {
+            console.error('[Service][CsvService][sendSinglePayment] An error has occurred when sending a single payment to the api', e)
+            throw new Error(e)
+        }
+    }
 }
 
 export default ApiService
