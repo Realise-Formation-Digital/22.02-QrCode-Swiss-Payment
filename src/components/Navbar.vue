@@ -4,6 +4,7 @@
       <v-img alt="Vuetify Logo" class="shrink mr-10" contain src="@/assets/logo_realise.svg" width="150" />
     </div>
 
+    <!-- Navbar buttons -->
     <v-btn to="/" text plain x-large>
       <span class="mr-1">
         <v-icon>mdi-home</v-icon>
@@ -37,6 +38,7 @@ export default {
 
 <style scoped>
 .hide {
+  /* En attente si utilisé dans le futur ou non */
   display:visible;
 }
 </style>

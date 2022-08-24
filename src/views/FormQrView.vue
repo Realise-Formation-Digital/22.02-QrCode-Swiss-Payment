@@ -7,6 +7,11 @@
     <v-col lg="8" md="8" sm="12" xs="12">
       <!-- <h1>Bénéficiaire</h1> -->
       <v-form ref="form" v-model="valid" lazy-validation>
+
+
+        <!--@ Text fields form for the creditor (réalise)
+        In commentary for the moment if it necessary to use later-->
+
         <!-- <v-text-field
             v-model="iban"
             :rules="ibanRules"
@@ -56,6 +61,8 @@
             required
         ></v-text-field> -->
 
+
+        <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
 
         <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" required></v-text-field>
@@ -79,13 +86,11 @@
         <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
       </v-form>
 
+      <!--Buttons calling functions for the form-->
       <v-btn color="success" class="mr-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider</v-btn>
       <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
-      <!--
-      <v-btn dark color="success" @click="showSnackbarSuccess()">
-        Test success Snackbar
-      </v-btn>
-      -->
+
+      <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" persistent max-width="80%">
         <v-card>
           <v-card-title>
@@ -94,6 +99,7 @@
             </v-subheader>
           </v-card-title>
 
+          <!-- Checkform in the modal -->
           <v-card-text>
             <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" readonly></v-text-field>
 
@@ -114,20 +120,21 @@
             <v-text-field v-model="infosupp" label="Informations supplémentaires" readonly></v-text-field>
           </v-card-text>
 
+          <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="dialogSendApi" :loading="dialogSendApi" @click="confirm()">
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="dialogSendApi"
+              :loading="dialogSendApi" @click="confirm()">
               Confirmer
             </v-btn>
-
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
-
           </v-card-actions>
         </v-card>
       </v-dialog>
 
+      <!-- Loading pop-up during the API's send -->
       <v-dialog v-model="dialogSendApi" hide-overlay persistent width="300">
         <v-card color="primary" dark>
           <v-card-text>
@@ -137,14 +144,15 @@
         </v-card>
       </v-dialog>
 
+      <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
         {{ textE }}
       </v-snackbar>
 
+      <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
         {{ textS }}
       </v-snackbar>
-
 
     </v-col>
   </v-row>
@@ -154,23 +162,24 @@
 /* eslint-disable */
 import ApiService from "@/services/apiService.js";
 
+// Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
-
 
 export default {
   name: "FormQr",
   data: () => ({
-    dialog: false,
-    valid: false,
-    dialogSendApi: false,
+
+    dialog: false,// Boolean modal by default
+    valid: false,// Boolean form by default
+    dialogSendApi: false,// Boolean loading pop-up by default
 
     snackbarError: false,
     textE: "Echec de réception du code QR.",
     snackbarSuccess: false,
     textS: "Réception du code QR confirmée.",
 
-    //Validation pour "le débiteur"
+    //Debtor validating rules
     dnom: "",
     dnomRules: [
       (v) => !!v || "Le nom est obligatoire.",
@@ -201,7 +210,6 @@ export default {
       (v) => !!v || "Le pays est obligatoire et doit contenir 2 caractères. (ex:CH)",
       (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères. (ex:CH)",
     ],
-    //Validation pour "Information sur le montant du paiement"
     amount: "",
     amountRules: [
       (v) => !!v || "Le montant est obligatoire.",
@@ -222,19 +230,38 @@ export default {
   }),
 
   watch: {
+
+    /**
+    * 
+    * Function that check value and return the loading pop-up
+    * 
+    * @author Xavier de Juan
+    * @params {boolean}
+    * @return boolean
+    */
     dialogSendApi(val) {
       if (!val) return
-      // setTimeout(() => (this.dialogSendApi = false), 5000)
     },
   },
 
   methods: {
+
+    /**
+    * 
+    * Function that check required fields form if valid
+    * Send the payload to the API
+    * 
+    * @author Bachir Aouad
+    * 
+    * @return string
+    */
     async validate() {
       try {
         const isValid = this.$refs.form.validate();
         if (isValid) {
           const data = JSON.stringify({
             qrInvoice: {
+              // Currently creditorInformation is not used
               creditorInformation: {
                 iban: this.iban,
                 name: this.name,
@@ -266,6 +293,14 @@ export default {
 
           console.log(data)
 
+          /**
+           * Function that send the form to the API
+           * 
+           * @author Marco Tribuzio
+           * @params {object[]} data - 
+           * @return promise<object>
+           */
+
           const response = await ApiService.sendSinglePayment(data)
 
           // set the blog type to final pdf
@@ -287,32 +322,105 @@ export default {
         //todo handle error
       }
     },
+
+    /**
+     * 
+     * Function that reset the form
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return ??????
+     */
     reset() {
       this.$refs.form.reset();
     },
+
+    /**
+     * 
+     * Function that show the modal "check" form
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     showDialog() {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         this.dialog = true;
       }
     },
+
+    /**
+    * 
+    * Function that hide the modal "check" form
+    * 
+    * @author Xavier de Juan
+    * 
+    * @return boolean
+    */
     hideDialog() {
       this.dialog = false;
     },
+    /**
+     * 
+     * Function taht call validate (see validate())
+     * Hide the "check" modal 
+     * Show the loading pop-up
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return ????
+     */
     confirm() {
       this.validate();
       this.hideDialog();
       this.dialogSendApi = true;
     },
+
+    /**
+     * 
+     * Function that show the snackbar when QR code is not received
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     showSnackbarError() {
       this.snackbarError = true
     },
+
+    /**
+     * 
+     * Function that hide the snackbar
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     hideSnackBarError() {
       this.snackbarError = false
     },
+
+    /**
+     * 
+     * Function that show the snackbar when QR code is received
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     showSnackbarSuccess() {
       this.snackbarSuccess = true
     },
+
+    /**
+     * 
+     * Function that hide the snackbar
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
     }

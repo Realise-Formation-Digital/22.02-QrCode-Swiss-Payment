@@ -2,7 +2,8 @@
   <div>
     <v-row>
       <v-col>
-
+        
+        <!--Buttons in the home page. -->
         <v-btn class="ma-10" outlined color="indigo" to="csv" x-large rounded elevation="10">
           <v-icon>mdi-file-delimited-outline</v-icon>
           Importer une facture

@@ -1,9 +1,17 @@
 <template>
   <v-row>
     <v-col>
-      <v-file-input accept="csv/*" label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse"></v-file-input>
-      <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir la/les facture(s) en code qr</v-btn>
 
+      
+      <v-file-input accept="csv/*"
+        label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
+      </v-file-input>
+
+
+      <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir
+        la/les facture(s) en code qr</v-btn>
+
+      <!-- Loading pop-up during the API's send -->
       <v-dialog v-model="dialogSendApi" hide-overlay persistent width="300">
         <v-card color="primary" dark>
           <v-card-text>
@@ -13,10 +21,12 @@
         </v-card>
       </v-dialog>
 
+      <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
         {{ textE }}
       </v-snackbar>
 
+      <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
         {{ textS }}
       </v-snackbar>
@@ -30,6 +40,7 @@
 import ParseCsv from '@/libs/papaparse';
 import ApiService from '../services/apiService.js';
 
+// Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
 
@@ -48,7 +59,16 @@ export default {
     textS: "Réception du code QR confirmée.",
   }),
 
-   watch: {
+  watch: {
+
+     /**
+    * 
+    * Function that check value and return the loading pop-up
+    * 
+    * @author Xavier de Juan
+    * @params {boolean}
+    * @return boolean
+    */
     dialogSendApi(val) {
       if (!val) return
     },
@@ -56,15 +76,22 @@ export default {
 
   methods: {
 
-    // Json the csv file
+     /**
+    * 
+    * Function that check value and return the loading pop-up
+    * 
+    * @author Xavier de Juan
+    * @params {object[]????} - convert
+    * @return promise<object>
+    */
     async papaparse(convert) {
 
       let conversion = await ParseCsv.csvToJson(convert)
-console.log(conversion)
+      console.log(conversion)
       this.payloadArray = conversion.map((item) => {
         console.log(item.MONTANT)
         return {
-          // adapte le payload Réalise avec le payload de l'API
+          // Adapt the payload Realize with the payload of the API
           reference: item.REFERENCE,
           amount: parseFloat((item.MONTANT).replace(regex, subst)),
           name: item.NOM,
@@ -78,23 +105,57 @@ console.log(conversion)
       });
     },
 
+ /**
+     * 
+     * Function that show the snackbar when QR code is not received
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     showSnackbarError() {
-      this.snackbarError = true;
+      this.snackbarError = true
     },
+
+    /**
+     * 
+     * Function that hide the snackbar
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     hideSnackBarError() {
-      this.snackbarError = false;
+      this.snackbarError = false
     },
+
+    /**
+     * 
+     * Function that show the snackbar when QR code is received
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     showSnackbarSuccess() {
-      this.snackbarSuccess = true;
+      this.snackbarSuccess = true
     },
+
+    /**
+     * 
+     * Function that hide the snackbar
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
     hideSnackbarSuccess() {
-      this.snackbarSuccess = false;
+      this.snackbarSuccess = false
     },
-   
 
     async sendCsvList() {
       try {
-         this.dialogSendApi = true;
+        this.dialogSendApi = true;
         console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params',)
 
         //todo use papaparse to convert from csv to json
