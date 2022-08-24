@@ -80,20 +80,21 @@ export default {
     * 
     * Function that check value and return the loading pop-up
     * 
-    * @author Xavier de Juan
+    * @author Marco Tribuzio - Xavier de Juan
     * @params {object[]????} - convert
     * @return promise<object>
     */
     async papaparse(convert) {
 
       let conversion = await ParseCsv.csvToJson(convert)
-      console.log(conversion)
+      console.log("conversion", conversion)
+
       this.payloadArray = conversion.map((item) => {
-        console.log(item.MONTANT)
+        console.log("montant type", typeof(item.MONTANT))
         return {
-          // Adapt the payload Realize with the payload of the API
+          // Adapt the payload réalise with the payload of the API
           reference: item.REFERENCE,
-          amount: parseFloat((item.MONTANT).replace(regex, subst)),
+          amount: parseFloat(item.MONTANT.replace(regex, subst)),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
@@ -152,7 +153,7 @@ export default {
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
     },
-
+   
     async sendCsvList() {
       try {
         this.dialogSendApi = true;
