@@ -1,13 +1,18 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
 <template>
   <v-row>
-    <v-col lg="4" md="4" sm="12" xs="12">
+    <!-- <v-col lg="4" md="4" sm="12" xs="12">
       Here little descriptio what the user have to do :)
-    </v-col>
+    </v-col> -->
     <v-col lg="8" md="8" sm="12" xs="12">
-      <h1>Bénéficiaire</h1>
+      <!-- <h1>Bénéficiaire</h1> -->
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-text-field
+
+
+        <!--@ Text fields form for the creditor (réalise)
+        In commentary for the moment if it necessary to use later-->
+
+        <!-- <v-text-field
             v-model="iban"
             :rules="ibanRules"
             label="IBAN"
@@ -54,221 +59,209 @@
             :rules="countryRules"
             label="Pays"
             required
-        ></v-text-field>
+        ></v-text-field> -->
 
+
+        <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
 
-        <v-text-field
-            v-model="dnom"
-            :rules="dnomRules"
-            label="Nom"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" required></v-text-field>
 
-        <v-text-field
-            v-model="dstreet"
-            :rules="dstreetRules"
-            label="Rue"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dstreet" :rules="dstreetRules" label="Rue" required></v-text-field>
 
-        <v-text-field
-            v-model="dnr"
-            :rules="dnrRules"
-            label="N°"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dnr" :rules="dnrRules" label="N°" required></v-text-field>
 
-        <v-text-field
-            v-model="dnpa"
-            :rules="dnpaRules"
-            label="NPA"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dnpa" :rules="dnpaRules" label="Code postal" required></v-text-field>
 
-        <v-text-field
-            v-model="dplace"
-            :rules="dplaceRules"
-            label="Lieu"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dplace" :rules="dplaceRules" label="Ville" required></v-text-field>
 
-        <v-text-field
-            v-model="dcountry"
-            :rules="dcountryRules"
-            label="Pays"
-            required
-        ></v-text-field>
+        <v-text-field v-model="dcountry" :rules="dcountryRules" label="Pays" required></v-text-field>
 
         <h1>Information sur le montant du paiement</h1>
 
-        <v-text-field
-            v-model="amount"
-            :rules="amountRules"
-            label="Montant"
-            required
-        ></v-text-field>
+        <v-text-field v-model="amount" :rules="amountRules" label="Montant" required></v-text-field>
 
-        <v-text-field
-            v-model="nrref"
-            :rules="nrrefRules"
-            label="N° de référence"
-            required
-        ></v-text-field>
+        <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" required></v-text-field>
 
-        <v-text-field
-            v-model="infosupp"
-            :rules="infosuppRules"
-            label="Informations supplémentaires"
-            required
-        ></v-text-field>
-
-        <v-checkbox
-            v-model="checkbox"
-            :rules="[(v) => !!v || 'You must agree to continue!']"
-            label="Do you agree?"
-            required
-        ></v-checkbox>
-
-        <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
-          Validate
-        </v-btn>
-
-        <v-btn color="error" class="mr-4" @click="reset"> Reset Form</v-btn>
-
-        <v-btn color="warning" @click="resetValidation"> Reset Validation</v-btn>
+        <v-text-field v-model="infosupp" label="Informations supplémentaires"></v-text-field>
       </v-form>
+
+      <!--Buttons calling functions for the form-->
+      <v-btn color="success" class="mr-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider</v-btn>
+      <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
+
+      <!--Modal to check and confirm the form -->
+      <v-dialog v-model="dialog" persistent max-width="80%">
+        <v-card>
+          <v-card-title>
+            <v-subheader>
+              <h1>Vérification avant confirmation d'envoi</h1>
+            </v-subheader>
+          </v-card-title>
+
+          <!-- Checkform in the modal -->
+          <v-card-text>
+            <v-text-field v-model="dnom" :rules="dnomRules" label="Nom" readonly></v-text-field>
+
+            <v-text-field v-model="dstreet" :rules="dstreetRules" label="Rue" readonly></v-text-field>
+
+            <v-text-field v-model="dnr" :rules="dnrRules" label="N°" readonly></v-text-field>
+
+            <v-text-field v-model="dnpa" :rules="dnpaRules" label="Code postal" readonly></v-text-field>
+
+            <v-text-field v-model="dplace" :rules="dplaceRules" label="Ville" readonly></v-text-field>
+
+            <v-text-field v-model="dcountry" :rules="dcountryRules" label="Pays" readonly></v-text-field>
+
+            <v-text-field v-model="amount" :rules="amountRules" label="Montant" readonly></v-text-field>
+
+            <v-text-field v-model="nrref" :rules="nrrefRules" label="N° de référence" readonly></v-text-field>
+
+            <v-text-field v-model="infosupp" label="Informations supplémentaires" readonly></v-text-field>
+          </v-card-text>
+
+          <!-- Confirm or return buttons calling the functions -->
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="dialogSendApi"
+              :loading="dialogSendApi" @click="confirm()">
+              Confirmer
+            </v-btn>
+            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+              Retour
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- Loading pop-up during the API's send -->
+      <v-dialog v-model="dialogSendApi" hide-overlay persistent width="300">
+        <v-card color="primary" dark>
+          <v-card-text>
+            En attente de réception
+            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+
+      <!-- error pop-up if the QR code is not received -->
+      <v-snackbar v-model="snackbarError" color="red accent-2">
+        {{ textE }}
+      </v-snackbar>
+
+      <!-- Pop-up when the QR code is received -->
+      <v-snackbar v-model="snackbarSuccess" color="success">
+        {{ textS }}
+      </v-snackbar>
+
     </v-col>
   </v-row>
 </template>
 
 <script>
 /* eslint-disable */
-import axios from "axios"
-import {BASE_URL, API_KEY} from "@/libs/consts";
 import ApiService from "@/services/apiService.js";
 
+// Params used for amount.replace
+const regex = /,/gm;
+const subst = `.`;
 
 export default {
   name: "FormQr",
   data: () => ({
-    return: {
-      //variables pour le "le beneficiaire"
-      iban: "",
-      name: "",
-      street: "",
-      nrrue: "",
-      npa: "",
-      place: "",
-      country: "",
-      //Variables pour le "debiteur"
-      dnom: "",
-      dstreet: "",
-      dnr: "",
-      dnpa: "",
-      dplace: "",
-      dcountry: "",
-      //Variables pour les "information sur le montant du paiement"
-      amount: "",
-      nrref: "",
-      infosupp: "",
-    },
 
-    // Validation pour "le beneficiaire"
-    valid: true,
-    iban: "",
-    ibanRules: [
-      (v) => !!v || "IBAN is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    name: "",
-    nameRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
-    ],
-    street: "",
-    streetRules: [
-      (v) => !!v || "Address is required",
-      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
-    ],
-    nrstreet: "",
-    nrstreetRules: [
-      (v) => !!v || "Address is required",
-      (v) => (v && v.length <= 5) || "Name must be less than 5 characters",
-    ],
-    npa: "",
-    npaRules: [
-      (v) => !!v || "NPA is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    place: "",
-    placeRules: [
-      (v) => !!v || "Lieu is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
-    country: "",
-    countryRules: [
-      (v) => !!v || "Country is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-      //Validation pour "le debiteur"
-    ],
+    dialog: false,// Boolean modal by default
+    valid: false,// Boolean form by default
+    dialogSendApi: false,// Boolean loading pop-up by default
+
+    snackbarError: false,
+    textE: "Echec de réception du code QR.",
+    snackbarSuccess: false,
+    textS: "Réception du code QR confirmée.",
+
+    //Debtor validating rules
     dnom: "",
     dnomRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le nom est obligatoire.",
+      (v) => (v && v.length <= 70) || "Le nom ne peut excéder 70 caractères.",
     ],
     dstreet: "",
     dstreetRules: [
-      (v) => !!v || "Street is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "La rue est obligatoire.",
+      (v) => (v && v.length <= 70) || "La rue ne peut excéder 70 caractères.",
     ],
     dnr: "",
     dnrRules: [
-      (v) => !!v || "Nr is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le n° de rue est obligatoire.",
+      (v) => (v && v.length <= 16) || "Le n° de rue ne peut excéder 16 caractères.",
     ],
     dnpa: "",
     dnpaRules: [
-      (v) => !!v || "NPA is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le n° postal est obligatoire.",
+      (v) => (v && v.length <= 16) || "Le code postal ne peut excéder 16 caractères.",
     ],
     dplace: "",
     dplaceRules: [
-      (v) => !!v || "Place is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "La ville est obligatoire.",
+      (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
     ],
     dcountry: "",
     dcountryRules: [
-      (v) => !!v || "country is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le pays est obligatoire et doit contenir 2 caractères. (ex:CH)",
+      (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères. (ex:CH)",
     ],
-    //Validation pour "Information sur le montant du paiement"
     amount: "",
     amountRules: [
-      (v) => !!v || "amount is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le montant est obligatoire.",
+      (v) => (v && v.length <= 12) || "Le montant ne peut excéder 12 caractères",
     ],
     nrref: "",
     nrrefRules: [
-      (v) => !!v || "Nr reference is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "Le numéro de référence est obligatoire.",
+      (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères",
     ],
     infosupp: "",
     infosuppRules: [
-      (v) => !!v || "Info supp is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => !!v || "",
+      (v) => (v && v.length <= 27) || "",
     ],
     select: null,
     checkbox: false,
   }),
 
+  watch: {
+
+    /**
+    * 
+    * Function that check value and return the loading pop-up
+    * 
+    * @author Xavier de Juan
+    * @params {boolean}
+    * @return boolean
+    */
+    dialogSendApi(val) {
+      if (!val) return
+    },
+  },
+
   methods: {
+
+    /**
+    * 
+    * Function that check required fields form if valid
+    * Send the payload to the API
+    * 
+    * @author Bachir Aouad
+    * 
+    * @return string
+    */
     async validate() {
       try {
-        const isValid = await this.$refs.form.validate();
+        const isValid = this.$refs.form.validate();
         if (isValid) {
           const data = JSON.stringify({
             qrInvoice: {
+              // Currently creditorInformation is not used
               creditorInformation: {
                 iban: this.iban,
                 name: this.name,
@@ -288,7 +281,7 @@ export default {
               country: this.dcountry,
             },
             paymentAmountInformation: {
-              amount: this.amount,
+              amount: parseFloat(this.amount.replace(regex, subst))
             },
             paymentReference: {
               reference: this.nrref,
@@ -299,6 +292,14 @@ export default {
           });
 
           console.log(data)
+
+          /**
+           * Function that send the form to the API
+           * 
+           * @author Marco Tribuzio
+           * @params {object[]} data - 
+           * @return promise<object>
+           */
 
           const response = await ApiService.sendSinglePayment(data)
 
@@ -311,19 +312,118 @@ export default {
           link.href = fileURL;
           link.download = "FileName" + new Date().getTime() + ".pdf";
           link.click();
+          this.showSnackbarSuccess();
+          this.dialogSendApi = false;
         }
       } catch (e) {
+        this.showSnackbarError();
+        this.dialogSendApi = false;
         console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
         //todo handle error
       }
     },
+
+    /**
+     * 
+     * Function that reset the form
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return ??????
+     */
     reset() {
       this.$refs.form.reset();
     },
-    resetValidation() {
-      this.$refs.form.resetValidation();
+
+    /**
+     * 
+     * Function that show the modal "check" form
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
+    showDialog() {
+      const isValid = this.$refs.form.validate();
+      if (isValid) {
+        this.dialog = true;
+      }
     },
+
+    /**
+    * 
+    * Function that hide the modal "check" form
+    * 
+    * @author Xavier de Juan
+    * 
+    * @return boolean
+    */
+    hideDialog() {
+      this.dialog = false;
+    },
+    /**
+     * 
+     * Function taht call validate (see validate())
+     * Hide the "check" modal 
+     * Show the loading pop-up
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return ????
+     */
+    confirm() {
+      this.validate();
+      this.hideDialog();
+      this.dialogSendApi = true;
+    },
+
+    /**
+     * 
+     * Function that show the snackbar when QR code is not received
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
+    showSnackbarError() {
+      this.snackbarError = true
+    },
+
+    /**
+     * 
+     * Function that hide the snackbar
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
+    hideSnackBarError() {
+      this.snackbarError = false
+    },
+
+    /**
+     * 
+     * Function that show the snackbar when QR code is received
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
+    showSnackbarSuccess() {
+      this.snackbarSuccess = true
+    },
+
+    /**
+     * 
+     * Function that hide the snackbar
+     * 
+     * @author Xavier de Juan
+     * 
+     * @return boolean
+     */
+    hideSnackbarSuccess() {
+      this.snackbarSuccess = false
+    }
   }
 };
-
 </script>
