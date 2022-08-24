@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CsvView from '../views/CsvView.vue'
+import FormQrView from "@/views/FormQrView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     path: '/csv',
     name: 'csv-view',
     component: CsvView
+  },
+  {
+    path: '/form-qr',
+    name: 'form-qr-code',
+    component: FormQrView
   },
   {
     path: '/about',

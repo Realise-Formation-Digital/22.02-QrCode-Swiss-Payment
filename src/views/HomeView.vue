@@ -1,14 +1,27 @@
 <template>
-  <hello-world />
+  <div>
+    <v-row>
+      <v-col>
+
+        <!--Buttons in the home page. -->
+        <v-btn class="ma-10" outlined color="indigo" to="csv" x-large rounded elevation="10">
+          <v-icon>mdi-file-delimited-outline</v-icon>
+          Importer une facture
+        </v-btn>
+
+        <v-btn class="ma-10" outlined color="indigo" to="form-qr" x-large rounded elevation="10">
+          <v-icon>mdi-qrcode</v-icon>
+          Créer une facture
+        </v-btn>
+
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
-  import HelloWorld from '@/components/HelloWorld.vue'
 
-  export default {
-    name: 'HomeView',
-    components: {
-      HelloWorld
-    },
-  }
+export default {
+  name: 'HomeView',
+}
 </script>
