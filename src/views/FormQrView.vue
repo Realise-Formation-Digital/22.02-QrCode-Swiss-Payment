@@ -16,8 +16,12 @@
         <v-text-field v-model="form.dnr" :rules="formRules.dnr" label="N°" required></v-text-field>
         <v-text-field v-model="form.dnpa" :rules="formRules.dnpa" label="Code postal" required></v-text-field>
         <v-text-field v-model="form.dplace" :rules="formRules.dplace" label="Ville" required></v-text-field>
-        <!-- todo replace with autocomplete -->
-        <v-text-field v-model="form.dcountry" :loading="isGettingCountriesList" :rules="formRules.dcountry" label="Pays" required></v-text-field>
+        <v-autocomplete
+            v-model="form.dcountry"
+            :items="countriesList"
+            item-text="french"
+            item-value="code"
+        />
         <h1>Information sur le montant du paiement</h1>
         <v-text-field v-model="form.amount" :rules="formRules.amount" label="Montant" required></v-text-field>
         <v-text-field v-model="form.nrref" :rules="formRules.nrref" label="N° de référence" required></v-text-field>
@@ -164,6 +168,7 @@ export default {
       this.isGettingCountriesList = true
       const response = await ApiService.getListCountries()
       this.countriesList = response
+      console.log(this.countriesList)
     }catch (e) {
       console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
