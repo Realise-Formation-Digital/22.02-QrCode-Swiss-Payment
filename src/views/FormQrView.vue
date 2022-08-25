@@ -216,37 +216,36 @@ export default {
           }*/
           const test = {
             "creditorInformation": {
-              //"iban": "CH0509000000120187130",
-              "iban": "CH3908704016075473007",
+              //"iban": "CH0509000000120187130", IBAN réalise (A garder pour la version achetée de l'API)
+              "iban": "CH4431999123000889012",// A utiliser tel quel pendant la version démo
               "creditor": {
                 "addressType": "STRUCTURED",
                 "name": "Realise",
-                "streetName": "Rue du Lac",
-                "houseNumber": "1268",
-                "postalCode": "2501",
-                "city": "Geneve",
+                "streetName": "Rue Viguet",
+                "houseNumber": "8",
+                "postalCode": "1227",
+                "city": "Genève",
                 "country": "CH"
               }
             },
-            "paymentAmountInformation": {
-              "amount": 1949.75,
-              "currency": "CHF"
-            },
+             "paymentAmountInformation": {"amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF"},
             "ultimateDebtor": {
               "addressType": "STRUCTURED",
-              "name": "Pia-Maria Rutschmann-Schnyder",
-              "streetName": "Grosse Marktgasse",
-              "houseNumber": "28",
-              "postalCode": "9400",
-              "city": "Rorschach",
+              "name": this.form.dnom,
+              "streetName": this.form.dstreet,
+              "houseNumber": this.form.dnr,
+              "postalCode": this.form.dnpa,
+              "city": this.form.dplace,
               "country": "CH"
             },
             "paymentReference": {
               "referenceType": "QRR",
-              "reference": "210000000003139471430009017",
+              "reference": "210000000003139471430009017",// A utiliser tel quel pendant la version démo
+              // "reference": this.form.nrref, (A garder pour la version achetée de l'API)
               "additionalInformation": {
-                "unstructuredMessage": "Instruction of 03.04.2019",
-                "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"
+                "unstructuredMessage": this.form.infosupp,
+                "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"// Garder tel quel pendant la version démo
+                //"billInformation": this.form.billInfo (A garder pour la version achetée de l'API)
               }
             },
             "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
