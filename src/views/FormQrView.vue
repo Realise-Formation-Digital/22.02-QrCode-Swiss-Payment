@@ -9,12 +9,15 @@
       <v-form ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
+
+        <!-- todo set rules with one in the api -->
         <v-text-field v-model="form.dnom" :rules="formRules.dnom" label="Nom" required></v-text-field>
         <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" label="Rue" required></v-text-field>
         <v-text-field v-model="form.dnr" :rules="formRules.dnr" label="N°" required></v-text-field>
         <v-text-field v-model="form.dnpa" :rules="formRules.dnpa" label="Code postal" required></v-text-field>
         <v-text-field v-model="form.dplace" :rules="formRules.dplace" label="Ville" required></v-text-field>
-        <v-text-field v-model="form.dcountry" :rules="formRules.dcountry" label="Pays" required></v-text-field>
+        <!-- todo replace with autocomplete -->
+        <v-text-field v-model="form.dcountry" :loading="isGettingCountriesList" :rules="formRules.dcountry" label="Pays" required></v-text-field>
         <h1>Information sur le montant du paiement</h1>
         <v-text-field v-model="form.amount" :rules="formRules.amount" label="Montant" required></v-text-field>
         <v-text-field v-model="form.nrref" :rules="formRules.nrref" label="N° de référence" required></v-text-field>
@@ -64,24 +67,14 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5"
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="isSendData"
                    :loading="isSendData" @click="confirm()">
               Confirmer
             </v-btn>
-            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()" :disabled="isSendData">
               Retour
             </v-btn>
           </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <!-- Loading pop-up during the API's send -->
-      <v-dialog v-model="dialogSendApi" hide-overlay persistent width="300">
-        <v-card color="primary" dark>
-          <v-card-text>
-            En attente de réception
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-          </v-card-text>
         </v-card>
       </v-dialog>
 
@@ -161,15 +154,28 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    dialogSendApi: false,// Boolean loading pop-up by default
-    isSendData: false
+    isSendData: false,
+    isGettingCountriesList: false,
+    countriesList: []
   }),
-
+  async mounted () {
+    try {
+      console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
+      this.isGettingCountriesList = true
+      const response = await ApiService.getListCountries()
+      this.countriesList = response
+    }catch (e) {
+      console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
+      //todo handle error
+    }finally {
+      this.isGettingCountriesList =false
+    }
+  },
 
   methods: {
 
     /**
-     * Function taht call validate (see validate())
+     * Function that call validate (see validate())
      * Hide the "check" modal
      * Show the loading pop-up
      * @author Xavier de Juan

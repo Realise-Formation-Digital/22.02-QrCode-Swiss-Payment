@@ -8,6 +8,49 @@ import {BASE_URL, API_KEY, CSVLIST_OPTIONS} from "@/libs/consts";
 class ApiService {
 
     /**
+     * Checking if the iban is correct
+     * @async
+     * @param {string} iban - iban to check
+     * @returns {Promise<boolean>}
+     */
+    static async checkIban (iban) {
+        try{
+            console.log('[Service][ApiService][checkIban] Checking iban with params', iban)
+            const response = await axios.get(BASE_URL + '/v2/iban/validate' + API_KEY, iban)
+            if (response.status !== 200) throw Error('API Error')
+            return response
+        }catch (e) {
+            console.error('[Service][ApiService][checkIban] An error has occurred when checking the iban', e)
+            throw new Error(e)
+        }
+    }
+
+    /**
+     * Get the list of the countries
+     * @async
+     * @returns {Promise<Object[{
+     *     "code": "string",
+     *     "english": "string",
+     *     "german": "string",
+     *     "french": "string",
+     *     "italian": "string"
+     * }]>}
+     */
+    static async getListCountries(){
+        try{
+            console.log('[Service][ApiService][getListCountries] Getting the list of countries')
+            const response = await axios.get(BASE_URL + '/v2/country' + API_KEY)
+            if (response.status !== 200) throw Error('API Error')
+            return response.data
+        }catch (e) {
+            console.error('[Service][ApiService][getListCountries] An error occurred when getting the countries list', e)
+            throw new Error(e)
+        }
+    }
+
+
+
+    /**
      * Service to send the list to the api, and receive the pdf list to download
      * @async
      * @param {object[]} csvList - the list that we want to send
@@ -70,7 +113,7 @@ class ApiService {
             )
             return response
         } catch (e) {
-            console.error('[Service][ApiService][sendCsvList] An error has occured when sending the list to the api', e)
+            console.error('[Service][ApiService][sendCsvList] An error has occurred when sending the list to the api', e)
             throw new Error(e)
         }
     }
