@@ -64,8 +64,7 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5"
-                   :loading="isSendData" @click="confirm()">
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :loading="isSendData" @click="confirm()">
               Confirmer
             </v-btn>
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
@@ -179,41 +178,42 @@ export default {
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
-          console.log(typeof  parseFloat(this.form.amount.replace(regex, subst)))
+          console.log(typeof parseFloat(this.form.amount.replace(regex, subst)))
           this.isSendData = true
-          /*const ciao = {
-            "creditorInformation": {
-              "iban": "CH4431999123000889012",
-              "creditor": {
-                "addressType": "STRUCTURED",
-                "name": "Robert Schneider AG",
-                "streetName": "Rue du Lac",
-                "houseNumber": "1268",
-                "postalCode": "2501",
-                "city": "Biel",
-                "country": "CH"
-              }
-            },
-            "paymentAmountInformation": {"amount": 1949.75, "currency": "CHF"},
-            "ultimateDebtor": {
-              "addressType": "STRUCTURED",
-              "name": "Pia-Maria Rutschmann-Schnyder",
-              "streetName": "Grosse Marktgasse",
-              "houseNumber": "28",
-              "postalCode": "9400",
-              "city": "Rorschach",
-              "country": "CH"
-            },
-            "paymentReference": {
-              "referenceType": "QRR",
-              "reference": "210000000003139471430009017",
-              "additionalInformation": {
-                "unstructuredMessage": "Instruction of 03.04.2019",
-                "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"
-              }
-            },
-            "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
-          }*/
+          // const ciao = {
+          //   "creditorInformation": {
+          //     "iban": "CH4431999123000889012",
+          //     "creditor": {
+          //       "addressType": "STRUCTURED",
+          //       "name": "Robert Schneider AG",
+          //       "streetName": "Rue du Lac",
+          //       "houseNumber": "1268",
+          //       "postalCode": "2501",
+          //       "city": "Biel",
+          //       "country": "CH"
+          //     }
+          //   },
+          //   "paymentAmountInformation": {"amount": 1949.75, "currency": "CHF"},
+          //   "ultimateDebtor": {
+          //     "addressType": "STRUCTURED",
+          //     "name": "Pia-Maria Rutschmann-Schnyder",
+          //     "streetName": "Grosse Marktgasse",
+          //     "houseNumber": "28",
+          //     "postalCode": "9400",
+          //     "city": "Rorschach",
+          //     "country": "CH"
+          //   },
+          //   "paymentReference": {
+          //     "referenceType": "QRR",
+          //     "reference": "210000000003139471430009017",
+          //     "additionalInformation": {
+          //       "unstructuredMessage": "Instruction of 03.04.2019",
+          //       "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"
+          //     }
+          //   },
+          //   "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
+          //  }
+          // }
           const test = {
             "creditorInformation": {
               //"iban": "CH0509000000120187130", IBAN réalise (A garder pour la version achetée de l'API)
@@ -228,7 +228,7 @@ export default {
                 "country": "CH"
               }
             },
-             "paymentAmountInformation": {"amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF"},
+            "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF" },
             "ultimateDebtor": {
               "addressType": "STRUCTURED",
               "name": this.form.dnom,
@@ -248,13 +248,13 @@ export default {
                 //"billInformation": this.form.billInfo (A garder pour la version achetée de l'API)
               }
             },
-            "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
+            "alternativeSchemes": { "alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"] }
           }
 
           const response = await ApiService.sendSinglePayment(test)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], {type: 'application/pdf'});
+          const file = new Blob([response.data], { type: 'application/pdf' });
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
