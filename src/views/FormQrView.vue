@@ -117,7 +117,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infobill" label="Informations de facture (facultatif)">
+        <v-textarea v-model="form.infobill" label="Informations de facture (facultatif)">
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -128,8 +128,8 @@
                 caractères au maximum.</span>
             </v-tooltip>
           </template>
-        </v-text-field>
-        <v-text-field v-model="form.infosupp" label="Informations supplémentaires (facultatif)">
+        </v-textarea>
+        <v-textarea v-model="form.infosupp" label="Informations supplémentaires (facultatif)">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -140,7 +140,7 @@
                 caractères au maximum</span>
             </v-tooltip>
           </template>
-        </v-text-field>
+        </v-textarea>
       </v-form>
 
       <!--Buttons calling functions for the form-->
