@@ -180,7 +180,7 @@
                 <p>{{ form.nrref }}</p>
                 <p>{{ form.infobill }}</p>
                 <p>{{ form.infosupp }}</p>
-                
+
               </v-col>
             </v-row>
           </v-card-text>
@@ -372,7 +372,7 @@ export default {
               "houseNumber": this.form.dnr,
               "postalCode": this.form.dnpa,
               "city": this.form.dplace,
-              "country": "CH"
+              "country": this.form.dcountry
             },
             "paymentReference": {
               "referenceType": "QRR",

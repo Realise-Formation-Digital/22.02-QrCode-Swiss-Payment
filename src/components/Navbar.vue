@@ -37,8 +37,4 @@ export default {
 </script>
 
 <style scoped>
-.hide {
-  /* En attente si utilisé dans le futur ou non */
-  display:visible;
-}
 </style>
