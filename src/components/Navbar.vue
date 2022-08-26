@@ -14,14 +14,14 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn to="/csv" text plain>
+    <v-btn v-show="$route.path !== '/'" to="/csv" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-file-delimited-outline</v-icon>
         Importer un fichier
       </span>
 
     </v-btn>
-    <v-btn to="/form-qr" text plain>
+    <v-btn v-show="$route.path !=='/'" to="/form-qr" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-qrcode</v-icon>
         Créer une facture
@@ -37,8 +37,4 @@ export default {
 </script>
 
 <style scoped>
-.hide {
-  /* En attente si utilisé dans le futur ou non */
-  display:visible;
-}
 </style>
