@@ -38,7 +38,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" :rules="formRules.dnr" label="N°" required append-icon="info">
+        <v-text-field v-model="form.dnr" :rules="formRules.dnr" label="Numéro de rue" required append-icon="info">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -55,8 +55,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
-              <span>Code postaldu débiteur final
-                16 caractères au maximum admis
+              <span>Code postal du débiteur final 16 caractères au maximum admis
                 toujours à indiquer sans code de pays de tête</span>
             </v-tooltip>
           </template>
@@ -100,9 +99,9 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" :rules="formRules.nrref" label="N° de référence" required>
+        <v-text-field v-model="form.nrref" :rules="formRules.nrref" label="Numéro de référence" required>
           <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -118,7 +117,19 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infosupp" label="Informations supplémentaires">
+        <v-text-field v-model="form.infobill" label="Informations de facture (facultatif)">
+          <template v-slot:append>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+              </template>
+              <span>Les informations structurelles de l'émetteur de factures contiennent des informations codées pour la
+                comptabilisation automatisée du paiement. Les données ne sont pas transmises avec le paiement. 140
+                caractères au maximum.</span>
+            </v-tooltip>
+          </template>
+        </v-text-field>
+        <v-text-field v-model="form.infosupp" label="Informations supplémentaires (facultatif)">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -147,18 +158,18 @@
           <v-card-text>
             <v-row>
               <v-col cols="2">
-                <p>nom:</p>
-                <p>Street</p>
-                <p>Numero</p>
-                <p>NPA</p>
-                <p>Place</p>
-                <p>Country</p>
-                <p>Amount</p>
-                <p>Number ref</p>
-                <p>Info Supp</p>
-                <p></p>
+                <p>Nom</p>
+                <p>Rue</p>
+                <p>Numero de rue</p>
+                <p>Code postal</p>
+                <p>Ville</p>
+                <p>Pays</p>
+                <p>Montant</p>
+                <p>Numéro de référence</p>
+                <p>Informations de facture</p>
+                <p>Informations supplémentaires</p>
               </v-col>
-              <v-col cols="10">
+              <v-col cols="8">
                 <p>{{ form.dnom }}</p>
                 <p>{{ form.dstreet }}</p>
                 <p>{{ form.dnr }}</p>
@@ -167,7 +178,9 @@
                 <p>{{ form.dcountry }}</p>
                 <p>{{ form.amount }}</p>
                 <p>{{ form.nrref }}</p>
+                <p>{{ form.infobill }}</p>
                 <p>{{ form.infosupp }}</p>
+                
               </v-col>
             </v-row>
           </v-card-text>
@@ -223,43 +236,48 @@ export default {
       amount: "",
       nrref: "",
       infosupp: "",
+      infobill: "",
     },
     formRules: {
       dnom: [
-        (v) => !!v || "Le nom est obligatoire.",
+        (v) => !!v || "Le champ 'Nom' est obligatoire.",
         (v) => (v && v.length <= 70) || "Le nom ne peut excéder 70 caractères.",
       ],
       dstreet: [
-        (v) => !!v || "La rue est obligatoire.",
+        (v) => !!v || "Le champ 'Rue' est obligatoire.",
         (v) => (v && v.length <= 70) || "La rue ne peut excéder 70 caractères.",
       ],
       dnr: [
-        (v) => !!v || "Le n° de rue est obligatoire.",
+        (v) => !!v || "Le champ 'Numéro de rue' est obligatoire.",
         (v) => (v && v.length <= 16) || "Le n° de rue ne peut excéder 16 caractères.",
       ],
       dnpa: [
-        (v) => !!v || "Le n° postal est obligatoire.",
+        (v) => !!v || "Le champ 'Code postal' est obligatoire.",
         (v) => (v && v.length <= 16) || "Le code postal ne peut excéder 16 caractères.",
       ],
       dplace: [
-        (v) => !!v || "La ville est obligatoire.",
+        (v) => !!v || "Le champ 'Ville' est obligatoire.",
         (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
       ],
       dcountry: [
-        (v) => !!v || "Le pays est obligatoire et doit contenir 2 caractères. (ex:CH)",
+        (v) => !!v || "Le champ 'Pays' est obligatoire et doit contenir 2 caractères. (ex:CH)",
         (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères. (ex:CH)",
       ],
       amount: [
-        (v) => !!v || "Le montant est obligatoire.",
-        (v) => (v && v.length <= 12) || "Le montant ne peut excéder 12 caractères",
+        (v) => !!v || "Le champ 'Montant est obligatoire.",
+        (v) => (v && v.length <= 12) || "Le montant ne peut excéder 12 caractères.",
       ],
       nrref: [
-        (v) => !!v || "Le numéro de référence est obligatoire.",
-        (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères",
+        (v) => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères.",
       ],
       infosupp: [
         (v) => !!v || "",
         (v) => (v && v.length <= 27) || "",
+      ],
+      infobill: [
+        (v) => !!v || "",
+        (v) => (v && v.length <= 140) || "La référence ne peut excéder 27 caractères.",
       ],
     },
     dialog: false,// Boolean modal by default
@@ -343,7 +361,7 @@ export default {
                 "houseNumber": "8",
                 "postalCode": "1227",
                 "city": "Genève",
-                "country": "CH"
+                "country": this.form.dcountry
               }
             },
             "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF" },
@@ -370,7 +388,7 @@ export default {
           }
 
           const response = await ApiService.sendSinglePayment(test)
-
+          console.log("test payload", test)
           // set the blog type to final pdf
           const file = new Blob([response.data], { type: 'application/pdf' });
 
@@ -475,7 +493,6 @@ export default {
       this.snackbar.color = "green"
       this.snackbar.flag = true
     },
-
   }
 };
 </script>
