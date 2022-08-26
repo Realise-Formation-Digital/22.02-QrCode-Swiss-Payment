@@ -272,7 +272,7 @@ export default {
           const fileURL = URL.createObjectURL(file);
           const link = document.createElement('a');
           link.href = fileURL;
-          link.download = "FileName" + new Date().getTime() + ".pdf";
+          link.download = "Facture" + new Date().getTime() + ".pdf";
           link.click();
           this.showSnackbarSuccess();
         }
