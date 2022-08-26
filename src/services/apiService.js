@@ -1,5 +1,6 @@
 import axios from "axios";
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS } from "@/libs/consts";
+import {BASE_URL, API_KEY, CSVLIST_OPTIONS} from "@/libs/consts";
+
 /**
  * @class
  * @classdesc - Service for csv page
@@ -7,13 +8,56 @@ import { BASE_URL, API_KEY, CSVLIST_OPTIONS } from "@/libs/consts";
 class ApiService {
 
     /**
+     * Checking if the iban is correct
+     * @async
+     * @param {string} iban - iban to check
+     * @returns {Promise<boolean>}
+     */
+    static async checkIban (iban) {
+        try{
+            console.log('[Service][ApiService][checkIban] Checking iban with params', iban)
+            const response = await axios.get(BASE_URL + '/v2/iban/validate' + API_KEY, iban)
+            if (response.status !== 200) throw Error('API Error')
+            return response
+        }catch (e) {
+            console.error('[Service][ApiService][checkIban] An error has occurred when checking the iban', e)
+            throw new Error(e)
+        }
+    }
+
+    /**
+     * Get the list of the countries
+     * @async
+     * @returns {Promise<Object[{
+     *     "code": "string",
+     *     "english": "string",
+     *     "german": "string",
+     *     "french": "string",
+     *     "italian": "string"
+     * }]>}
+     */
+    static async getListCountries(){
+        try{
+            console.log('[Service][ApiService][getListCountries] Getting the list of countries')
+            const response = await axios.get(BASE_URL + '/v2/country' + API_KEY)
+            if (response.status !== 200) throw Error('API Error')
+            return response.data
+        }catch (e) {
+            console.error('[Service][ApiService][getListCountries] An error occurred when getting the countries list', e)
+            throw new Error(e)
+        }
+    }
+
+
+
+    /**
      * Service to send the list to the api, and receive the pdf list to download
      * @async
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
      */
-    static async sendJsonList(csvList){
-        try{
+    static async sendJsonList(csvList) {
+        try {
             const data = {
                 "creditorInformation": {
                     "iban": "CH4431999123000889012",
@@ -58,18 +102,68 @@ class ApiService {
             console.log('[Service][ApiService][sendCsvList] Called sendCsvList with params', csvList)
             console.log(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS)
             const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, data,
-              {
-                  responseType: "blob",
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'accept': 'application/pdf',
-                      'Accept-Language': 'fr'
-                  }
-              },
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/pdf',
+                        'Accept-Language': 'fr'
+                    }
+                },
             )
             return response
-        }catch(e){
-            console.error('[Service][ApiService][sendCsvList] An error has occured when sending the list to the api', e)
+        } catch (e) {
+            console.error('[Service][ApiService][sendCsvList] An error has occurred when sending the list to the api', e)
+            throw new Error(e)
+        }
+    }
+
+    /**
+     * Sending Single Payment to the api
+     * @param payload
+     * @returns {Promise<*>}
+     */
+    static async sendSinglePayment(payload) {
+        try {
+            console.log("payload", payload)
+
+            const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/pdf',
+                        'Accept-Language': 'fr'
+                    }
+                },
+            )
+            return response
+        } catch (e) {
+            console.error('[Service][CsvService][sendJsonList] An error has occurred when sending the list to the api', e)
+            throw new Error(e)
+        }
+    }
+
+    /**
+     * Sending Single Payment to the api
+     * @param payload
+     * @returns {Promise<*>}
+     */
+    static async sendSinglePayment(payload) {
+        try {
+            const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/pdf',
+                        'Accept-Language': 'fr'
+                    }
+                },
+            )
+            return response
+        }catch (e) {
+            console.error('[Service][CsvService][sendSinglePayment] An error has occurred when sending a single payment to the api', e)
             throw new Error(e)
         }
     }
