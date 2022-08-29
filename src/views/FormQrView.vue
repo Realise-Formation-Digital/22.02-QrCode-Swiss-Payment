@@ -148,7 +148,7 @@
       <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
 
       <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" persistent max-width="80%">
+      <v-dialog v-model="dialog" persistent max-width="70%">
         <v-card>
           <v-card-title>
             <h1>Vérification avant confirmation d'envoi</h1>
@@ -188,12 +188,10 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="isSendData"
-              :loading="isSendData" @click="confirm()">
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" @click="confirm()">
               Confirmer
             </v-btn>
-            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()"
-              :disabled="isSendData">
+            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
           </v-card-actions>
@@ -205,6 +203,14 @@
         {{ snackbar.text }}
       </v-snackbar>
 
+      <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
+        <v-card color="primary" dark>
+          <v-card-text>
+            Veuillez patienter, en attente de réception
+            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
 
     </v-col>
   </v-row>
@@ -282,7 +288,7 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    isSendData: false,
+    loadingPopUp: false,
     isGettingCountriesList: false,
     countriesList: []
   }),
@@ -301,6 +307,11 @@ export default {
     }
   },
 
+  watch: {
+    loadingPopUp(val) {
+      if (!val) return
+    },
+  },
   methods: {
 
     /**
@@ -315,7 +326,7 @@ export default {
         const isValidForm = this.validateForm()
         if (isValidForm) {
           console.log(typeof parseFloat(this.form.amount.replace(regex, subst)))
-          this.isSendData = true
+          this.showLoadingPopUp()
           // const ciao = {
           //   "creditorInformation": {
           //     "iban": "CH4431999123000889012",
@@ -398,13 +409,15 @@ export default {
           link.href = fileURL;
           link.download = "Facture" + new Date().getTime() + ".pdf";
           link.click();
+
           this.showSnackbarSuccess();
         }
       } catch (e) {
         this.showSnackbarError();
         console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
       } finally {
-        this.isSendData = false
+          this.dialog = false
+          this.hideLoadingPopUp()
       }
     },
 
@@ -457,6 +470,26 @@ export default {
       this.dialog = false;
     },
 
+    /**
+     * LOADING POP-UP
+     */
+
+    /**
+     * Function that show the loading pop-up during API's await
+     * @author Xavier de Juan
+     */
+    showLoadingPopUp() {
+      this.loadingPopUp = true
+    },
+
+     /**
+     * Function that hide the loading pop-up
+     * @author Xavier de Juan
+     */
+    hideLoadingPopUp() {
+      this.loadingPopUp = false
+    },
+
     /*
      * SNACKBAR
      */
@@ -467,8 +500,8 @@ export default {
      * @return boolean
      */
     showSnackbarError() {
-      this.snackbar.text = "Error"
-      this.snackbar.color = "red"
+      this.snackbar.text = "Une erreur est survenue lors du téléchargement du code QR"
+      this.snackbar.color = "error"
       this.snackbar.flag = true
     },
 
@@ -489,8 +522,8 @@ export default {
      * @return boolean
      */
     showSnackbarSuccess() {
-      this.snackbar.text = "Ok"
-      this.snackbar.color = "green"
+      this.snackbar.text = "Code QR téléchargé avec succès."
+      this.snackbar.color = "success"
       this.snackbar.flag = true
     },
   }
