@@ -72,8 +72,8 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry" label="Pays (Cliquez pour choisir le pays)" :items="countriesList" item-text="french" item-value="code"
-          required>
+        <v-autocomplete v-model="form.dcountry" label="Pays (Cliquez pour choisir le pays)" :items="countriesList"
+          item-text="french" item-value="code" required>
           <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -170,16 +170,16 @@
                 <p>Informations supplémentaires</p>
               </v-col>
               <v-col cols="8">
-                <p>{{ form.dnom }}</p>
-                <p>{{ form.dstreet }}</p>
-                <p>{{ form.dnr }}</p>
-                <p>{{ form.dnpa }}</p>
-                <p>{{ form.dplace }}</p>
-                <p>{{ form.dcountry }}</p>
-                <p>{{ form.amount }}</p>
-                <p>{{ form.nrref }}</p>
-                <p>{{ form.infobill }}</p>
-                <p>{{ form.infosupp }}</p>
+                <p>{{  form.dnom  }}</p>
+                <p>{{  form.dstreet  }}</p>
+                <p>{{  form.dnr  }}</p>
+                <p>{{  form.dnpa  }}</p>
+                <p>{{  form.dplace  }}</p>
+                <p>{{  form.dcountry  }}</p>
+                <p>{{  form.amount  }}</p>
+                <p>{{  form.nrref  }}</p>
+                <p>{{  form.infobill  }}</p>
+                <p>{{  form.infosupp  }}</p>
 
               </v-col>
             </v-row>
@@ -188,33 +188,23 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5" @click="confirm()">
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :loading="loading" :disabled="loading"
+              @click="confirm(), activpreConfLoadBtn()">
               Confirmer
+              <template v-slot:loader>
+                <!-- <span>Loading...</span> -->
+              </template>
             </v-btn>
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
-
-
-            <v-btn
-      class="ma-2"
-      :loading="loading"
-      :disabled="loading"
-      color="success"
-      @click="preConfirmLoadingButton = 'loading'"
-    >
-      Custom Loader
-      <template v-slot:loader>
-        <span>Loading...</span>
-      </template>
-    </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbar.flag" :color="snackbar.color">
-        {{ snackbar.text }}
+        {{  snackbar.text  }}
       </v-snackbar>
 
       <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
@@ -282,7 +272,7 @@ export default {
         (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
       ],
       dcountry: [
-         (v) => !!v || 'Item is required',
+        (v) => !!v || 'Item is required',
       ],
       amount: [
         (v) => !!v || "Le champ 'Montant est obligatoire.",
@@ -324,22 +314,28 @@ export default {
 
 
   watch: {
+
+    /**
+     * active la modal tant que n'est valeur n'est pas égale.
+     * @param {*} val
+     * @author
+     */
     loadingPopUp(val) {
       if (!val) return
     },
 
-      /**
-       * Function qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
-       * à vérifier les données envoyées.)
-       */
+    /**
+     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
+     * à vérifier les données envoyées.)
+     */
 
-      preConfirmLoadingButton () {
-        const l = this.preConfirmLoadingButton
-        this[l] = !this[l]
-        setTimeout(() => (this[l] = false), 2000)
-        this.preConfirmLoadingButton = null
-      },
+    preConfirmLoadingButton() {
+      const l = this.preConfirmLoadingButton
+      this[l] = !this[l]
+      setTimeout(() => (this[l] = false), 2000)
+      this.preConfirmLoadingButton = null
     },
+  },
 
 
   methods: {
@@ -347,7 +343,7 @@ export default {
      * Fonction qui met le bouton "confirm en état non-cliquable"
      */
     activpreConfLoadBtn() {
-      this.preConfirmLoadingButton = "loading"
+      this.preConfirmLoadingButton = 'loading'
     },
 
     /**
@@ -453,8 +449,8 @@ export default {
         this.showSnackbarError();
         console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
       } finally {
-          this.dialog = false
-          this.hideLoadingPopUp()
+        this.dialog = false
+        this.hideLoadingPopUp()
       }
     },
 
@@ -495,7 +491,7 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         this.dialog = true;
-        this.activpreConfLoadBtn(); 
+        this.activpreConfLoadBtn();
       }
     },
 
@@ -520,10 +516,10 @@ export default {
       this.loadingPopUp = true
     },
 
-     /**
-     * Function that hide the loading pop-up
-     * @author Xavier de Juan
-     */
+    /**
+    * Function that hide the loading pop-up
+    * @author Xavier de Juan
+    */
     hideLoadingPopUp() {
       this.loadingPopUp = false
     },
