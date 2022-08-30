@@ -92,7 +92,7 @@ export default {
         return {
           // Adapt the payload Realize with the payload of the API
           reference: item.REFERENCE,
-          amount: parseFloat((item.MONTANT).replace(regex, subst)),
+          amount: parseFloat(item.MONTANT.replace(regex, subst)),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
