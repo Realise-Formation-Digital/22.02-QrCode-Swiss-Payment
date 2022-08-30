@@ -180,7 +180,7 @@
                 <p>{{  form.amount  }}</p>
                 <p>{{  form.nrref  }}</p>
                 <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
-                <p>{{  form.infosupp  }}</p>
+                <p>{{  !!form.infosupp ? form.infosupp : "N/A"  }}</p>
               </v-col> -->
             </v-row>
           </v-card-text>
@@ -321,8 +321,7 @@ export default {
       if (!val) return
     },
     /**
-     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
-     * à vérifier les données envoyées... C'est Marco le coupable de cette idée...)
+     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable
      */
 
     preConfirmLoadingButton() {

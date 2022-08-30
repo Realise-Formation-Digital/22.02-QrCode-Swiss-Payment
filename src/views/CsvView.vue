@@ -4,7 +4,7 @@
 
 
       <v-file-input accept="csv/*"
-                    label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
+        label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
       </v-file-input>
 
 
@@ -23,12 +23,12 @@
 
       <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
-        {{ textE }}
+        {{  textE  }}
       </v-snackbar>
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
-        {{ textS }}
+        {{  textS  }}
       </v-snackbar>
 
     </v-col>
@@ -49,9 +49,7 @@ export default {
     payload: {},
     loading: true,
     payloadArray: null,
-
     dialogSendApi: false,
-
     snackbarError: false,
     textE: "Echec de réception du code QR.",
     snackbarSuccess: false,
@@ -59,7 +57,6 @@ export default {
   }),
 
   watch: {
-
     /**
      *
      * Function that check value and return the loading pop-up
@@ -74,8 +71,6 @@ export default {
   },
 
   methods: {
-
-
     /**
      *
      * Function that check value and return the loading pop-up
@@ -84,18 +79,17 @@ export default {
      * @params {object[]????} - convert
      * @return promise<object>
      */
-
     async papaparse(convert) {
 
       let conversion = await ParseCsv.csvToJson(convert)
       console.log("conversion", conversion)
-
       this.payloadArray = conversion.map((item) => {
-        console.log("montant type", typeof(item.MONTANT))
+        console.log("item", item.MONTANT)
         return {
-          // Adapt the payload réalise with the payload of the API
+
+          // Adapt the payload Realize with the payload of the API
           reference: item.REFERENCE,
-          amount: parseFloat(item.MONTANT.replace(regex, subst)),
+          amount: this.amountReplace(item.MONTANT),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
@@ -105,6 +99,13 @@ export default {
           unstructuredMessage: item.INFOSUPLEMENTAIRE,
         }
       });
+    },
+    
+    amountReplace(MONTANT) {
+      
+      let amountTransf = parseFloat(MONTANT.replace(regex, subst))
+      console.log("montant func", amountTransf)
+      return MONTANT ? amountTransf : 0      
     },
 
     /**
@@ -154,7 +155,7 @@ export default {
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
     },
-   
+
     async sendCsvList() {
       try {
         this.dialogSendApi = true;
