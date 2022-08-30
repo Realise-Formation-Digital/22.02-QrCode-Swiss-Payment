@@ -24,10 +24,10 @@ class ParseCsv {
                     resolve(result.data)
                 }
             })
-        }) 
-        
-        
-        
+        })
+
+
+
     }
 }
 

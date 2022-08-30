@@ -6,7 +6,6 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 
 //Papa parse library
-import './plugins/papaparse.js'
 
 Vue.config.productionTip = false
 

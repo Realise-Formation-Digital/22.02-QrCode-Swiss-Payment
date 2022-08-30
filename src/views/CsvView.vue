@@ -2,9 +2,9 @@
   <v-row>
     <v-col>
 
-      
+
       <v-file-input accept="csv/*"
-        label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
+                    label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
       </v-file-input>
 
 
@@ -30,7 +30,6 @@
       <v-snackbar v-model="snackbarSuccess" color="success">
         {{ textS }}
       </v-snackbar>
-
 
     </v-col>
   </v-row>
@@ -61,14 +60,14 @@ export default {
 
   watch: {
 
-     /**
-    * 
-    * Function that check value and return the loading pop-up
-    * 
-    * @author Xavier de Juan
-    * @params {boolean}
-    * @return boolean
-    */
+    /**
+     *
+     * Function that check value and return the loading pop-up
+     *
+     * @author Xavier de Juan
+     * @params {boolean}
+     * @return boolean
+     */
     dialogSendApi(val) {
       if (!val) return
     },
@@ -76,14 +75,16 @@ export default {
 
   methods: {
 
-     /**
-    * 
-    * Function that check value and return the loading pop-up
-    * 
-    * @author Marco Tribuzio - Xavier de Juan
-    * @params {object[]????} - convert
-    * @return promise<object>
-    */
+
+    /**
+     *
+     * Function that check value and return the loading pop-up
+     *
+     * @author Xavier de Juan
+     * @params {object[]????} - convert
+     * @return promise<object>
+     */
+
     async papaparse(convert) {
 
       let conversion = await ParseCsv.csvToJson(convert)
@@ -106,12 +107,12 @@ export default {
       });
     },
 
- /**
-     * 
+    /**
+     *
      * Function that show the snackbar when QR code is not received
-     * 
+     *
      * @author Xavier de Juan
-     * 
+     *
      * @return boolean
      */
     showSnackbarError() {
@@ -119,11 +120,11 @@ export default {
     },
 
     /**
-     * 
+     *
      * Function that hide the snackbar
-     * 
+     *
      * @author Xavier de Juan
-     * 
+     *
      * @return boolean
      */
     hideSnackBarError() {
@@ -131,11 +132,11 @@ export default {
     },
 
     /**
-     * 
+     *
      * Function that show the snackbar when QR code is received
-     * 
+     *
      * @author Xavier de Juan
-     * 
+     *
      * @return boolean
      */
     showSnackbarSuccess() {
@@ -143,11 +144,11 @@ export default {
     },
 
     /**
-     * 
+     *
      * Function that hide the snackbar
-     * 
+     *
      * @author Xavier de Juan
-     * 
+     *
      * @return boolean
      */
     hideSnackbarSuccess() {
