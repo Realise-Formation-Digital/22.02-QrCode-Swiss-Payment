@@ -72,9 +72,8 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry" label="Pays (Cliquez pour choisir le pays)" :items="countriesList"
+        <v-autocomplete v-model="form.dcountry" :rules="formRules.dcountry" label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :items="countriesList"
           item-text="french" item-value="code" required>
-
           <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -216,7 +215,6 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-
     </v-col>
   </v-row>
 </template>
@@ -273,9 +271,7 @@ export default {
         (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
       ],
       dcountry: [
-
-        (v) => !!v || 'Item is required',
-
+        (v) => !!v || 'Veuillez selectionner un pays',
       ],
       amount: [
         (v) => !!v || "Le champ 'Montant est obligatoire.",
@@ -315,9 +311,7 @@ export default {
     }
   },
 
-
   watch: {
-
     /**
      * active la modal tant que n'est valeur n'est pas égale.
      * @param {*} val
@@ -326,7 +320,6 @@ export default {
     loadingPopUp(val) {
       if (!val) return
     },
-
     /**
      * Fonction qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
      * à vérifier les données envoyées... C'est Marco le coupable de cette idée...)
