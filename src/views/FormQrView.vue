@@ -190,7 +190,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="success" class="mr-10" x-large rounded elevation="5" :loading="loading" :disabled="loading"
-              @click="confirm(), activpreConfLoadBtn()">
+              @click="confirm()">
               Confirmer
               <template v-slot:loader>
                 <!-- <span>Loading...</span> -->
@@ -329,7 +329,7 @@ export default {
 
     /**
      * Fonction qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
-     * à vérifier les données envoyées.)
+     * à vérifier les données envoyées... C'est Marco le coupable de cette idée...)
      */
 
     preConfirmLoadingButton() {
@@ -339,7 +339,6 @@ export default {
       this.preConfirmLoadingButton = null
     },
   },
-
 
   methods: {
     /**
