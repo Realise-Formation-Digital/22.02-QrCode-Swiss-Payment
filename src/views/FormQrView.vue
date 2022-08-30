@@ -315,7 +315,9 @@ export default {
     }
   },
 
+
   watch: {
+
     /**
      * active la modal tant que n'est valeur n'est pas égale.
      * @param {*} val
@@ -324,13 +326,11 @@ export default {
     loadingPopUp(val) {
       if (!val) return
     },
+
     /**
      * Fonction qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
-     * à vérifier les données envoyées... Sans vouloir trahir, C'est Marco le coupable de cette idée...)
-     * 
-     * @author Xavier de Juan
+     * à vérifier les données envoyées... C'est Marco le coupable de cette idée...)
      */
-
 
     preConfirmLoadingButton() {
       const l = this.preConfirmLoadingButton
@@ -342,20 +342,11 @@ export default {
 
   methods: {
     /**
-     *THE DOOMED BUTTON 
-     */
-
-    /**
      * Fonction qui met le bouton "confirm en état non-cliquable"
-     * 
-     * @author Xavier de Juan
      */
     activpreConfLoadBtn() {
       this.preConfirmLoadingButton = 'loading'
     },
-    /**
-     * SEND
-     */
 
     /**
      * Function that call validate (see validate())
