@@ -321,7 +321,7 @@ export default {
     /**
      * active la modal tant que n'est valeur n'est pas égale.
      * @param {*} val
-     * @author
+     * @author Xavier de Juan
      */
     loadingPopUp(val) {
       if (!val) return
