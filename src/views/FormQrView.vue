@@ -72,8 +72,9 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry" :rules="formRules.dcountry" label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :items="countriesList"
-          item-text="french" item-value="code" required>
+        <v-autocomplete v-model="form.dcountry" :rules="formRules.dcountry"
+          label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :items="countriesList" item-text="french"
+          item-value="code" required>
           <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -156,20 +157,20 @@
 
           <!-- Checkform in the modal -->
           <v-card-text>
-            <v-row>
-              <v-col cols="2">
-                <p>Nom</p>
-                <p>Rue</p>
-                <p>Numero de rue</p>
-                <p>Code postal</p>
-                <p>Ville</p>
-                <p>Pays</p>
-                <p>Montant</p>
-                <p>Numéro de référence</p>
-                <p>Informations de facture</p>
-                <p>Informations supplémentaires</p>
+            <v-row class="container">
+              <v-col cols="4">
+                <p><b><i>Nom</i></b>: {{  form.dnom  }}</p>
+                <p><b><i>Rue</i></b>: {{  form.dstreet  }}</p>
+                <p><b><i>Numéro de rue</i></b>: {{  form.dnr  }}</p>
+                <p><b><i>Code postal</i></b>: {{  form.dnpa  }}</p>
+                <p><b><i>Ville</i></b>: {{  form.dplace  }}</p>
+                <p><b><i>Pays</i></b>: {{  form.dcountry  }}</p>
+                <p><b><i>Montant</i></b>: {{  form.amount  }}</p>
+                <p><b><i>Numéro de référence</i></b>: {{  form.nrref  }}</p>
+                <p><b><i>Informations de facture</i></b>: {{  form.infobill  }}</p>
+                <p><b><i>Informations supplémentaires</i></b>: {{  form.infosupp  }}</p>
               </v-col>
-              <v-col cols="8">
+              <!-- <v-col cols="6">
                 <p>{{  form.dnom  }}</p>
                 <p>{{  form.dstreet  }}</p>
                 <p>{{  form.dnr  }}</p>
@@ -178,10 +179,9 @@
                 <p>{{  form.dcountry  }}</p>
                 <p>{{  form.amount  }}</p>
                 <p>{{  form.nrref  }}</p>
-                <p>{{  form.infobill  }}</p>
+                <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
                 <p>{{  form.infosupp  }}</p>
-
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-card-text>
 
@@ -328,7 +328,7 @@ export default {
     preConfirmLoadingButton() {
       const l = this.preConfirmLoadingButton
       this[l] = !this[l]
-      setTimeout(() => (this[l] = false), 2000)
+      setTimeout(() => (this[l] = false), 1000)
       this.preConfirmLoadingButton = null
     },
   },
