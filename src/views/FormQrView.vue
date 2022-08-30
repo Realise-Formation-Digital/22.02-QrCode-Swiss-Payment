@@ -72,9 +72,9 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry" label="Pays" :items="countriesList" item-text="french" item-value="code"
+        <v-autocomplete v-model="form.dcountry" label="Pays (Cliquez pour choisir le pays)" :items="countriesList" item-text="french" item-value="code"
           required>
-          <template v-slot:append>
+          <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
@@ -82,7 +82,7 @@
               <span>Pays du débiteur final
                 Code de pays à deux positions selon ISO 3166-1</span>
             </v-tooltip>
-          </template>
+          </template> -->
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
@@ -194,6 +194,20 @@
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
+
+
+            <v-btn
+      class="ma-2"
+      :loading="loading"
+      :disabled="loading"
+      color="success"
+      @click="preConfirmLoadingButton = 'loading'"
+    >
+      Custom Loader
+      <template v-slot:loader>
+        <span>Loading...</span>
+      </template>
+    </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -226,6 +240,8 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
+    preConfirmLoadingButton: null,
+    loading: false,
     show: false,
     snackbar: {
       flag: false,
@@ -266,8 +282,7 @@ export default {
         (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
       ],
       dcountry: [
-        (v) => !!v || "Le champ 'Pays' est obligatoire et doit contenir 2 caractères. (ex:CH)",
-        (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères. (ex:CH)",
+         (v) => !!v || 'Item is required',
       ],
       amount: [
         (v) => !!v || "Le champ 'Montant est obligatoire.",
@@ -290,7 +305,7 @@ export default {
     valid: false,// Boolean form by default
     loadingPopUp: false,
     isGettingCountriesList: false,
-    countriesList: []
+    countriesList: [],
   }),
   async mounted() {
     try {
@@ -307,17 +322,39 @@ export default {
     }
   },
 
+
   watch: {
     loadingPopUp(val) {
       if (!val) return
     },
-  },
+
+      /**
+       * Function qui met durant x secondes le bouton "confirmer" non cliquable (pour forcer les personnes
+       * à vérifier les données envoyées.)
+       */
+
+      preConfirmLoadingButton () {
+        const l = this.preConfirmLoadingButton
+        this[l] = !this[l]
+        setTimeout(() => (this[l] = false), 2000)
+        this.preConfirmLoadingButton = null
+      },
+    },
+
+
   methods: {
+    /**
+     * Fonction qui met le bouton "confirm en état non-cliquable"
+     */
+    activpreConfLoadBtn() {
+      this.preConfirmLoadingButton = "loading"
+    },
 
     /**
      * Function that call validate (see validate())
      * Hide the "check" modal
      * Show the loading pop-up
+     * 
      * @author Xavier de Juan
      * @return ????
      */
@@ -372,7 +409,7 @@ export default {
                 "houseNumber": "8",
                 "postalCode": "1227",
                 "city": "Genève",
-                "country": this.form.dcountry
+                "country": "CH"
               }
             },
             "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF" },
@@ -407,7 +444,7 @@ export default {
           const fileURL = URL.createObjectURL(file);
           const link = document.createElement('a');
           link.href = fileURL;
-          link.download = "Facture" + new Date().getTime() + ".pdf";
+          link.download = "Facture_" + this.form.dnom + "_" + new Date().getTime() + ".pdf";
           link.click();
 
           this.showSnackbarSuccess();
@@ -458,6 +495,7 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         this.dialog = true;
+        this.activpreConfLoadBtn(); 
       }
     },
 
