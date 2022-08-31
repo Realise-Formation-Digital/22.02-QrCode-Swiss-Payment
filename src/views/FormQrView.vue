@@ -2,7 +2,8 @@
 <template>
   <v-row>
     <v-col lg="4" md="4" sm="12" xs="12">
-      Here little descriptio what the user have to do :)
+      Here little description what the user have to do :)
+
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
       <!-- <h1>Bénéficiaire</h1> -->
@@ -72,9 +73,9 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry" :rules="formRules.dcountry"
+        <v-autocomplete v-model="form.dcountry"
           label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :items="countriesList" item-text="french"
-          item-value="code" required>
+          item-value="code">
           <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -152,7 +153,7 @@
       <v-dialog v-model="dialog" persistent max-width="70%">
         <v-card>
           <v-card-title>
-            <h1>Vérification avant confirmation d'envoi</h1>
+            <h1>Vérification avant confirmation d'envoi.</h1>
           </v-card-title>
 
           <!-- Checkform in the modal -->
@@ -188,11 +189,14 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :loading="loading" :disabled="loading"
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading"
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <!-- <span>Loading...</span> -->
+                <span>Veuillez patienter <v-progress-circular :rotate="-90" :size="50" :width="10" :value="countDown"
+                    color="orange">
+                    {{  countDown  }}
+                  </v-progress-circular></span>
               </template>
             </v-btn>
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
@@ -235,8 +239,9 @@ export default {
     snackbar: {
       flag: false,
       text: null,
-      color: null
+      color: null,
     },
+
     form: {
       dnom: "",
       dstreet: "",
@@ -295,21 +300,35 @@ export default {
     loadingPopUp: false,
     isGettingCountriesList: false,
     countriesList: [],
+    interval: {},
+    countDown: null,
   }),
-  async mounted() {
-    try {
-      console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
-      this.isGettingCountriesList = true
-      const response = await ApiService.getListCountries()
-      this.countriesList = response
-      console.log(this.countriesList)
-    } catch (e) {
-      console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
-      //todo handle error
-    } finally {
-      this.isGettingCountriesList = false
-    }
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
+  mounted() {
+    this.interval = setInterval(() => {
+      // if (this.countDown === 0) {
+      //   return (this.countDown = 15)
+      // }
+      this.countDown -= 1
+    }, 1000)
+  },
+
+  // async mounted() {
+  //   try {
+  //     console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
+  //     this.isGettingCountriesList = true
+  //     const response = await ApiService.getListCountries()
+  //     this.countriesList = response
+  //     console.log(this.countriesList)
+  //   } catch (e) {
+  //     console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
+  //     //todo handle error
+  //   } finally {
+  //     this.isGettingCountriesList = false
+  //   }
+  // },
 
   watch: {
     /**
@@ -321,9 +340,9 @@ export default {
       if (!val) return
     },
     /**
-     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable.
+     * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
      * (Marco est le coupable de cette idée et non l'auteur de ces lignes...
-     * jamais l'auteur n'aurait eu une idée si machiavélique)
+     * jamais l'auteur n'aurait eu une idée si machiavélique.)
      * 
      * @author Xavier de Juan
      */
@@ -331,9 +350,10 @@ export default {
     preConfirmLoadingButton() {
       const l = this.preConfirmLoadingButton
       this[l] = !this[l]
-      setTimeout(() => (this[l] = false), 1000)
+      setTimeout(() => (this[l] = false), 15000)
       this.preConfirmLoadingButton = null
     },
+
   },
 
   methods: {
@@ -347,7 +367,6 @@ export default {
     activpreConfLoadBtn() {
       this.preConfirmLoadingButton = 'loading'
     },
-
     /**
      * Function that call validate (see validate())
      * Hide the "check" modal
@@ -362,6 +381,7 @@ export default {
         if (isValidForm) {
           console.log(typeof parseFloat(this.form.amount.replace(regex, subst)))
           this.showLoadingPopUp()
+          this.hideDialog()
           // const ciao = {
           //   "creditorInformation": {
           //     "iban": "CH4431999123000889012",
@@ -442,7 +462,7 @@ export default {
           const fileURL = URL.createObjectURL(file);
           const link = document.createElement('a');
           let date = new Date();
-          let dateActuelle = date.getDate() + "_" + (date.getMonth()+1) + "_" + (date.getFullYear());
+          let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
           link.href = fileURL;
           link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
@@ -495,6 +515,7 @@ export default {
       if (isValid) {
         this.dialog = true;
         this.activpreConfLoadBtn();
+        this.countDown = 15
       }
     },
 
@@ -505,6 +526,7 @@ export default {
      */
     hideDialog() {
       this.dialog = false;
+      this.countDown = null
     },
 
     /**
@@ -568,9 +590,7 @@ export default {
 </script>
 
 <style>
-
 .modalstyle {
   font-size: x-large;
 }
-
 </style>
