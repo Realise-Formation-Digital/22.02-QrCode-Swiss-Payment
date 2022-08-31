@@ -334,7 +334,12 @@ export default {
       setTimeout(() => (this[l] = false), 15000)
       this.preConfirmLoadingButton = null
     },
+      resetTimeout() {
+    clearTimeout(this.l)
   },
+  },
+
+
 
   methods: {
     /**
@@ -447,6 +452,8 @@ export default {
           link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
           this.showSnackbarSuccess();
+          this.$refs.form.reset();
+          resetTimeout()
         }
       } catch (e) {
         this.showSnackbarError();
