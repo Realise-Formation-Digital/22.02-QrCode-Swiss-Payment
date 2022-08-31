@@ -193,8 +193,8 @@
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span>Veuillez patienter <v-progress-circular :rotate="-90" :size="50" :width="10" :value="countDown"
-                    color="orange">
+                <span>Disponible dans <v-progress-circular :rotate="-90" :size="50" :width="10" :value="countDown"
+                    color="green">
                     {{  countDown  }}
                   </v-progress-circular></span>
               </template>
@@ -308,11 +308,11 @@ export default {
   },
   mounted() {
     this.interval = setInterval(() => {
-      // if (this.countDown === 0) {
-      //   return (this.countDown = 15)
-      // }
+      if (this.countDown === 0) {
+        return (this.countDown = null)
+      }
       this.countDown -= 1
-    }, 1000)
+    }, 150)
   },
 
   // async mounted() {
@@ -515,7 +515,7 @@ export default {
       if (isValid) {
         this.dialog = true;
         this.activpreConfLoadBtn();
-        this.countDown = 15
+        this.countDown = 100
       }
     },
 
