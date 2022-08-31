@@ -192,7 +192,7 @@
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <!-- <span>Loading...</span> -->
+                <span>Veuillez patienter</span>
               </template>
             </v-btn>
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
@@ -331,7 +331,7 @@ export default {
     preConfirmLoadingButton() {
       const l = this.preConfirmLoadingButton
       this[l] = !this[l]
-      setTimeout(() => (this[l] = false), 1000)
+      setTimeout(() => (this[l] = false), 15000)
       this.preConfirmLoadingButton = null
     },
   },
