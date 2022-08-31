@@ -436,7 +436,6 @@ export default {
           link.href = fileURL;
           link.download = "Facture_" + this.form.dnom + "_" + new Date().getTime() + ".pdf";
           link.click();
-
           this.showSnackbarSuccess();
         }
       } catch (e) {
