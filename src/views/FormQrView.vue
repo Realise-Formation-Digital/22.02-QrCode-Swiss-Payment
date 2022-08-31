@@ -417,7 +417,7 @@ export default {
               "reference": "210000000003139471430009017",// A utiliser tel quel pendant la version démo
               // "reference": this.form.nrref, (A garder pour la version achetée de l'API)
               "additionalInformation": {
-                "unstructuredMessage": this.form.infosupp,
+                "unstructuredMessage": this.form.infosupp,// ATTENTION 56 CARACTERES.
                 "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"// Garder tel quel pendant la version démo
                 //"billInformation": this.form.billInfo (A garder pour la version achetée de l'API)
               }
