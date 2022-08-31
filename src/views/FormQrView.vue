@@ -433,8 +433,10 @@ export default {
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
           const link = document.createElement('a');
+          let date = new Date();
+          let dateActuelle = date.getDate() + "_" + (date.getMonth()+1) + "_" + (date.getFullYear());
           link.href = fileURL;
-          link.download = "Facture_" + this.form.dnom + "_" + new Date().getTime() + ".pdf";
+          link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
           this.showSnackbarSuccess();
         }
