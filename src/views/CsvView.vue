@@ -2,11 +2,9 @@
   <v-row>
     <v-col>
 
-
       <v-file-input accept="csv/*"
         label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
       </v-file-input>
-
 
       <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir
         la/les facture(s) en code qr</v-btn>
@@ -30,7 +28,6 @@
       <v-snackbar v-model="snackbarSuccess" color="success">
         {{  textS  }}
       </v-snackbar>
-
     </v-col>
   </v-row>
 </template>
@@ -80,13 +77,9 @@ export default {
      * @return promise<object>
      */
     async papaparse(convert) {
-
       let conversion = await ParseCsv.csvToJson(convert)
-      console.log("conversion", conversion)
       this.payloadArray = conversion.map((item) => {
-        console.log("item", item.MONTANT)
         return {
-
           // Adapt the payload Realize with the payload of the API
           reference: item.REFERENCE,
           amount: this.amountReplace(item.MONTANT),
@@ -100,14 +93,9 @@ export default {
         }
       });
     },
-    
     amountReplace(MONTANT) {
-      
-      let amountTransf = parseFloat(MONTANT.replace(regex, subst))
-      console.log("montant func", amountTransf)
-      return MONTANT ? amountTransf : 0      
+      return MONTANT ? parseFloat(MONTANT.replace(regex, subst)) : 0
     },
-
     /**
      *
      * Function that show the snackbar when QR code is not received
@@ -119,7 +107,6 @@ export default {
     showSnackbarError() {
       this.snackbarError = true
     },
-
     /**
      *
      * Function that hide the snackbar
@@ -131,7 +118,6 @@ export default {
     hideSnackBarError() {
       this.snackbarError = false
     },
-
     /**
      *
      * Function that show the snackbar when QR code is received
@@ -143,7 +129,6 @@ export default {
     showSnackbarSuccess() {
       this.snackbarSuccess = true
     },
-
     /**
      *
      * Function that hide the snackbar
@@ -155,7 +140,6 @@ export default {
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
     },
-
     async sendCsvList() {
       try {
         this.dialogSendApi = true;
