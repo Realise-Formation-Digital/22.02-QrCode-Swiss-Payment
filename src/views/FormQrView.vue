@@ -158,7 +158,7 @@
           <!-- Checkform in the modal -->
           <v-card-text>
             <v-row class="container">
-              <v-col cols="4">
+              <v-col cols="4" class="modalstyle">
                 <p><b><i>Nom</i></b>: {{  form.dnom  }}</p>
                 <p><b><i>Rue</i></b>: {{  form.dstreet  }}</p>
                 <p><b><i>Numéro de rue</i></b>: {{  form.dnr  }}</p>
@@ -558,3 +558,11 @@ export default {
   }
 };
 </script>
+
+<style>
+
+.modalstyle {
+  font-size: x-large;
+}
+
+</style>
