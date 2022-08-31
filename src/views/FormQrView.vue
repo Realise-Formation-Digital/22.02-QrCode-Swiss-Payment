@@ -130,7 +130,7 @@
             </v-tooltip>
           </template>
         </v-textarea>
-        <v-textarea v-model="form.infosupp" label="Informations supplémentaires (facultatif)">
+        <v-textarea v-model="form.infosupp" label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX.">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
