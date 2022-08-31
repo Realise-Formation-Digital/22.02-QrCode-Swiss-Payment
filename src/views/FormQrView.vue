@@ -321,7 +321,11 @@ export default {
       if (!val) return
     },
     /**
-     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable
+     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable.
+     * (Marco est le coupable de cette idée et non l'auteur de ces lignes...
+     * jamais l'auteur n'aurait eu une idée si machiavélique)
+     * 
+     * @author Xavier de Juan
      */
 
     preConfirmLoadingButton() {
@@ -333,6 +337,10 @@ export default {
   },
 
   methods: {
+    /**
+     * THE DOOMED BUTTON
+     */
+
     /**
      * Fonction qui met le bouton "confirm en état non-cliquable"
      */
