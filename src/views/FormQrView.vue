@@ -72,9 +72,10 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry" label="Pays" :items="countriesList" item-text="french" item-value="code"
-          required>
-          <template v-slot:append>
+        <v-autocomplete v-model="form.dcountry" :rules="formRules.dcountry"
+          label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :items="countriesList" item-text="french"
+          item-value="code" required>
+          <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
@@ -82,7 +83,7 @@
               <span>Pays du débiteur final
                 Code de pays à deux positions selon ISO 3166-1</span>
             </v-tooltip>
-          </template>
+          </template> -->
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
@@ -129,7 +130,7 @@
             </v-tooltip>
           </template>
         </v-textarea>
-        <v-textarea v-model="form.infosupp" label="Informations supplémentaires (facultatif)">
+        <v-textarea v-model="form.infosupp" label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX.">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -148,7 +149,7 @@
       <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
 
       <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" persistent max-width="80%">
+      <v-dialog v-model="dialog" persistent max-width="70%">
         <v-card>
           <v-card-title>
             <h1>Vérification avant confirmation d'envoi</h1>
@@ -156,44 +157,45 @@
 
           <!-- Checkform in the modal -->
           <v-card-text>
-            <v-row>
-              <v-col cols="2">
-                <p>Nom</p>
-                <p>Rue</p>
-                <p>Numero de rue</p>
-                <p>Code postal</p>
-                <p>Ville</p>
-                <p>Pays</p>
-                <p>Montant</p>
-                <p>Numéro de référence</p>
-                <p>Informations de facture</p>
-                <p>Informations supplémentaires</p>
+            <v-row class="container">
+              <v-col cols="4" class="modalstyle">
+                <p><b><i>Nom</i></b>: {{  form.dnom  }}</p>
+                <p><b><i>Rue</i></b>: {{  form.dstreet  }}</p>
+                <p><b><i>Numéro de rue</i></b>: {{  form.dnr  }}</p>
+                <p><b><i>Code postal</i></b>: {{  form.dnpa  }}</p>
+                <p><b><i>Ville</i></b>: {{  form.dplace  }}</p>
+                <p><b><i>Pays</i></b>: {{  form.dcountry  }}</p>
+                <p><b><i>Montant</i></b>: {{  form.amount  }}</p>
+                <p><b><i>Numéro de référence</i></b>: {{  form.nrref  }}</p>
+                <p><b><i>Informations de facture</i></b>: {{  form.infobill  }}</p>
+                <p><b><i>Informations supplémentaires</i></b>: {{  form.infosupp  }}</p>
               </v-col>
-              <v-col cols="8">
-                <p>{{ form.dnom }}</p>
-                <p>{{ form.dstreet }}</p>
-                <p>{{ form.dnr }}</p>
-                <p>{{ form.dnpa }}</p>
-                <p>{{ form.dplace }}</p>
-                <p>{{ form.dcountry }}</p>
-                <p>{{ form.amount }}</p>
-                <p>{{ form.nrref }}</p>
-                <p>{{ form.infobill }}</p>
-                <p>{{ form.infosupp }}</p>
-
-              </v-col>
+              <!-- <v-col cols="6">
+                <p>{{  form.dnom  }}</p>
+                <p>{{  form.dstreet  }}</p>
+                <p>{{  form.dnr  }}</p>
+                <p>{{  form.dnpa  }}</p>
+                <p>{{  form.dplace  }}</p>
+                <p>{{  form.dcountry  }}</p>
+                <p>{{  form.amount  }}</p>
+                <p>{{  form.nrref  }}</p>
+                <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
+                <p>{{  !!form.infosupp ? form.infosupp : "N/A"  }}</p>
+              </v-col> -->
             </v-row>
           </v-card-text>
 
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :disabled="isSendData"
-              :loading="isSendData" @click="confirm()">
+            <v-btn color="success" class="mr-10" x-large rounded elevation="5" :loading="loading" :disabled="loading"
+              @click="confirm()">
               Confirmer
+              <template v-slot:loader>
+                <span>Veuillez patienter</span>
+              </template>
             </v-btn>
-            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()"
-              :disabled="isSendData">
+            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
           </v-card-actions>
@@ -202,10 +204,17 @@
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbar.flag" :color="snackbar.color">
-        {{ snackbar.text }}
+        {{  snackbar.text  }}
       </v-snackbar>
 
-
+      <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
+        <v-card color="primary" dark>
+          <v-card-text>
+            Veuillez patienter, en attente de réception
+            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -220,6 +229,8 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
+    preConfirmLoadingButton: null,
+    loading: false,
     show: false,
     snackbar: {
       flag: false,
@@ -260,8 +271,7 @@ export default {
         (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
       ],
       dcountry: [
-        (v) => !!v || "Le champ 'Pays' est obligatoire et doit contenir 2 caractères. (ex:CH)",
-        (v) => (v && v.length == 2) || "Le pays doit contenir 2 caractères. (ex:CH)",
+        (v) => !!v || 'Veuillez selectionner un pays',
       ],
       amount: [
         (v) => !!v || "Le champ 'Montant est obligatoire.",
@@ -282,9 +292,9 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    isSendData: false,
+    loadingPopUp: false,
     isGettingCountriesList: false,
-    countriesList: []
+    countriesList: [],
   }),
   async mounted() {
     try {
@@ -301,12 +311,48 @@ export default {
     }
   },
 
+  watch: {
+    /**
+     * active la modal tant que n'est valeur n'est pas égale.
+     * @param {*} val
+     * @author Xavier de Juan
+     */
+    loadingPopUp(val) {
+      if (!val) return
+    },
+    /**
+     * Fonction qui met durant x secondes le bouton "confirmer" non cliquable.
+     * (Marco est le coupable de cette idée et non l'auteur de ces lignes...
+     * jamais l'auteur n'aurait eu une idée si machiavélique)
+     * 
+     * @author Xavier de Juan
+     */
+
+    preConfirmLoadingButton() {
+      const l = this.preConfirmLoadingButton
+      this[l] = !this[l]
+      setTimeout(() => (this[l] = false), 15000)
+      this.preConfirmLoadingButton = null
+    },
+  },
+
   methods: {
+    /**
+     * THE DOOMED BUTTON
+     */
+
+    /**
+     * Fonction qui met le bouton "confirm en état non-cliquable"
+     */
+    activpreConfLoadBtn() {
+      this.preConfirmLoadingButton = 'loading'
+    },
 
     /**
      * Function that call validate (see validate())
      * Hide the "check" modal
      * Show the loading pop-up
+     * 
      * @author Xavier de Juan
      * @return ????
      */
@@ -315,7 +361,7 @@ export default {
         const isValidForm = this.validateForm()
         if (isValidForm) {
           console.log(typeof parseFloat(this.form.amount.replace(regex, subst)))
-          this.isSendData = true
+          this.showLoadingPopUp()
           // const ciao = {
           //   "creditorInformation": {
           //     "iban": "CH4431999123000889012",
@@ -361,7 +407,7 @@ export default {
                 "houseNumber": "8",
                 "postalCode": "1227",
                 "city": "Genève",
-                "country": this.form.dcountry
+                "country": "CH"
               }
             },
             "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF" },
@@ -379,7 +425,7 @@ export default {
               "reference": "210000000003139471430009017",// A utiliser tel quel pendant la version démo
               // "reference": this.form.nrref, (A garder pour la version achetée de l'API)
               "additionalInformation": {
-                "unstructuredMessage": this.form.infosupp,
+                "unstructuredMessage": this.form.infosupp,// ATTENTION 56 CARACTERES.
                 "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"// Garder tel quel pendant la version démo
                 //"billInformation": this.form.billInfo (A garder pour la version achetée de l'API)
               }
@@ -395,8 +441,10 @@ export default {
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
           const link = document.createElement('a');
+          let date = new Date();
+          let dateActuelle = date.getDate() + "_" + (date.getMonth()+1) + "_" + (date.getFullYear());
           link.href = fileURL;
-          link.download = "Facture" + new Date().getTime() + ".pdf";
+          link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
           this.showSnackbarSuccess();
         }
@@ -404,7 +452,8 @@ export default {
         this.showSnackbarError();
         console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
       } finally {
-        this.isSendData = false
+        this.dialog = false
+        this.hideLoadingPopUp()
       }
     },
 
@@ -445,6 +494,7 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         this.dialog = true;
+        this.activpreConfLoadBtn();
       }
     },
 
@@ -457,6 +507,26 @@ export default {
       this.dialog = false;
     },
 
+    /**
+     * LOADING POP-UP
+     */
+
+    /**
+     * Function that show the loading pop-up during API's await
+     * @author Xavier de Juan
+     */
+    showLoadingPopUp() {
+      this.loadingPopUp = true
+    },
+
+    /**
+    * Function that hide the loading pop-up
+    * @author Xavier de Juan
+    */
+    hideLoadingPopUp() {
+      this.loadingPopUp = false
+    },
+
     /*
      * SNACKBAR
      */
@@ -467,8 +537,8 @@ export default {
      * @return boolean
      */
     showSnackbarError() {
-      this.snackbar.text = "Error"
-      this.snackbar.color = "red"
+      this.snackbar.text = "Une erreur est survenue lors du téléchargement du code QR"
+      this.snackbar.color = "error"
       this.snackbar.flag = true
     },
 
@@ -489,10 +559,18 @@ export default {
      * @return boolean
      */
     showSnackbarSuccess() {
-      this.snackbar.text = "Ok"
-      this.snackbar.color = "green"
+      this.snackbar.text = "Code QR téléchargé avec succès."
+      this.snackbar.color = "success"
       this.snackbar.flag = true
     },
   }
 };
 </script>
+
+<style>
+
+.modalstyle {
+  font-size: x-large;
+}
+
+</style>

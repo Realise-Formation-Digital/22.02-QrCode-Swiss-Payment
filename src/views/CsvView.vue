@@ -2,11 +2,9 @@
   <v-row>
     <v-col>
 
-
       <v-file-input accept="csv/*"
-                    label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
+        label="Cliquez ici pour importer le Fichier contenant la/les facture(s) (Format Excel)" @change="papaparse">
       </v-file-input>
-
 
       <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir
         la/les facture(s) en code qr</v-btn>
@@ -23,14 +21,13 @@
 
       <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
-        {{ textE }}
+        {{  textE  }}
       </v-snackbar>
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
-        {{ textS }}
+        {{  textS  }}
       </v-snackbar>
-
     </v-col>
   </v-row>
 </template>
@@ -49,9 +46,7 @@ export default {
     payload: {},
     loading: true,
     payloadArray: null,
-
     dialogSendApi: false,
-
     snackbarError: false,
     textE: "Echec de réception du code QR.",
     snackbarSuccess: false,
@@ -59,7 +54,6 @@ export default {
   }),
 
   watch: {
-
     /**
      *
      * Function that check value and return the loading pop-up
@@ -74,7 +68,6 @@ export default {
   },
 
   methods: {
-
     /**
      *
      * Function that check value and return the loading pop-up
@@ -84,15 +77,12 @@ export default {
      * @return promise<object>
      */
     async papaparse(convert) {
-
       let conversion = await ParseCsv.csvToJson(convert)
-      console.log(conversion)
       this.payloadArray = conversion.map((item) => {
-        console.log(item.MONTANT)
         return {
           // Adapt the payload Realize with the payload of the API
           reference: item.REFERENCE,
-          amount: parseFloat((item.MONTANT).replace(regex, subst)),
+          amount: this.amountReplace(item.MONTANT),
           name: item.NOM,
           streetName: item.ADRESSE,
           houseNumber: item.NUMERO,
@@ -103,7 +93,9 @@ export default {
         }
       });
     },
-
+    amountReplace(MONTANT) {
+      return MONTANT ? parseFloat(MONTANT.replace(regex, subst)) : 0
+    },
     /**
      *
      * Function that show the snackbar when QR code is not received
@@ -115,7 +107,6 @@ export default {
     showSnackbarError() {
       this.snackbarError = true
     },
-
     /**
      *
      * Function that hide the snackbar
@@ -127,7 +118,6 @@ export default {
     hideSnackBarError() {
       this.snackbarError = false
     },
-
     /**
      *
      * Function that show the snackbar when QR code is received
@@ -139,7 +129,6 @@ export default {
     showSnackbarSuccess() {
       this.snackbarSuccess = true
     },
-
     /**
      *
      * Function that hide the snackbar
@@ -151,7 +140,6 @@ export default {
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
     },
-
     async sendCsvList() {
       try {
         this.dialogSendApi = true;
