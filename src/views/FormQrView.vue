@@ -72,9 +72,8 @@
           </template>
         </v-text-field>
 
-        <v-autocomplete v-model="form.dcountry"
-          label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :rules="formRules.dcountry" :items="countriesList" item-text="french"
-          item-value="code">
+        <v-autocomplete v-model="form.dcountry" label="Pays (Veuillez cliquer ici pour sélectionner un pays)"
+          :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
           <!-- <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -159,16 +158,16 @@
           <v-card-text>
             <v-row class="container">
               <v-col cols="4" class="modalstyle">
-                <p><b><i>Nom</i></b>: {{  form.dnom  }}</p>
-                <p><b><i>Rue</i></b>: {{  form.dstreet  }}</p>
-                <p><b><i>Numéro de rue</i></b>: {{  form.dnr  }}</p>
-                <p><b><i>Code postal</i></b>: {{  form.dnpa  }}</p>
-                <p><b><i>Ville</i></b>: {{  form.dplace  }}</p>
-                <p><b><i>Pays</i></b>: {{  form.dcountry  }}</p>
-                <p><b><i>Montant</i></b>: {{  form.amount  }}</p>
-                <p><b><i>Numéro de référence</i></b>: {{  form.nrref  }}</p>
-                <p><b><i>Informations de facture</i></b>: {{  form.infobill  }}</p>
-                <p><b><i>Informations supplémentaires</i></b>: {{  form.infosupp  }}</p>
+                <p><b><i>Nom</i></b>: {{ form.dnom }}</p>
+                <p><b><i>Rue</i></b>: {{ form.dstreet }}</p>
+                <p><b><i>Numéro de rue</i></b>: {{ form.dnr }}</p>
+                <p><b><i>Code postal</i></b>: {{ form.dnpa }}</p>
+                <p><b><i>Ville</i></b>: {{ form.dplace }}</p>
+                <p><b><i>Pays</i></b>: {{ form.dcountry }}</p>
+                <p><b><i>Montant</i></b>: {{ form.amount }}</p>
+                <p><b><i>Numéro de référence</i></b>: {{ form.nrref }}</p>
+                <p><b><i>Informations de facture</i></b>: {{ form.infobill }}</p>
+                <p><b><i>Informations supplémentaires</i></b>: {{ form.infosupp }}</p>
               </v-col>
               <!-- <v-col cols="6">
                 <p>{{  form.dnom  }}</p>
@@ -187,14 +186,13 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading" 
+
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading"
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span>Disponible dans <v-progress-circular :size="70" :width="0" :value="countDown"
-                    color="orange">
-                    {{  countDown  }}
+                <span>Disponible dans <v-progress-circular :size="70" :width="0" :value="countDown" color="orange">
+                    {{ countDown }}
                   </v-progress-circular></span>
               </template>
             </v-btn>
@@ -209,7 +207,7 @@
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbar.flag" :color="snackbar.color">
-        {{  snackbar.text  }}
+        {{ snackbar.text }}
       </v-snackbar>
 
       <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
@@ -311,7 +309,7 @@ export default {
     // clearInterval(this.interval)
 
   },
-  
+
   async mounted() {
     try {
       console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
