@@ -10,7 +10,6 @@
       <v-form ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
-
         <!-- todo set rules with one in the api -->
 
         <v-text-field v-model="form.dnom" :rules="formRules.dnom" label="Nom">
@@ -74,7 +73,7 @@
         </v-text-field>
 
         <v-autocomplete v-model="form.dcountry"
-          label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :items="countriesList" item-text="french"
+          label="Pays (Veuillez cliquer ici pour sélectionner un pays)" :rules="formRules.dcountry" :items="countriesList" item-text="french"
           item-value="code">
           <!-- <template v-slot:append>
             <v-tooltip right>
@@ -185,11 +184,18 @@
               </v-col> -->
             </v-row>
           </v-card-text>
-
+<!--------------------------------------------------------------------------------------------------------------------------------------->
+<!-- <v-btn type="button" class="btn btn-primary" :disabled="counting" @click="startCountdown">
+    <vue-countdown v-if="counting" :time="5000" @end="onCountdownEnd" v-slot="{ totalSeconds }">Fetch again {{ totalSeconds }} seconds later</vue-countdown>
+    <span v-else>Fetch Verification Code</span>
+  </v-btn> -->
+<!--------------------------------------------------------------------------------------------------------------------------------------->
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading"
+
+            
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading" 
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
@@ -199,6 +205,8 @@
                   </v-progress-circular></span>
               </template>
             </v-btn>
+
+
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
             </v-btn>
@@ -302,6 +310,9 @@ export default {
     countriesList: [],
     interval: {},
     countDown: null,
+    //----------------------------------------------------
+    counting: false,
+    //----------------------------------------------------
   }),
   beforeDestroy() {
     // clearInterval(this.interval)
@@ -332,7 +343,7 @@ export default {
 
   watch: {
     /**
-     * active la modal tant que n'est valeur n'est pas égale.
+     * active la modal tant que la valeur n'est pas égale.
      * @param {*} val
      * @author Xavier de Juan
      */
@@ -341,8 +352,8 @@ export default {
     },
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
-     * (Marco est le coupable de cette idée et non l'auteur de ces lignes...
-     * jamais l'auteur n'aurait eu une idée si machiavélique.)
+     * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil 
+     * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
      * 
      * @author Xavier de Juan
      */
@@ -356,6 +367,14 @@ export default {
   },
 
   methods: {
+    //------------------------------------------------------------------------
+    startCountdown: function () {
+      this.counting = true;
+    },
+    onCountdownEnd: function () {
+      this.counting = false;
+    },
+    //------------------------------------------------------------------------
     /**
      * THE DOOMED BUTTON
      */
