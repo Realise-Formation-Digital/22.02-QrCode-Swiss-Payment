@@ -193,8 +193,8 @@
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span>Disponible dans <v-progress-circular :rotate="-90" :size="50" :width="10" :value="countDown"
-                    color="green">
+                <span>Disponible dans <v-progress-circular :size="70" :width="0" :value="countDown"
+                    color="orange">
                     {{  countDown  }}
                   </v-progress-circular></span>
               </template>
@@ -306,29 +306,29 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval)
   },
-  mounted() {
+  
+
+  async mounted() {
+    try {
+      console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
+      this.isGettingCountriesList = true
+      const response = await ApiService.getListCountries()
+      this.countriesList = response
+      console.log(this.countriesList)
+    } catch (e) {
+      console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
+      //todo handle error
+    } finally {
+      this.isGettingCountriesList = false
+    }
     this.interval = setInterval(() => {
       if (this.countDown === 0) {
         return (this.countDown = null)
       }
       this.countDown -= 1
-    }, 150)
+    }, 1000)
+  
   },
-
-  // async mounted() {
-  //   try {
-  //     console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
-  //     this.isGettingCountriesList = true
-  //     const response = await ApiService.getListCountries()
-  //     this.countriesList = response
-  //     console.log(this.countriesList)
-  //   } catch (e) {
-  //     console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
-  //     //todo handle error
-  //   } finally {
-  //     this.isGettingCountriesList = false
-  //   }
-  // },
 
   watch: {
     /**
@@ -367,6 +367,11 @@ export default {
     activpreConfLoadBtn() {
       this.preConfirmLoadingButton = 'loading'
     },
+
+    desactivConfLoadBtn() {
+      this.preConfirmLoadingButton = null
+    },
+
     /**
      * Function that call validate (see validate())
      * Hide the "check" modal
@@ -515,7 +520,7 @@ export default {
       if (isValid) {
         this.dialog = true;
         this.activpreConfLoadBtn();
-        this.countDown = 100
+        this.countDown = 15
       }
     },
 
@@ -526,6 +531,7 @@ export default {
      */
     hideDialog() {
       this.dialog = false;
+      this.desactivConfLoadBtn()
       this.countDown = null
     },
 
