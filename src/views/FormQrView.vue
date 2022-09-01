@@ -471,6 +471,7 @@ export default {
           link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
           this.showSnackbarSuccess();
+          this.reset()
         }
       } catch (e) {
         this.showSnackbarError();
