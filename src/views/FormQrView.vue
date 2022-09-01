@@ -187,7 +187,6 @@
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
-
             
             <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading" 
               @click="confirm()">
