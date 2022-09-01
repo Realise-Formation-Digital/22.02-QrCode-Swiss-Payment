@@ -13,7 +13,8 @@
     </v-btn>
 
     <v-spacer></v-spacer>
-    <!-- ATTENTION BOUTTON CACHE PRIVISOIREMENT-->
+
+    <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
     <!-- <v-btn v-show="$route.path !=='/'" to="/csv" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-file-delimited-outline</v-icon>
