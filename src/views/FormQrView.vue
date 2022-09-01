@@ -184,12 +184,6 @@
               </v-col> -->
             </v-row>
           </v-card-text>
-<!--------------------------------------------------------------------------------------------------------------------------------------->
-<!-- <v-btn type="button" class="btn btn-primary" :disabled="counting" @click="startCountdown">
-    <vue-countdown v-if="counting" :time="5000" @end="onCountdownEnd" v-slot="{ totalSeconds }">Fetch again {{ totalSeconds }} seconds later</vue-countdown>
-    <span v-else>Fetch Verification Code</span>
-  </v-btn> -->
-<!--------------------------------------------------------------------------------------------------------------------------------------->
           <!-- Confirm or return buttons calling the functions -->
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -316,9 +310,9 @@ export default {
   }),
   beforeDestroy() {
     // clearInterval(this.interval)
+
   },
   
-
   async mounted() {
     try {
       console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
@@ -338,7 +332,6 @@ export default {
       }
       this.countDown -= 1
     }, 1000)
-  
   },
 
   watch: {
@@ -362,7 +355,14 @@ export default {
       const l = this.preConfirmLoadingButton
       this[l] = !this[l]
       setTimeout(() => (this[l] = false), 15000)
+      console.log("timeout", l)
       this.preConfirmLoadingButton = null
+    },
+
+    resetTimeout() {
+      const l = this.preConfirmLoadingButton
+      this[l] = !this[l]
+      setTimeout(() => (this[l] = false), 0)
     },
   },
 
@@ -500,7 +500,6 @@ export default {
         this.hideLoadingPopUp()
       }
     },
-
 
     /*
      * FORM
