@@ -26,7 +26,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue" required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue" v-on:keypress="lettreSeulement($event)"
+          required>
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -61,8 +62,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace"    counter
-            maxlength="16" :rules="formRules.dplace" label="Ville" required>
+        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace" label="Ville" required>
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -88,8 +88,9 @@
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount"     counter
-            maxlength="12" :rules="formRules.amount" label="Montant" required>
+        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" label="Montant"
+        v-on:keypress="nombreSeulement"
+        required><!--v-on:keypress="NumbersOnly"-->
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -102,8 +103,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref"     counter
-            maxlength="27" :rules="formRules.nrref" label="Numéro de référence" required>
+        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref" label="Numéro de référence"
+          required>
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -582,7 +583,30 @@ export default {
       this.snackbar.color = "success"
       this.snackbar.flag = true
     },
-  }
+    lettreSeulement(e) {
+      let char = String.fromCharCode(e.keyCode); // Get the character
+      if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+      else e.preventDefault(); // If not match, don't add to input text
+    },
+
+    // nombreSeulement(e) {
+    //   let nombres =  (evt.which) ? evt.which : evt.keyCode; // Get the character
+    //   if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+    //     evt.preventDefault();
+    // }else {return true;
+    // }
+    
+
+
+    nombreSeulement(e) {
+      let nombres = (e.which) ? e.which : e.keyCode;
+      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
+        e.preventDefault();
+      } else {
+        return true;
+      }
+    },
+  },
 };
 </script>
 
