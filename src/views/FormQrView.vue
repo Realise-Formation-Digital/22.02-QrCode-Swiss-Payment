@@ -217,6 +217,7 @@
         {{ snackbar.text }}
       </v-snackbar>
 
+      <!-- Pop-up until the QR code is received or an error -->
       <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
         <v-card color="primary" dark>
           <v-card-text>
@@ -346,7 +347,6 @@ export default {
   },
 
   methods: {
-
     /**
      * THE FAMOUS MARCO'S NO MERCY FUNCTION
      */
