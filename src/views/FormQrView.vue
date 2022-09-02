@@ -231,8 +231,6 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
-    
-    // loading: false,
     show: false,
     snackbar: {
       flag: false,
@@ -316,8 +314,12 @@ export default {
     } finally {
       this.isGettingCountriesList = false
     }
+
+    /**
+     * Voir THE FAMOUS MARCO'S NO MERCY FUNCTION ligne 350
+     */
     this.interval = setInterval(() => {
-      if (this.countDown <= 0) {
+      if (this.countDown <= 1) {
         return (this.countDown = null)
       }
       this.countDown -= 1
@@ -337,6 +339,14 @@ export default {
     loadingPopUp(val) {
       if (!val) return
     },
+  },
+
+  methods: {
+ 
+    /**
+     * THE FAMOUS MARCO'S NO MERCY FUNCTION
+     */
+
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
      * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil 
@@ -344,26 +354,12 @@ export default {
      * 
      * @author Xavier de Juan
      */
-
-   
-  },
-
-  methods: {
- 
-    /**
-     * THE DOOMED BUTTON
-     */
-
-    /**
-     * Fonction qui met le bouton "confirm en état non-cliquable"
-     */
-    // activpreConfLoadBtn() {
-    //   this.preConfirmLoadingButton = 'loading'
-    // },
-
-    // desactivConfLoadBtn() {
-    //   this.preConfirmLoadingButton = null
-    // },
+    activCountDown() {
+      this.countDown = 15
+    },
+    inactivCountDown() {
+      this.countDown = null
+   },
 
     /**
      * Function that call validate (see validate())
@@ -512,8 +508,7 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         this.dialog = true;
-        // this.activpreConfLoadBtn();
-        this.countDown = 15
+        this.activCountDown()
       }
     },
 
@@ -524,8 +519,7 @@ export default {
      */
     hideDialog() {
       this.dialog = false;
-      // this.desactivConfLoadBtn()
-      this.countDown = null
+      this.inactivCountDown()
     },
 
     /**
