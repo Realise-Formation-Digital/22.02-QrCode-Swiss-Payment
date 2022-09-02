@@ -72,8 +72,8 @@
                 35 caractères au maximum admis</span>
             </v-tooltip>
           </template>
-        </v-text-field>
 
+        </v-text-field>
         <v-autocomplete v-model="form.dcountry" label="Pays (Veuillez cliquer ici pour sélectionner un pays)"
           :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
           <!-- <template v-slot:append>
@@ -306,6 +306,13 @@ export default {
     interval: {},
     countDown: null,
   }),
+
+  icons: [
+    'mdi-facebook',
+    'mdi-twitter',
+    'mdi-linkedin',
+    'mdi-instagram',
+  ],
 
   async mounted() {
     try {
