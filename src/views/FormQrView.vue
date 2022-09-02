@@ -191,7 +191,7 @@
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span>Disponible dans <v-progress-circular :size="70" :width="0" :value="countDown" color="orange">
+                <span>Disponible dans<v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown" color="orange">
                     {{ countDown }}
                   </v-progress-circular></span>
               </template>
@@ -297,8 +297,7 @@ export default {
     isGettingCountriesList: false,
     countriesList: [],
     interval: {},
-    countDown: null,
-    
+    countDown: null,   
   }),
 
   async mounted() {
@@ -325,7 +324,6 @@ export default {
       this.countDown -= 1
     }, 1000)
   },
-
   beforeDestroy() {
     clearInterval(this.interval)
   },
@@ -367,7 +365,7 @@ export default {
      * Show the loading pop-up
      * 
      * @author Xavier de Juan
-     * @return ????
+     * @return void
      */
     async confirm() {
       try {
