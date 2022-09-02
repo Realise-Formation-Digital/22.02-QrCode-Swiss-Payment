@@ -26,8 +26,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue" v-on:keypress="lettreSeulement($event)"
-          required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue"
+          v-on:keypress="lettreSeulement($event)" required>
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -89,8 +89,7 @@
 
         <h1>Information sur le montant du paiement</h1>
         <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" label="Montant"
-        v-on:keypress="nombreSeulement"
-        required><!--v-on:keypress="NumbersOnly"-->
+          v-on:keypress="nombreSeulement" required>
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
