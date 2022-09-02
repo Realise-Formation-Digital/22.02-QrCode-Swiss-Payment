@@ -157,7 +157,7 @@
           <!-- Checkform in the modal -->
           <v-card-text>
             <v-row class="container">
-              <v-col cols="4" class="modalstyle">
+              <v-col cols="4" class="modalDialogStyle">
                 <p><b><i>Nom</i></b>: {{ form.dnom }}</p>
                 <p><b><i>Rue</i></b>: {{ form.dstreet }}</p>
                 <p><b><i>Numéro de rue</i></b>: {{ form.dnr }}</p>
@@ -187,7 +187,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="loading" :disabled="loading"
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="countDown" :disabled="countDown"
               @click="confirm()">
               Confirmer
               <template v-slot:loader>
@@ -196,7 +196,6 @@
                   </v-progress-circular></span>
               </template>
             </v-btn>
-
 
             <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
               Retour
@@ -232,8 +231,8 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
-    preConfirmLoadingButton: null,
-    loading: false,
+    
+    // loading: false,
     show: false,
     snackbar: {
       flag: false,
@@ -301,14 +300,8 @@ export default {
     countriesList: [],
     interval: {},
     countDown: null,
-    //----------------------------------------------------
-    counting: false,
-    //----------------------------------------------------
+    
   }),
-  beforeDestroy() {
-    // clearInterval(this.interval)
-
-  },
 
   async mounted() {
     try {
@@ -324,11 +317,15 @@ export default {
       this.isGettingCountriesList = false
     }
     this.interval = setInterval(() => {
-      if (this.countDown === 0) {
+      if (this.countDown <= 0) {
         return (this.countDown = null)
       }
       this.countDown -= 1
     }, 1000)
+  },
+
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
 
   watch: {
@@ -348,30 +345,11 @@ export default {
      * @author Xavier de Juan
      */
 
-    preConfirmLoadingButton() {
-      const l = this.preConfirmLoadingButton
-      this[l] = !this[l]
-      setTimeout(() => (this[l] = false), 15000)
-      console.log("timeout", l)
-      this.preConfirmLoadingButton = null
-    },
-
-    resetTimeout() {
-      const l = this.preConfirmLoadingButton
-      this[l] = !this[l]
-      setTimeout(() => (this[l] = false), 0)
-    },
+   
   },
 
   methods: {
-    //------------------------------------------------------------------------
-    startCountdown: function () {
-      this.counting = true;
-    },
-    onCountdownEnd: function () {
-      this.counting = false;
-    },
-    //------------------------------------------------------------------------
+ 
     /**
      * THE DOOMED BUTTON
      */
@@ -379,13 +357,13 @@ export default {
     /**
      * Fonction qui met le bouton "confirm en état non-cliquable"
      */
-    activpreConfLoadBtn() {
-      this.preConfirmLoadingButton = 'loading'
-    },
+    // activpreConfLoadBtn() {
+    //   this.preConfirmLoadingButton = 'loading'
+    // },
 
-    desactivConfLoadBtn() {
-      this.preConfirmLoadingButton = null
-    },
+    // desactivConfLoadBtn() {
+    //   this.preConfirmLoadingButton = null
+    // },
 
     /**
      * Function that call validate (see validate())
@@ -487,7 +465,7 @@ export default {
           link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
           this.showSnackbarSuccess();
-          this.reset()
+          this.reset();
         }
       } catch (e) {
         this.showSnackbarError();
@@ -534,7 +512,7 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         this.dialog = true;
-        this.activpreConfLoadBtn();
+        // this.activpreConfLoadBtn();
         this.countDown = 15
       }
     },
@@ -546,7 +524,7 @@ export default {
      */
     hideDialog() {
       this.dialog = false;
-      this.desactivConfLoadBtn()
+      // this.desactivConfLoadBtn()
       this.countDown = null
     },
 
@@ -611,7 +589,7 @@ export default {
 </script>
 
 <style>
-.modalstyle {
+.modalDialogStyle {
   font-size: x-large;
 }
 </style>
