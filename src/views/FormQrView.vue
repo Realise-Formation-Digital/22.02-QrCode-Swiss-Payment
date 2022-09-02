@@ -12,7 +12,7 @@
         <h1>Débiteur</h1>
         <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" :rules="formRules.dnom" label="Nom">
+        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" label="Nom">
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -26,7 +26,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" label="Rue" required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue" required>
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -38,7 +38,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" :rules="formRules.dnr" label="Numéro de rue" required append-icon="info">
+        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" label="Numéro de rue" required
+          append-icon="info">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -49,7 +50,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnpa" :rules="formRules.dnpa" label="Code postal" required>
+        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa" label="Code postal" required>
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -60,7 +61,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace" :rules="formRules.dplace" label="Ville" required>
+        <v-text-field v-model="form.dplace"    counter
+            maxlength="16" :rules="formRules.dplace" label="Ville" required>
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -86,7 +88,8 @@
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount" :rules="formRules.amount" label="Montant" required>
+        <v-text-field v-model="form.amount"     counter
+            maxlength="12" :rules="formRules.amount" label="Montant" required>
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -99,7 +102,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" :rules="formRules.nrref" label="Numéro de référence" required>
+        <v-text-field v-model="form.nrref"     counter
+            maxlength="27" :rules="formRules.nrref" label="Numéro de référence" required>
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -117,7 +121,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-textarea v-model="form.infobill" label="Informations de facture (facultatif)">
+        <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
+          label="Informations de facture (facultatif)">
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -129,7 +134,8 @@
             </v-tooltip>
           </template>
         </v-textarea>
-        <v-textarea v-model="form.infosupp" label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX.">
+        <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
+          label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX.">
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -140,12 +146,13 @@
                 caractères au maximum</span>
             </v-tooltip>
           </template>
-        </v-textarea>
+        </v-text-field>
       </v-form>
 
       <!--Buttons calling functions for the form-->
-      <v-btn color="success" class="mr-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider</v-btn>
-      <v-btn color="error" class="ml-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
+      <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider
+      </v-btn>
+      <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
 
       <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" persistent max-width="70%">
@@ -187,11 +194,12 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="countDown" :disabled="countDown"
-              @click="confirm()">
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="countDown"
+              :disabled="countDown" @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span>Disponible dans<v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown" color="orange">
+                <span>Disponible dans<v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown"
+                    color="orange">
                     {{ countDown }}
                   </v-progress-circular></span>
               </template>
@@ -253,42 +261,40 @@ export default {
     formRules: {
       dnom: [
         (v) => !!v || "Le champ 'Nom' est obligatoire.",
-        (v) => (v && v.length <= 70) || "Le nom ne peut excéder 70 caractères.",
+        [v => v.length <= 70 || "Le nom ne peut excéder 70 caractères."],
       ],
       dstreet: [
         (v) => !!v || "Le champ 'Rue' est obligatoire.",
-        (v) => (v && v.length <= 70) || "La rue ne peut excéder 70 caractères.",
+        [v => v.length <= 70 || "La rue ne peut excéder 70 caractères."],
       ],
       dnr: [
         (v) => !!v || "Le champ 'Numéro de rue' est obligatoire.",
-        (v) => (v && v.length <= 16) || "Le n° de rue ne peut excéder 16 caractères.",
+        [v => v.length <= 16 || "Le n° de rue ne peut excéder 16 caractères."],
       ],
       dnpa: [
         (v) => !!v || "Le champ 'Code postal' est obligatoire.",
-        (v) => (v && v.length <= 16) || "Le code postal ne peut excéder 16 caractères.",
+        [v => v.length <= 16 || "Le code postal ne peut excéder 16 caractères."],
       ],
       dplace: [
         (v) => !!v || "Le champ 'Ville' est obligatoire.",
-        (v) => (v && v.length <= 35) || "La ville ne peut excéder 35 caractères.",
+        [v => v.length <= 16 || "La ville ne peut excéder 16 caractères."],
       ],
       dcountry: [
         (v) => !!v || 'Veuillez selectionner un pays',
       ],
       amount: [
         (v) => !!v || "Le champ 'Montant est obligatoire.",
-        (v) => (v && v.length <= 12) || "Le montant ne peut excéder 12 caractères.",
+        [v => v.length <= 12 || "Le montant ne peut excéder 12 caractères."],
       ],
       nrref: [
         (v) => !!v || "Le champ 'Numéro de référence est obligatoire.",
-        (v) => (v && v.length <= 27) || "La référence ne peut excéder 27 caractères.",
+        [v => v.length <= 27 || "La référence ne peut excéder 27 caractères."],
       ],
       infosupp: [
-        (v) => !!v || "",
-        (v) => (v && v.length <= 27) || "",
+        [v => v.length <= 56 || 'Les informations supplémentaires ne peuvent excéder 56 caractères'],
       ],
       infobill: [
-        (v) => !!v || "",
-        (v) => (v && v.length <= 140) || "La référence ne peut excéder 27 caractères.",
+        [v => v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères'],
       ],
     },
     dialog: false,// Boolean modal by default
@@ -297,7 +303,7 @@ export default {
     isGettingCountriesList: false,
     countriesList: [],
     interval: {},
-    countDown: null,   
+    countDown: null,
   }),
 
   async mounted() {
@@ -340,7 +346,7 @@ export default {
   },
 
   methods: {
- 
+
     /**
      * THE FAMOUS MARCO'S NO MERCY FUNCTION
      */
@@ -353,11 +359,11 @@ export default {
      * @author Xavier de Juan
      */
     activCountDown() {
-      this.countDown = 15
+      this.countDown = 3
     },
     inactivCountDown() {
       this.countDown = null
-   },
+    },
 
     /**
      * Function that call validate (see validate())
