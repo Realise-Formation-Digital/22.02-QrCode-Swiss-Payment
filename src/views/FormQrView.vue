@@ -589,15 +589,6 @@ export default {
       else e.preventDefault(); // If not match, don't add to input text
     },
 
-    // nombreSeulement(e) {
-    //   let nombres =  (evt.which) ? evt.which : evt.keyCode; // Get the character
-    //   if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-    //     evt.preventDefault();
-    // }else {return true;
-    // }
-    
-
-
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
