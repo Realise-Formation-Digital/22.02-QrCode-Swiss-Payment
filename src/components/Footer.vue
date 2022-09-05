@@ -38,10 +38,10 @@
     name: "Foo-ter",
     data: () => ({
       icons: [
-        'mdi-facebook',
-        'mdi-twitter',
         'mdi-linkedin',
-        'mdi-instagram',
+        'mdi-facebook',
+        // 'mdi-twitter',
+        // 'mdi-instagram',
       ],
     }),
   }
