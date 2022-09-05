@@ -325,13 +325,6 @@ export default {
     countDown: 0,
   }),
 
-  icons: [
-    'mdi-facebook',
-    'mdi-twitter',
-    'mdi-linkedin',
-    'mdi-instagram',
-  ],
-
   async mounted() {
     try {
       console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
@@ -347,7 +340,7 @@ export default {
     }
 
     /**
-     * Voir THE FAMOUS MARCO'S NO MERCY FUNCTION ligne 350
+     * Voir W_I_H_M_F ligne 376
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -373,7 +366,7 @@ export default {
 
   methods: {
     /**
-     * THE FAMOUS MARCO'S NO MERCY FUNCTION
+     * Welcome In Hell Marco's Function
      */
 
     /**
@@ -531,7 +524,7 @@ export default {
     /**
      * Function that show the modal "check" form
      * @author Xavier de Juan
-     * @return boolean
+     * @return boolean/numbers
      */
     showDialog() {
       const isValid = this.$refs.form.validate();
@@ -544,7 +537,7 @@ export default {
     /**
      * Function that hide the modal "check" form
      * @author Xavier de Juan
-     * @return boolean
+     * @return boolean/number
      */
     hideDialog() {
       this.dialog = false;
@@ -608,11 +601,22 @@ export default {
       this.snackbar.flag = true
     },
 
+     /**
+     * Function that permit letters only "champ: Rue"
+     * @author Xavier de Juan
+     * @return string
+     */
     lettreSeulement(e) {
       let char = String.fromCharCode(e.keyCode); // Get the character
       if (/^[A-Za-z- ---.-]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
     },
+
+     /**
+     * Function that permit numbers and dot only "champ: Montant"
+     * @author Xavier de Juan
+     * @return numbers/dot
+     */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
