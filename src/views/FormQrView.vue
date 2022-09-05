@@ -12,7 +12,7 @@
         <h1>Débiteur</h1>
         <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" label="Nom">
+        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" label="Nom" required>
           <template v-slot:append>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -39,8 +39,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" label="Numéro de rue" required
-          append-icon="info">
+        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" label="Numéro de rue"
+          append-icon="info" required>
           <template v-slot:append>
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -194,8 +194,8 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="countDown"
-              :disabled="countDown" @click="confirm()">
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
+              :disabled="!!countDown" @click="confirm()">
               Confirmer
               <template v-slot:loader>
                 <span>Disponible dans<v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown"
@@ -261,42 +261,60 @@ export default {
     },
     formRules: {
       dnom: [
-        (v) => !!v || "Le champ 'Nom' est obligatoire.",
-        [v => v.length <= 70 || "Le nom ne peut excéder 70 caractères."],
-      ],
+        v => !!v || "Le champ 'Nom' est obligatoire.",
+        v => {
+          if (v) return v.length <= 70 || "Le nom ne peut excéder 70 caractères.";
+          else return true;
+        }],
       dstreet: [
-        (v) => !!v || "Le champ 'Rue' est obligatoire.",
-        [v => v.length <= 70 || "La rue ne peut excéder 70 caractères."],
-      ],
+        v => !!v || "Le champ 'Rue' est obligatoire.",
+        v => {
+          if (v) return v.length <= 70 || "La rue ne peut excéder 70 caractères.";
+          else return true;
+        }],
       dnr: [
-        (v) => !!v || "Le champ 'Numéro de rue' est obligatoire.",
-        [v => v.length <= 16 || "Le n° de rue ne peut excéder 16 caractères."],
-      ],
+        v => !!v || "Le champ 'Numéro de rue' est obligatoire.",
+        v => {
+          if (v) return v.length <= 16 || "Le n° de rue ne peut excéder 16 caractères.";
+          else return true;
+        }],
       dnpa: [
-        (v) => !!v || "Le champ 'Code postal' est obligatoire.",
-        [v => v.length <= 16 || "Le code postal ne peut excéder 16 caractères."],
-      ],
+        v => !!v || "Le champ 'Code postal' est obligatoire.",
+        v => {
+          if (v) return v.length <= 16 || "Le code postal ne peut excéder 16 caractères.";
+          else return true;
+        }],
       dplace: [
-        (v) => !!v || "Le champ 'Ville' est obligatoire.",
-        [v => v.length <= 16 || "La ville ne peut excéder 16 caractères."],
-      ],
+        v => !!v || "Le champ 'Ville' est obligatoire.",
+        v => {
+          if (v) return v.length <= 16 || "La ville ne peut excéder 16 caractères.";
+          else return true;
+        }],
       dcountry: [
-        (v) => !!v || 'Veuillez selectionner un pays',
+        v => !!v || 'Veuillez selectionner un pays',
       ],
       amount: [
-        (v) => !!v || "Le champ 'Montant est obligatoire.",
-        [v => v.length <= 12 || "Le montant ne peut excéder 12 caractères."],
-      ],
+        v => !!v || "Le champ 'Montant est obligatoire.",
+        v => {
+          if (v) return v.length <= 12 || "Le montant ne peut excéder 12 caractères.";
+          else return true;
+        }],
       nrref: [
-        (v) => !!v || "Le champ 'Numéro de référence est obligatoire.",
-        [v => v.length <= 27 || "La référence ne peut excéder 27 caractères."],
-      ],
+        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => {
+          if (v) return v.length <= 27 || "La référence ne peut excéder 27 caractères.";
+          else return true;
+        }],
       infosupp: [
-        [v => v.length <= 56 || 'Les informations supplémentaires ne peuvent excéder 56 caractères'],
-      ],
+        v => {
+          if (v) return v.length <= 56 || 'Les informations supplémentaires ne peuvent excéder 56 caractères';
+          else return true;
+        }],
       infobill: [
-        [v => v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères'],
-      ],
+        v => {
+          if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
+          else return true;
+        }],
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
@@ -304,7 +322,7 @@ export default {
     isGettingCountriesList: false,
     countriesList: [],
     interval: {},
-    countDown: null,
+    countDown: 0,
   }),
 
   icons: [
@@ -333,7 +351,7 @@ export default {
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
-        return (this.countDown = null)
+        return (this.countDown = 0)
       }
       this.countDown -= 1
     }, 1000)
@@ -369,7 +387,7 @@ export default {
       this.countDown = 3
     },
     inactivCountDown() {
-      this.countDown = null
+      this.countDown = 0
     },
 
     /**
