@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="dark" dark elevation="8">
+  <v-app-bar app color="black" dark elevation="8">
     <div class="d-flex align-center">
       <v-img alt="Vuetify Logo" class="shrink mr-10" contain src="@/assets/logo_realise.svg" width="150" />
     </div>

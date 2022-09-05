@@ -6,19 +6,18 @@
         <router-view></router-view>
       </v-container>
     </v-main>
-    <footer></footer>
+    <fooTer></fooTer>
   </v-app>
 </template>
 
 <script>
 
 import NavBar from "@/components/Navbar";
-import Footer from "./components/Footer.vue";
+import FooTer from "@/components/Footer.vue";
 export default {
   name: 'App',
-  components: {NavBar, Footer},
+  components: {NavBar, FooTer},
   data: () => ({
-    //
   }),
 };
 </script>
