@@ -21,8 +21,8 @@
                 </v-icon>
               </template>
               <span>Nom ou entreprise du débiteur final
-                70 caractères au maximum
-                prénom (optionnel, si disponible) et nom ou raison sociale</span>
+                70 caractères au maximum.
+                Nom, prénom (optionnel, si disponible) ou raison sociale</span>
             </v-tooltip>
           </template>
         </v-text-field>
@@ -34,8 +34,8 @@
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
               <span>Rue/Case postale du débiteur final
-                70 caractères au maximum admis
-                ne peut pas contenir un numéro de maison ou de bâtiment.</span>
+                70 caractères au maximum admis.
+                Ne peut pas contenir un numéro de maison ou de bâtiment.</span>
             </v-tooltip>
           </template>
         </v-text-field>
@@ -46,7 +46,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
-              <span>Numéro de maison du débiteur final
+              <span>Numéro de maison du débiteur final.
                 16 caractères au maximum admis</span>
             </v-tooltip>
           </template>
@@ -57,8 +57,8 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
-              <span>Code postal du débiteur final 16 caractères au maximum admis
-                toujours à indiquer sans code de pays de tête</span>
+              <span>Code postal du débiteur final 16 caractères au maximum admis.
+                Toujours à indiquer sans code de pays de tête</span>
             </v-tooltip>
           </template>
         </v-text-field>
@@ -68,8 +68,8 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
-              <span>Lieu du débiteur final
-                35 caractères au maximum admis</span>
+              <span>Lieu du débiteur final.
+                16 caractères au maximum admis</span>
             </v-tooltip>
           </template>
 
@@ -95,9 +95,9 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
-              <span>Montant du paiement
-                L'élément est à indiquer sans zéros de tête y compris séparateur décimal et deux décimales.
-                Décimal, 12 positions au maximum admises, y compris séparateur décimal. Seul le point («.») est admis
+              <span>Montant du paiement.
+                L'élément est à indiquer sans zéros de tête, y compris séparateur décimal, et deux décimales.
+                12 positions au maximum admises, y compris séparateur décimal. Seul le point («.») est admis
                 comme séparateur décimal.</span>
             </v-tooltip>
           </template>
@@ -112,7 +112,7 @@
               <span>Numéro de référence
                 Référence de paiement structurée
                 Remarque: La référence est soit une référence QR, soit une Creditor Reference (ISO 11649)
-                27 caractères alphanumériques au maximum
+                27 caractères alphanumériques au maximum.
                 Doit être rempli en cas d'utilisation d'un QR-IBAN.
                 Référence QR: 27 caractères numériques, calcul du chiffre de contrôle selon modulo 10 récursif (27e
                 position de la référence).
@@ -142,7 +142,7 @@
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
               <span>Les informations instructurées peuvent être utilisées pour l'indication d'un motif de paiement ou
-                pour des informations textuelles complémentaires au sujet de paiements avec référence structurée. 140
+                pour des informations textuelles complémentaires au sujet de paiements avec référence structurée. 56
                 caractères au maximum</span>
             </v-tooltip>
           </template>
