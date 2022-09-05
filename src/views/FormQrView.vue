@@ -240,7 +240,7 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
-    show: false,
+    // show: false, // Ne sert à rien ???
     snackbar: {
       flag: false,
       text: null,
@@ -318,11 +318,11 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    loadingPopUp: false,
+    loadingPopUp: false,// Pop-up loading modal until receipt snackbar
     isGettingCountriesList: false,
     countriesList: [],
-    interval: {},
-    countDown: 0,
+    interval: {}, // Interval timing for countDown
+    countDown: 0, // countDown inactiv confirm button 
   }),
 
   async mounted() {
@@ -340,7 +340,7 @@ export default {
     }
 
     /**
-     * Voir W_I_H_M_F ligne 376
+     * See W_I_H_M_F row 369
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -377,7 +377,7 @@ export default {
      * @author Xavier de Juan
      */
     activCountDown() {
-      this.countDown = 3
+      this.countDown = 15
     },
     inactivCountDown() {
       this.countDown = 0
