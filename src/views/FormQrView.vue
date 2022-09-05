@@ -607,12 +607,12 @@ export default {
       this.snackbar.color = "success"
       this.snackbar.flag = true
     },
+
     lettreSeulement(e) {
       let char = String.fromCharCode(e.keyCode); // Get the character
       if (/^[A-Za-z- ---.-]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
     },
-
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
