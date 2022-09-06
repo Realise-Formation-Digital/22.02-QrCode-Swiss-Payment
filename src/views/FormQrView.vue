@@ -198,7 +198,7 @@
               :disabled="!!countDown" @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span>Disponible dans<v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown"
+                <span><v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown"
                     color="orange">
                     {{ countDown }}
                   </v-progress-circular></span>
