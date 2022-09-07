@@ -5,7 +5,7 @@
         <div class="d-flex align-content-center flex-wrap" style="min-height:700px;">
           <!--Buttons in the home page. -->
 
-          <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
+         <!-- ATTENTION BOUTON LIEN PAGE CSV CACHE PROVISOIREMENT NE PAS EFFACER -->
           <!-- <v-btn class="ma-10" outlined color="indigo" to="csv" x-large rounded elevation="10">
             <v-icon>mdi-file-delimited-outline</v-icon>
             Importer une facture

@@ -19,6 +19,9 @@ export default {
   components: {NavBar, FooTer},
   data: () => ({
   }),
+  /**
+   * Exemple pour l'utilisation de .env
+   */
   mounted(){
     console.log("ciao",process.env.VUE_APP_NOT_SECRET_CODE, process.env.NODE_ENV)
   }

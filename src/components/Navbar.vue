@@ -15,13 +15,14 @@
 
     <v-spacer></v-spacer>
 
-    <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
+    <!-- ATTENTION BOUTON LIEN PAGE CSV CACHE PROVISOIREMENT NE PAS EFFACER -->
     <!-- <v-btn v-show="$route.path !=='/'" to="/csv" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-file-delimited-outline</v-icon>
         Importer un fichier
       </span>
     </v-btn> -->
+
     <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-qrcode</v-icon>

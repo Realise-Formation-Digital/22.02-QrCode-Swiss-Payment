@@ -198,10 +198,11 @@
               :disabled="!!countDown" @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown"
-                    color="orange">
+                <span>
+                  <v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown" color="orange">
                     {{ countDown }}
-                  </v-progress-circular></span>
+                  </v-progress-circular>
+                </span>
               </template>
             </v-btn>
 
@@ -601,22 +602,22 @@ export default {
       this.snackbar.flag = true
     },
 
-     /**
-     * Function that permit letters only "champ: Rue"
-     * @author Xavier de Juan
-     * @return string
-     */
+    /**
+    * Function that permit letters only "champ: Rue"
+    * @author Xavier de Juan
+    * @return string
+    */
     lettreSeulement(e) {
       let char = String.fromCharCode(e.keyCode); // Get the character
       if (/^[A-Za-z- ---.-]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
     },
 
-     /**
-     * Function that permit numbers and dot only "champ: Montant"
-     * @author Xavier de Juan
-     * @return numbers/dot
-     */
+    /**
+    * Function that permit numbers and dot only "champ: Montant"
+    * @author Xavier de Juan
+    * @return numbers/dot
+    */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {

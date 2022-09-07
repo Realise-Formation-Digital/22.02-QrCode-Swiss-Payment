@@ -8,7 +8,7 @@
       flat
       tile
     >
-      <v-card-title class="realiseTheme">
+      <v-card-title :class="footerColor">
         <strong class="subheading">Version 1.0.1</strong>
 
         <v-spacer></v-spacer>
@@ -37,6 +37,7 @@
   export default {
     name: "Foo-ter",
     data: () => ({
+      footerColor: process.env.VUE_APP_FOOTER_COLOR,
       icons: [
         'mdi-linkedin',
         'mdi-facebook',
