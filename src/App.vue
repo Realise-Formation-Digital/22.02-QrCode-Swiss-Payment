@@ -19,5 +19,8 @@ export default {
   components: {NavBar, FooTer},
   data: () => ({
   }),
+  mounted(){
+    console.log("ciao",process.env.VUE_APP_NOT_SECRET_CODE, process.env.NODE_ENV)
+  }
 };
 </script>

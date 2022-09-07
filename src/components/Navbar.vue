@@ -1,7 +1,8 @@
 <template>
-  <v-app-bar app color="black" dark elevation="8">
+  <v-app-bar app :color="navbarColor" dark elevation="8">
     <div class="d-flex align-center">
-      <v-img alt="Vuetify Logo" class="shrink mr-10" contain src="@/assets/logo_realise.svg" width="150" />
+      <v-img alt="Vuetify Logo" class="shrink mr-10" contain :src="getImgUrl" width="150" />
+      <!--:src="navLogo"-->
     </div>
 
     <!-- Navbar buttons -->
@@ -21,7 +22,7 @@
         Importer un fichier
       </span>
     </v-btn> -->
-    <v-btn v-show="$route.path !=='/'" to="/form-qr" text plain>
+    <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-qrcode</v-icon>
         Créer une facture
@@ -33,6 +34,14 @@
 <script>
 export default {
   name: "Nav-bar",
+  computed: {
+    getImgUrl() {
+      return require(process.env.VUE_APP_NAVBAR_LOGO);
+    }
+  },
+  data: () => ({
+    navbarColor: process.env.VUE_APP_NAVBAR_COLOR
+  })
 }
 </script>
 

@@ -9,7 +9,7 @@
       tile
     >
       <v-card-title class="realiseTheme">
-        <strong class="subheading">Version 1.0.0</strong>
+        <strong class="subheading">Version 1.0.1</strong>
 
         <v-spacer></v-spacer>
 
@@ -27,7 +27,7 @@
       </v-card-title>
 
       <v-card-text class="py-2 white--text text-center">
-        <strong>Par Marco Tribuzio et Xavier de Juan</strong> - {{ new Date().getFullYear() }}
+        <strong>Developped by Marco Tribuzio and Xavier de Juan</strong> - {{ new Date().getFullYear() }}
       </v-card-text>
     </v-card>
   </v-footer>
