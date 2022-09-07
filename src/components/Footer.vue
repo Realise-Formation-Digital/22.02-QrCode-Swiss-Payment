@@ -26,25 +26,33 @@
         </v-btn>
       </v-card-title>
 
+
       <v-card-text class="py-2 white--text text-center">
-        Developped by<strong> Marco Tribuzio</strong> and <strong>Xavier de Juan</strong> - {{ new Date().getFullYear() }}
+        Made with
+        <v-icon size="100%">
+          mdi-heart
+        </v-icon>
+        by<strong> Marco Tribuzio, <strong>Bachir Aouad</strong></strong> and <strong>Xavier de Juan</strong> - {{ new
+        Date().getFullYear() }}
       </v-card-text>
     </v-card>
   </v-footer>
 </template>
 
 <script>
-  export default {
-    name: "Foo-ter",
-    data: () => ({
-      icons: [
-        'mdi-linkedin',
-        'mdi-facebook',
-        // 'mdi-twitter',
-        // 'mdi-instagram',
-      ],
-    }),
+export default {
+  name: "Foo-ter",
+  data: () => ({
+    footerColor: process.env.VUE_APP_FOOTER_COLOR,
+  }),
+  methods: {
+    openSiteRealise(){
+      window.open('https://realise.ch','_blank')
+    }
   }
+}
+
+
 </script>
 
 <style>
