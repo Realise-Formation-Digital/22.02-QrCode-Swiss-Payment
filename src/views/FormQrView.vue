@@ -259,6 +259,7 @@ export default {
       nrref: "",
       infosupp: "",
       infobill: "",
+      CountDownEnv: process.env.VUE_APP_FORMQR_COUNT_CONFIRM_BUTTON, 
     },
     formRules: {
       dnom: [
