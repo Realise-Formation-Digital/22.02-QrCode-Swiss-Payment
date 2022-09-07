@@ -259,7 +259,7 @@ export default {
       nrref: "",
       infosupp: "",
       infobill: "",
-      CountDownEnv: process.env.VUE_APP_FORMQR_COUNT_CONFIRM_BUTTON, 
+      
     },
     formRules: {
       dnom: [
@@ -379,7 +379,7 @@ export default {
      * @author Xavier de Juan
      */
     activCountDown() {
-      this.countDown = 15
+      this.countDown = process.env.VUE_APP_FORMQR_COUNT_CONFIRM_BUTTON
     },
     inactivCountDown() {
       this.countDown = 0
@@ -437,18 +437,19 @@ export default {
           const test = {
             "creditorInformation": {
               //"iban": "CH0509000000120187130", IBAN réalise (A garder pour la version achetée de l'API)
-              "iban": "CH4431999123000889012",// A utiliser tel quel pendant la version démo
+              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN ,// A utiliser tel quel pendant la version démo
               "creditor": {
                 "addressType": "STRUCTURED",
-                "name": "Realise",
-                "streetName": "Rue Viguet",
-                "houseNumber": "8",
-                "postalCode": "1227",
-                "city": "Genève",
-                "country": "CH"
+                "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
+                "streetName": process.env.VUE_APP_CREDITOR_INFORMATION_STREETNAME,
+                "houseNumber": process.env.VUE_APP_CREDITOR_INFORMATION_HOUSENUMBER,
+                "postalCode": process.env.VUE_APP_CREDITOR_INFORMATION_POSTALCODE,
+                "city": process.env.VUE_APP_CREDITOR_INFORMATION_CITY,
+                "country": process.env.VUE_APP_CREDITOR_INFORMATION_COUNTRY
               }
             },
-            "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF" },
+            "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), 
+            "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY },
             "ultimateDebtor": {
               "addressType": "STRUCTURED",
               "name": this.form.dnom,
@@ -459,7 +460,7 @@ export default {
               "country": this.form.dcountry
             },
             "paymentReference": {
-              "referenceType": "QRR",
+              "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
               "reference": "210000000003139471430009017",// A utiliser tel quel pendant la version démo
               // "reference": this.form.nrref, (A garder pour la version achetée de l'API)
               "additionalInformation": {

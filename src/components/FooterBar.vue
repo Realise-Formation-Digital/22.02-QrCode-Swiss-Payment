@@ -27,13 +27,13 @@
 
 <script>
 export default {
-  name: "Foo-ter",
+  name: "FooterBar",
   data: () => ({
     footerColor: process.env.VUE_APP_FOOTER_COLOR,
   }),
   methods: {
     openSiteRealise(){
-      window.open('https://realise.ch','_blank')
+      window.open(process.env.VUE_APP_FOOTER_ICONS,'_blank')
     }
   }
 }
