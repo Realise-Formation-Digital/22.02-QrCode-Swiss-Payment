@@ -27,7 +27,7 @@
       </v-card-title>
 
       <v-card-text class="py-2 white--text text-center">
-        <strong>Developped by Marco Tribuzio and Xavier de Juan</strong> - {{ new Date().getFullYear() }}
+        Developped by<strong> Marco Tribuzio</strong> and <strong>Xavier de Juan</strong> - {{ new Date().getFullYear() }}
       </v-card-text>
     </v-card>
   </v-footer>
