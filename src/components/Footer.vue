@@ -1,27 +1,17 @@
 <template>
-  <v-footer
-    dark
-    padless
-  >
-    <v-card
-      class="flex"
-      flat
-      tile
-    >
+  <v-footer dark padless>
+    <v-card class="flex" flat tile>
       <v-card-title class="realiseTheme">
         <strong class="subheading">Version 1.0.1</strong>
 
         <v-spacer></v-spacer>
 
-        
         <v-btn class="mx-4" dark icon @click="openSiteRealise()">
           <v-icon size="200%">
             mdi-web
           </v-icon>
         </v-btn>
       </v-card-title>
-       
-
 
       <v-card-text class="py-2 white--text text-center">
         Made with
@@ -42,13 +32,11 @@ export default {
     footerColor: process.env.VUE_APP_FOOTER_COLOR,
   }),
   methods: {
-    openSiteRealise(){
-      window.open('https://realise.ch','_blank')
+    openSiteRealise() {
+      window.open('https://realise.ch', '_blank')
     }
   }
 }
-
-
 </script>
 
 <style>
@@ -56,6 +44,7 @@ export default {
   background-image: linear-gradient(90deg, #003da5, #41b6e6, #97d700);
   height: 4em;
 }
+
 .subheading {
   font-size: 100%;
 }
