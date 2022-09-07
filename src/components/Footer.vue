@@ -13,18 +13,14 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn
-          v-for="icon in icons"
-          :key="icon"
-          class="mx-4"
-          dark
-          icon
-        >
+        
+        <v-btn class="mx-4" dark icon @click="openSiteRealise()">
           <v-icon size="200%">
-            {{ icon }}
+            mdi-web
           </v-icon>
         </v-btn>
       </v-card-title>
+       
 
 
       <v-card-text class="py-2 white--text text-center">
