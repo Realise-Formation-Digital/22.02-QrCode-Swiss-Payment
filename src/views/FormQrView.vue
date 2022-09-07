@@ -14,7 +14,7 @@
 
         <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" label="Nom" required>
           <template v-slot:append>
-            <v-tooltip top>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" dark v-bind="attrs" v-on="on">
                   info
@@ -29,7 +29,7 @@
         <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue"
           v-on:keypress="lettreSeulement($event)" required>
           <template v-slot:append>
-            <v-tooltip top>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -42,7 +42,7 @@
         <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" label="Numéro de rue"
           append-icon="info" required>
           <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -53,7 +53,7 @@
         </v-text-field>
         <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa" label="Code postal" required>
           <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -64,7 +64,7 @@
         </v-text-field>
         <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace" label="Ville" required>
           <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -77,7 +77,7 @@
         <v-autocomplete v-model="form.dcountry" label="Pays (Veuillez cliquer ici pour sélectionner un pays)"
           :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
           <!-- <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -91,7 +91,7 @@
         <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" label="Montant"
           v-on:keypress="nombreSeulement" required>
           <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -105,7 +105,7 @@
         <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref" label="Numéro de référence"
           required>
           <template v-slot:append>
-            <v-tooltip top>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -124,7 +124,7 @@
         <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
           label="Informations de facture (facultatif)">
           <template v-slot:append>
-            <v-tooltip top>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -137,7 +137,7 @@
         <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
           label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX.">
           <template v-slot:append>
-            <v-tooltip right>
+            <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
               </template>
@@ -322,7 +322,8 @@ export default {
     isGettingCountriesList: false,
     countriesList: [],
     interval: {}, // Interval timing for countDown
-    countDown: 0, // countDown inactiv confirm button 
+    countDown: 0, // countDown inactiv confirm button
+    maxWidthTooltip: 250
   }),
 
   async mounted() {
