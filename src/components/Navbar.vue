@@ -28,6 +28,12 @@
         Créer une facture
       </span>
     </v-btn>
+
+    <v-btn to="/Info" text plain>
+      <span class="mr-2">
+        <v-icon>info</v-icon>
+      </span>
+    </v-btn>
   </v-app-bar>
 </template>
 

@@ -4,12 +4,16 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import VueMarkdown from 'vue-markdown'
 
 //Papa parse library
 
 Vue.config.productionTip = false
 
 new Vue({
+  components: {
+    VueMarkdown
+  },
   router,
   store,
   vuetify,
