@@ -1,12 +1,11 @@
 <template>
-<v-row>
-</v-row>
+    <v-row>
+    </v-row>
 </template>
 <script>
 export default {
-    name:"Info-View",
-} 
+    name: "Info-View",
+};
 </script>
 <style>
-
 </style>
