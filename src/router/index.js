@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import CsvView from '../views/CsvView.vue';
-import FormQrView from "@/views/FormQrView";
+import FormQrView from "@/views/FormQrView.vue";
 import InfoView from '@/views/InfoView.vue'
 Vue.use(VueRouter)
 
