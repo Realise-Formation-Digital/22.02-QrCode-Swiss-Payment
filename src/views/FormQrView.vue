@@ -378,7 +378,7 @@ export default {
      * @author Xavier de Juan
      */
     activCountDown() {
-      this.countDown = 15
+      this.countDown = 2
     },
     inactivCountDown() {
       this.countDown = 0
