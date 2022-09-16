@@ -1,6 +1,6 @@
 import axios from "axios";
-import {BASE_URL, API_KEY, CSVLIST_OPTIONS} from "@/libs/consts";
-
+import { BASE_URL, API_KEY, CSVLIST_OPTIONS } from "@/libs/consts";
+import MarkParse from "@/libs/marked.js"
 /**
  * @class
  * @classdesc - Service for csv page
@@ -13,13 +13,13 @@ class ApiService {
      * @param {string} iban - iban to check
      * @returns {Promise<boolean>}
      */
-    static async checkIban (iban) {
-        try{
+    static async checkIban(iban) {
+        try {
             console.log('[Service][ApiService][checkIban] Checking iban with params', iban)
             const response = await axios.get(BASE_URL + '/v2/iban/validate' + API_KEY, iban)
             if (response.status !== 200) throw Error('API Error')
             return response
-        }catch (e) {
+        } catch (e) {
             console.error('[Service][ApiService][checkIban] An error has occurred when checking the iban', e)
             throw new Error(e)
         }
@@ -36,13 +36,13 @@ class ApiService {
      *     "italian": "string"
      * }]>}
      */
-    static async getListCountries(){
-        try{
+    static async getListCountries() {
+        try {
             console.log('[Service][ApiService][getListCountries] Getting the list of countries')
             const response = await axios.get(BASE_URL + '/v2/country' + API_KEY)
             if (response.status !== 200) throw Error('API Error')
             return response.data
-        }catch (e) {
+        } catch (e) {
             console.error('[Service][ApiService][getListCountries] An error occurred when getting the countries list', e)
             throw new Error(e)
         }
@@ -140,6 +140,18 @@ class ApiService {
             return response
         } catch (e) {
             console.error('[Service][CsvService][sendJsonList] An error has occurred when sending the list to the api', e)
+            throw new Error(e)
+        }
+    }
+
+    static async axioRequ() {
+        try {
+            console.log("Request Mark axios success")
+            const getAxioRequ = await axios.get(MARKDWN_URL)
+            if (getAxioRequ !== 200) throw Error(e)
+            return MarkParse.txtParse(txtMd)
+        } catch (e) {
+            console.log("Request Mark axios error")
             throw new Error(e)
         }
     }

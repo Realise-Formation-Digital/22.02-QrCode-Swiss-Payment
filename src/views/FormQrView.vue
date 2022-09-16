@@ -323,7 +323,7 @@ export default {
     countriesList: [],
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
-    maxWidthTooltip: 250
+    maxWidthTooltip: 350
   }),
 
   async mounted() {
