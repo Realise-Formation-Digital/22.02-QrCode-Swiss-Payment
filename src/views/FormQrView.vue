@@ -620,7 +620,9 @@ export default {
      */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
-      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
+      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46 )
+      // && (nombres 188(Virgule) && 222 (Apostrophe))
+      {
         e.preventDefault();
       } else {
         return true;
