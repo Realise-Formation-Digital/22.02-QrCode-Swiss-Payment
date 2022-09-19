@@ -27,7 +27,7 @@
           </template>
         </v-text-field>
         <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue"
-          v-on:keypress="lettreSeulement($event)" required>
+          required>
           <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -600,17 +600,6 @@ export default {
       this.snackbar.text = "Code QR téléchargé avec succès."
       this.snackbar.color = "success"
       this.snackbar.flag = true
-    },
-
-     /**
-     * Function that permit letters only "champ: Rue"
-     * @author Xavier de Juan
-     * @return string
-     */
-    lettreSeulement(e) {
-      let char = String.fromCharCode(e.keyCode); // Get the character
-      if (/^[A-Za-z-èéàüöä ---.-/-_-]+$/.test(char)) return true; // Match with regex 
-      else e.preventDefault(); // If not match, don't add to input text
     },
 
      /**
