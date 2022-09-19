@@ -1,5 +1,5 @@
 const MARKDWN_URL = "";
 
 export {
-    MARKDWN_URL
+    MARKDWN_URL,
 }

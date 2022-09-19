@@ -1,6 +1,8 @@
 import axios from "axios";
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS } from "@/libs/consts";
-import MarkParse from "@/libs/marked.js"
+import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL} from "@/libs/consts";
+import MarkParse from "@/libs/marked.js";
+// import MARKDWN_URL from "@/libs/urlMarked.js"
+
 /**
  * @class
  * @classdesc - Service for csv page
@@ -148,10 +150,11 @@ class ApiService {
         try {
             console.log("Request Mark axios success")
             const getAxioRequ = await axios.get(MARKDWN_URL)
-            if (getAxioRequ !== 200) throw Error(e)
-            return MarkParse.txtParse(txtMd)
+            // if (getAxioRequ !== 200) throw Error("C'est nuuuul!!")
+            console.log(getAxioRequ, "getAxioRequ")
+            return MarkParse.txtParse(txtMd);
         } catch (e) {
-            console.log("Request Mark axios error")
+            console.error("Request Mark axios error")
             throw new Error(e)
         }
     }

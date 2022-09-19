@@ -10,15 +10,19 @@ import ApiService from "@/services/apiService.js"
 
 export default {
     name: "Info-View",
-    data: {
+    data: () => ({
         txtHtml: null
-    },
+    }),
+    // setup () {
+    //     this.markServiceRequest()
+    // },
     method: {
         async markServiceRequest() {
             try {
                 console.log("reussi Sercvice request markdown")
                 this.txtHtml = await ApiService.axioRequ()
             } catch (e) {
+                throw new Error(e)
             }
         }
     }
