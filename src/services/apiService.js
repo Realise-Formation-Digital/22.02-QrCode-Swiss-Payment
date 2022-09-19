@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL} from "@/libs/consts";
-import MarkParse from "@/libs/marked.js";
+import MarkParse from "../libs/marked.js";
 // import MARKDWN_URL from "@/libs/urlMarked.js"
 
 /**
@@ -151,8 +151,8 @@ class ApiService {
             console.log("Request Mark axios success")
             const getAxioRequ = await axios.get(MARKDWN_URL)
             // if (getAxioRequ !== 200) throw Error("C'est nuuuul!!")
-            console.log(getAxioRequ, "getAxioRequ")
-            return MarkParse.txtParse();
+            console.log("getAxioRequ", getAxioRequ)
+            return MarkParse.txtParse(getAxioRequ.data);
         } catch (e) {
             console.error("Request Mark axios error")
             throw new Error(e)

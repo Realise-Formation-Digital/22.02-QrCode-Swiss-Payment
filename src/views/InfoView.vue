@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col>
-            {{ txtHtml }}
+            <div v-html="txtHtml"/>
         </v-col>
     </v-row>
 </template>
@@ -13,9 +13,15 @@ export default {
     data: () => ({
         txtHtml: null
     }),
-    // setup () {
-    //     this.markServiceRequest()
-    // },
+
+    async mounted(){
+        try {
+                console.log("reussi Sercvice request markdown")
+                this.txtHtml = await ApiService.axioRequ()
+            } catch (e) {
+                throw new Error(e)
+            }
+    },
     method: {
         async markServiceRequest() {
             try {

@@ -1,7 +1,7 @@
 import { marked } from 'marked'
 
 class MarkParse {
-    txtParse(txtMd) {
+    static txtParse(txtMd) {
         return marked.parse(txtMd)
     }
 }
