@@ -36,6 +36,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Ajouté
 - Ajout dot.env.
+
 - Ajout page changelog.
 - Ecriture des versions dans le changelog.
 
