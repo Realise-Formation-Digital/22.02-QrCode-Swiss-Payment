@@ -435,7 +435,8 @@ export default {
           // }
           const test = {
             "creditorInformation": {
-              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,// A utiliser tel quel pendant la version démo
+              // "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
+              "iban": "CH4431999123000889012",// A utiliser tel quel pendant la version démo
               "creditor": {
                 "addressType": "STRUCTURED",
                 "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
@@ -461,7 +462,9 @@ export default {
             },
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
+              // "reference": this.form.nrref,
+                  "reference": "210000000003139471430009017",
+
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp,
                 "billInformation": this.form.billInfo
