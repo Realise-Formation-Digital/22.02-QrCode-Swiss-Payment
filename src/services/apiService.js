@@ -152,7 +152,7 @@ class ApiService {
             const getAxioRequ = await axios.get(MARKDWN_URL)
             // if (getAxioRequ !== 200) throw Error("C'est nuuuul!!")
             console.log(getAxioRequ, "getAxioRequ")
-            return MarkParse.txtParse(txtMd);
+            return MarkParse.txtParse();
         } catch (e) {
             console.error("Request Mark axios error")
             throw new Error(e)
