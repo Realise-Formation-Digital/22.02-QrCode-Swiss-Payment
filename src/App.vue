@@ -12,7 +12,7 @@
 
 <script>
 
-import NavBar from "@/components/Navbar";
+import NavBar from "@/components/Navbar.vue";
 import FooTer from "@/components/Footer.vue";
 export default {
   name: 'App',
@@ -20,7 +20,6 @@ export default {
   data: () => ({
   }),
   mounted(){
-    console.log("ciao",process.env.VUE_APP_NOT_SECRET_CODE, process.env.NODE_ENV)
   }
 };
 </script>

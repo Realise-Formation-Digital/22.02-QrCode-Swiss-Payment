@@ -121,19 +121,6 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-textarea v-model="form.infobill" :rules="formRules.infobill" counter label="Informations de facture (facultatif)"
-                    maxlength="140">
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Les informations structurelles de l'émetteur de factures contiennent des informations codées pour la
-                comptabilisation automatisée du paiement. Les données ne sont pas transmises avec le paiement. 140
-                caractères au maximum.</span>
-            </v-tooltip>
-          </template>
-        </v-textarea>
         <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX."
                       maxlength="56">
           <template v-slot:append>
@@ -173,7 +160,6 @@
                 <p><b><i>Pays</i></b>: {{ form.dcountry }}</p>
                 <p><b><i>Montant</i></b>: {{ form.amount }}</p>
                 <p><b><i>Numéro de référence</i></b>: {{ form.nrref }}</p>
-                <p><b><i>Informations de facture</i></b>: {{ form.infobill }}</p>
                 <p><b><i>Informations supplémentaires</i></b>: {{ form.infosupp }}</p>
               </v-col>
               <!-- <v-col cols="6">
@@ -323,7 +309,7 @@ export default {
     countriesList: [],
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
-    maxWidthTooltip: 250
+    maxWidthTooltip: 350
   }),
 
   async mounted() {
@@ -332,7 +318,6 @@ export default {
       this.isGettingCountriesList = true
       const response = await ApiService.getListCountries()
       this.countriesList = response
-      console.log(this.countriesList)
     } catch (e) {
       console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
@@ -396,7 +381,6 @@ export default {
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
-          console.log(typeof parseFloat(this.form.amount.replace(regex, subst)))
           this.showLoadingPopUp()
           this.hideDialog()
           // const ciao = {
@@ -433,7 +417,7 @@ export default {
           //   "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
           //  }
           // }
-          const test = {
+          const payload = {
             "creditorInformation": {
               "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
               "creditor": {
@@ -464,13 +448,12 @@ export default {
               "reference": this.form.nrref,
               //"reference": "210000000003139471430009017",
               "additionalInformation": {
-                "unstructuredMessage": this.form.infosupp,
-                "billInformation": this.form.infobill
+                "unstructuredMessage": this.form.infosupp
               }
             },
           }
 
-          const response = await ApiService.sendSinglePayment(test)
+          const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
           const file = new Blob([response.data], {type: 'application/pdf'});

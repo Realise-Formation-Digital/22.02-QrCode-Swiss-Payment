@@ -7,10 +7,8 @@
 
     <!-- Navbar buttons -->
     <v-btn to="/" text plain x-large>
-      <span class="mr-1">
-        <v-icon>mdi-home</v-icon>
+        <v-icon left>mdi-home</v-icon>
         Home
-      </span>
     </v-btn>
 
     <v-spacer></v-spacer>
@@ -23,10 +21,12 @@
       </span>
     </v-btn> -->
     <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
-      <span class="mr-2 hide">
-        <v-icon>mdi-qrcode</v-icon>
+        <v-icon left>mdi-qrcode</v-icon>
         Créer une facture
-      </span>
+    </v-btn>
+
+    <v-btn to="/Info" text plain icon>
+        <v-icon>info</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
