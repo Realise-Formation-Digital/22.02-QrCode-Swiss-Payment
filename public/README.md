@@ -1,33 +1,3 @@
-# 22.02-qrcode-swiss-payment
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
 # Journal des modifications
 - --
 # [Version 1.0.2] - 19.09.2022
@@ -36,7 +6,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Ajouté
 - Ajout dot.env.
-
 - Ajout page changelog.
 - Ecriture des versions dans le changelog.
 
@@ -44,7 +13,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - Modifié FooTer par FooterBar.
 
 - --
-# Version 1.0.1 - 
+# [Version 1.0.1]
 ## Fixé
 - Correction du délai de confirmation qui ne fonctionnait qu'une fois sur deux.
 - Correction de bugs dans le code.
@@ -59,7 +28,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - Affichage du nombre restant pour les caractères dans les champs avec impossibilté de dépassement. (formulaire)
 - Amélioration des textes "information" pour une meilleure compréhension.
 - --
-# Version 1.0.0 - 
+# [Version 1.0.0]
 ## Ajouté
 - Création du prototype de page de formulaire.
 - Modal de validation avec bouton de confirmation et de retour.
