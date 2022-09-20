@@ -27,7 +27,7 @@
           </template>
         </v-text-field>
         <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70"
-                      required v-on:keypress="lettreSeulement($event)">
+                      required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -435,7 +435,7 @@ export default {
           // }
           const test = {
             "creditorInformation": {
-              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,// A utiliser tel quel pendant la version démo
+              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
               "creditor": {
                 "addressType": "STRUCTURED",
                 "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
@@ -603,24 +603,15 @@ export default {
     },
 
     /**
-     * Function that permit letters only "champ: Rue"
-     * @author Xavier de Juan
-     * @return string
-     */
-    lettreSeulement(e) {
-      let char = String.fromCharCode(e.keyCode); // Get the character
-      if (/^[A-Za-z- ---.-]+$/.test(char)) return true; // Match with regex 
-      else e.preventDefault(); // If not match, don't add to input text
-    },
-
-    /**
      * Function that permit numbers and dot only "champ: Montant"
      * @author Xavier de Juan
      * @return numbers/dot
      */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
-      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
+      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
+          // && (nombres 188(Virgule) && 222 (Apostrophe))
+      {
         e.preventDefault();
       } else {
         return true;
