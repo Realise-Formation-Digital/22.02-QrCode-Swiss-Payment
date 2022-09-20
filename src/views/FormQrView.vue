@@ -12,9 +12,9 @@
         <h1>Débiteur</h1>
         <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" label="Nom" required>
+        <v-text-field v-model="form.dnom" :rules="formRules.dnom" counter label="Nom" maxlength="70" required>
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" dark v-bind="attrs" v-on="on">
                   info
@@ -26,12 +26,12 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" label="Rue"
-          v-on:keypress="lettreSeulement($event)" required>
+        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70"
+                      required>
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Rue/Case postale du débiteur final
                 70 caractères au maximum admis.
@@ -39,34 +39,34 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" label="Numéro de rue"
-          append-icon="info" required>
+        <v-text-field v-model="form.dnr" :rules="formRules.dnr" append-icon="info" counter label="Numéro de rue"
+                      maxlength="16" required>
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Numéro de maison du débiteur final.
                 16 caractères au maximum admis</span>
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa" label="Code postal" required>
+        <v-text-field v-model="form.dnpa" :rules="formRules.dnpa" counter label="Code postal" maxlength="16" required>
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Code postal du débiteur final 16 caractères au maximum admis.
                 Toujours à indiquer sans code de pays de tête</span>
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace" label="Ville" required>
+        <v-text-field v-model="form.dplace" :rules="formRules.dplace" counter label="Ville" maxlength="16" required>
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Lieu du débiteur final.
                 16 caractères au maximum admis</span>
@@ -74,8 +74,8 @@
           </template>
 
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" label="Pays (Veuillez cliquer ici pour sélectionner un pays)"
-          :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
+        <v-autocomplete v-model="form.dcountry" :items="countriesList"
+                        :rules="formRules.dcountry" item-text="french" item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
           <!-- <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -88,12 +88,12 @@
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" label="Montant"
-          v-on:keypress="nombreSeulement" required>
+        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12"
+                      required v-on:keypress="nombreSeulement">
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Montant du paiement.
                 L'élément est à indiquer sans zéros de tête, y compris séparateur décimal, et deux décimales.
@@ -102,12 +102,12 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref" label="Numéro de référence"
-          required>
+        <v-text-field v-model="form.nrref" :rules="formRules.nrref" counter label="Numéro de référence" maxlength="27"
+                      required>
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Numéro de référence
                 Référence de paiement structurée
@@ -121,12 +121,12 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
-          label="Informations de facture (facultatif)">
+        <v-textarea v-model="form.infobill" :rules="formRules.infobill" counter label="Informations de facture (facultatif)"
+                    maxlength="140">
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Les informations structurelles de l'émetteur de factures contiennent des informations codées pour la
                 comptabilisation automatisée du paiement. Les données ne sont pas transmises avec le paiement. 140
@@ -134,12 +134,12 @@
             </v-tooltip>
           </template>
         </v-textarea>
-        <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
-          label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX.">
+        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX."
+                      maxlength="56">
           <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
               </template>
               <span>Les informations instructurées peuvent être utilisées pour l'indication d'un motif de paiement ou
                 pour des informations textuelles complémentaires au sujet de paiements avec référence structurée. 56
@@ -150,12 +150,12 @@
       </v-form>
 
       <!--Buttons calling functions for the form-->
-      <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">Valider
+      <v-btn class="mr-10 mt-10" color="success" elevation="10" outlined rounded x-large @click="showDialog()">Valider
       </v-btn>
-      <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">Effacer</v-btn>
+      <v-btn class="ml-10 mt-10" color="error" elevation="10" outlined rounded x-large @click="reset()">Effacer</v-btn>
 
       <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" persistent max-width="70%">
+      <v-dialog v-model="dialog" max-width="70%" persistent>
         <v-card>
           <v-card-title>
             <h1>Vérification avant confirmation d'envoi.</h1>
@@ -164,7 +164,7 @@
           <!-- Checkform in the modal -->
           <v-card-text>
             <v-row class="container">
-              <v-col cols="4" class="modalDialogStyle">
+              <v-col class="modalDialogStyle" cols="4">
                 <p><b><i>Nom</i></b>: {{ form.dnom }}</p>
                 <p><b><i>Rue</i></b>: {{ form.dstreet }}</p>
                 <p><b><i>Numéro de rue</i></b>: {{ form.dnr }}</p>
@@ -194,18 +194,18 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
-              :disabled="!!countDown" @click="confirm()">
+            <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
+                   x-large @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :width="5" :value="countDown"
-                    color="orange">
+                <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
+                                           color="orange">
                     {{ countDown }}
                   </v-progress-circular></span>
               </template>
             </v-btn>
 
-            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+            <v-btn class="ml-10" color="error" elevation="5" rounded text x-large @click="hideDialog()">
               Retour
             </v-btn>
           </v-card-actions>
@@ -213,7 +213,7 @@
       </v-dialog>
 
       <!-- Pop-up when the QR code is received -->
-      <v-snackbar v-model="snackbar.flag" :color="snackbar.color">
+      <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
         {{ snackbar.text }}
       </v-snackbar>
 
@@ -222,7 +222,7 @@
         <v-card color="primary" dark>
           <v-card-text>
             Veuillez patienter, en attente de réception
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            <v-progress-linear class="mb-0" color="white" indeterminate></v-progress-linear>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -372,13 +372,13 @@ export default {
 
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
-     * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil 
+     * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
      * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
-     * 
+     *
      * @author Xavier de Juan
      */
     activCountDown() {
-      this.countDown = 2
+      this.countDown = process.env.VUE_APP_FORMQR_COUNT_CONFIRM_BUTTON
     },
     inactivCountDown() {
       this.countDown = 0
@@ -388,7 +388,7 @@ export default {
      * Function that call validate (see validate())
      * Hide the "check" modal
      * Show the loading pop-up
-     * 
+     *
      * @author Xavier de Juan
      * @return void
      */
@@ -435,19 +435,21 @@ export default {
           // }
           const test = {
             "creditorInformation": {
-              //"iban": "CH0509000000120187130", IBAN réalise (A garder pour la version achetée de l'API)
-              "iban": "CH4431999123000889012",// A utiliser tel quel pendant la version démo
+              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
               "creditor": {
                 "addressType": "STRUCTURED",
-                "name": "Realise",
-                "streetName": "Rue Viguet",
-                "houseNumber": "8",
-                "postalCode": "1227",
-                "city": "Genève",
-                "country": "CH"
+                "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
+                "streetName": process.env.VUE_APP_CREDITOR_INFORMATION_STREETNAME,
+                "houseNumber": process.env.VUE_APP_CREDITOR_INFORMATION_HOUSENUMBER,
+                "postalCode": process.env.VUE_APP_CREDITOR_INFORMATION_POSTALCODE,
+                "city": process.env.VUE_APP_CREDITOR_INFORMATION_CITY,
+                "country": process.env.VUE_APP_CREDITOR_INFORMATION_COUNTRY
               }
             },
-            "paymentAmountInformation": { "amount": parseFloat(this.form.amount.replace(regex, subst)), "currency": "CHF" },
+            "paymentAmountInformation": {
+              "amount": parseFloat(this.form.amount.replace(regex, subst)),
+              "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY
+            },
             "ultimateDebtor": {
               "addressType": "STRUCTURED",
               "name": this.form.dnom,
@@ -458,22 +460,20 @@ export default {
               "country": this.form.dcountry
             },
             "paymentReference": {
-              "referenceType": "QRR",
-              "reference": "210000000003139471430009017",// A utiliser tel quel pendant la version démo
-              // "reference": this.form.nrref, (A garder pour la version achetée de l'API)
+              "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
+              "reference": this.form.nrref,
+              //"reference": "210000000003139471430009017",
               "additionalInformation": {
-                "unstructuredMessage": this.form.infosupp,// ATTENTION 56 CARACTERES.
-                "billInformation": "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30"// Garder tel quel pendant la version démo
-                //"billInformation": this.form.billInfo (A garder pour la version achetée de l'API)
+                "unstructuredMessage": this.form.infosupp,
+                "billInformation": this.form.infobill
               }
             },
-            "alternativeSchemes": { "alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"] }
           }
 
           const response = await ApiService.sendSinglePayment(test)
-          console.log("test payload", test)
+
           // set the blog type to final pdf
-          const file = new Blob([response.data], { type: 'application/pdf' });
+          const file = new Blob([response.data], {type: 'application/pdf'});
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
@@ -558,9 +558,9 @@ export default {
     },
 
     /**
-    * Function that hide the loading pop-up
-    * @author Xavier de Juan
-    */
+     * Function that hide the loading pop-up
+     * @author Xavier de Juan
+     */
     hideLoadingPopUp() {
       this.loadingPopUp = false
     },
@@ -602,25 +602,16 @@ export default {
       this.snackbar.flag = true
     },
 
-     /**
-     * Function that permit letters only "champ: Rue"
-     * @author Xavier de Juan
-     * @return string
-     */
-    lettreSeulement(e) {
-      let char = String.fromCharCode(e.keyCode); // Get the character
-      if (/^[A-Za-z- ---.-]+$/.test(char)) return true; // Match with regex 
-      else e.preventDefault(); // If not match, don't add to input text
-    },
-
-     /**
+    /**
      * Function that permit numbers and dot only "champ: Montant"
      * @author Xavier de Juan
      * @return numbers/dot
      */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
-      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
+      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
+          // && (nombres 188(Virgule) && 222 (Apostrophe))
+      {
         e.preventDefault();
       } else {
         return true;
