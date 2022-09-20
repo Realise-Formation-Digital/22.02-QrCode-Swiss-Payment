@@ -3,9 +3,10 @@ import i18next from 'i18next';
 class Traductor {
 
     static async initTraducteur () {
-        i18next.init({
+        await i18next.init({
             lng:'en',
-            ressources: {
+            debug: true,
+            resources: {
                 en: {
                     translation: {
                         key: 'hello world'
@@ -14,12 +15,13 @@ class Traductor {
             }
         })
 
-        console.log(i18next.t('key'))
+        console.log('ciao', i18next.t('key'))
         // initialisation.init(option, callback)
         // return await i18next.
     }
 
-    static traduction() {
+    static traduction(key) {
+        return i18next.t(key)
     //   i18nex.t (valeur.clé)?
     // Découvrir la signification de t
     // Sous forme de tableau? (['unknown.key', 'my.key']) -> turn value for 'my.key' in set language /*Fonctionnement?

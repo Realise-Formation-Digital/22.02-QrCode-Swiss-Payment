@@ -14,13 +14,15 @@
 
 import NavBar from "@/components/Navbar";
 import FooTer from "@/components/Footer.vue";
+import Traductor from "@/libs/i18n.js"
+
 export default {
   name: 'App',
   components: {NavBar, FooTer},
   data: () => ({
   }),
-  mounted(){
-    console.log("ciao",process.env.VUE_APP_NOT_SECRET_CODE, process.env.NODE_ENV)
+  async mounted(){
+    await Traductor.initTraducteur()
   }
 };
 </script>
