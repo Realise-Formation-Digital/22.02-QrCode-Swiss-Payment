@@ -461,8 +461,8 @@ export default {
             },
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
-              //"reference": "210000000003139471430009017",
+              //"reference": this.form.nrref,
+              "reference": "210000000003139471430009017",
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp,
                 "billInformation": this.form.infobill
