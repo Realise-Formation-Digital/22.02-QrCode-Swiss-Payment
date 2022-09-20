@@ -332,7 +332,6 @@ export default {
       this.isGettingCountriesList = true
       const response = await ApiService.getListCountries()
       this.countriesList = response
-      console.log(this.countriesList)
     } catch (e) {
       console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
