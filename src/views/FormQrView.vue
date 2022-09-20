@@ -213,7 +213,7 @@
       </v-dialog>
 
       <!-- Pop-up when the QR code is received -->
-      <v-snackbar v-model="snackbar.flag" :color="snackbar.color">
+      <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
         {{ snackbar.text }}
       </v-snackbar>
 
@@ -463,7 +463,6 @@ export default {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
               "reference": this.form.nrref,
               //"reference": "210000000003139471430009017",
-
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp,
                 "billInformation": this.form.infobill
@@ -472,7 +471,6 @@ export default {
           }
 
           const response = await ApiService.sendSinglePayment(test)
-          console.log("test payload", test)
 
           // set the blog type to final pdf
           const file = new Blob([response.data], {type: 'application/pdf'});
