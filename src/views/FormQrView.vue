@@ -381,7 +381,6 @@ export default {
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
-          console.log(typeof parseFloat(this.form.amount.replace(regex, subst)))
           this.showLoadingPopUp()
           this.hideDialog()
           // const ciao = {
@@ -418,7 +417,7 @@ export default {
           //   "alternativeSchemes": {"alternativeSchemeParameters": ["Name AV1: UV;UltraPay005;12345", "Name AV2: XY;XYService;54321"]}
           //  }
           // }
-          const test = {
+          const payload = {
             "creditorInformation": {
               "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
               "creditor": {
@@ -454,7 +453,7 @@ export default {
             },
           }
 
-          const response = await ApiService.sendSinglePayment(test)
+          const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
           const file = new Blob([response.data], {type: 'application/pdf'});
