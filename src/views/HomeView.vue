@@ -11,8 +11,8 @@
             Importer une facture
           </v-btn> -->
 
-          <v-btn class="ma-10" outlined color="indigo" to="form-qr" x-large rounded elevation="10">
-            <v-icon>mdi-qrcode</v-icon>
+          <v-btn outlined color="indigo" to="form-qr" x-large rounded elevation="10">
+            <v-icon left>mdi-qrcode</v-icon>
             Créer une facture
           </v-btn>
         </div>

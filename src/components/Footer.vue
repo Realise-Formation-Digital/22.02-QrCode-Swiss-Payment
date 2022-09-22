@@ -2,7 +2,7 @@
   <v-footer dark padless>
     <v-card class="flex" flat tile>
       <v-card-title class="realiseTheme">
-        <strong class="subheading">Version 1.0.1</strong>
+        <strong class="subheading">Version {{version}}</strong>
 
         <v-spacer></v-spacer>
 
@@ -26,10 +26,12 @@
 </template>
 
 <script>
+
 export default {
   name: "Foo-ter",
   data: () => ({
     footerColor: process.env.VUE_APP_FOOTER_COLOR,
+    version: process.env.VUE_APP_VERSION
   }),
   methods: {
     openSiteRealise() {

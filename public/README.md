@@ -3,7 +3,7 @@
 # [Version 1.0.2] - 19.09.2022
 ## Fixé
 - champ "Rue" suppression des règles de typage d'écritures qui empêchaient les accents et les nombres.
-- Various Bugfix
+
 ## Ajouté
 - Ajout dot.env.
 - Ajout page changelog.

@@ -12,7 +12,7 @@
 
 <script>
 
-import NavBar from "@/components/Navbar";
+import NavBar from "@/components/Navbar.vue";
 import FooTer from "@/components/Footer.vue";
 import Traductor from "@/libs/i18n.js"
 

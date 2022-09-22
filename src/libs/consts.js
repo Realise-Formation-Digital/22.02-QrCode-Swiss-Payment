@@ -1,8 +1,10 @@
-const BASE_URL = 'https://rest.qr-invoice.cloud';
+const BASE_URL = process.env.VUE_APP_BASE_URL;
 const API_KEY = process.env.VUE_APP_APIKEY;
-const CSVLIST_OPTIONS = 'fontFamily=LIBERATION_SANS&fontsEmbedded=true&pageSize=DIN_LANG&resolution=MEDIUM_300_DPI&boundaryLines=true&boundaryLinesMargins=false&boundaryLineScissors=true&boundaryLineSeparationText=false&additionalPrintMargin=false&normalizeInput=false';
+const CSVLIST_OPTIONS = process.env.VUE_APP_CSVLIST_OPTIONS;
+const MARKDWN_URL = process.env.VUE_APP_MARKDOWN_URL;
 export {
   BASE_URL,
   API_KEY,
-  CSVLIST_OPTIONS
+  CSVLIST_OPTIONS,
+  MARKDWN_URL
 }
