@@ -1,0 +1,45 @@
+{
+    "translation": {
+        "navbar": {
+            "boutonAccueil": "Home",
+            "boutonFacture": "Create an invoice"
+        },
+        "formqrcode": {
+            "description": "Ciao Marco",
+            "debiteur": "Debtor",
+            "nom": "Name",
+            "rue": "Street name",
+            "numDeRue": "Street number",
+            "codePostal": "Postal code",
+            "ville": "City",
+            "pays": "Country (Please click here to select a country)",
+            "infoMontPaiement": "Payment amount information",
+            "montant": "Amount",
+            "numRef": "Reference number (The reference must be 27 characters)",
+            "infoFacture": "Invoice information (optional)",
+            "infoSupp": "Additional Information (optional)",
+            "valider": "Validate",
+            "effacer": "Erase",
+            "toolTipNom": "Name or company of ultimate debtor 70 characters maximum. Last name, first name (optional, if available) or company name.",
+            "toolTipRue": "Ultimate debtor's street/PO box Maximum 70 characters allowed. Cannot contain a house or building number.",
+            "toolTipNumDeRue": "Numéro de maison du débiteur final. 16 caractères au maximum admis",
+            "toolTipCodePostal": "Ultimate debtor's postal code 16 characters maximum allowed. Always to be indicated without leading country code.",
+            "toolTipVille": "Ultimate debtor location. Maximum 16 characters allowed.",
+            "toolTipMontant": "Amount of payment. The element must be indicated without leading zeros, including decimal separator, and two decimal places. A maximum of 12 positions are allowed, including decimal separator. Only the period (“.”) is allowed as decimal separator.",
+            "toolTipNumRef": "Reference number Structured payment reference Note: The reference is either a QR reference or a Creditor Reference (ISO 11649) Maximum 27 alphanumeric characters. Must be filled in if using a QR-IBAN. QR reference: 27 numeric characters, calculation of the check digit according to recursive modulo 10 (27th position of the reference) Creditor Reference (ISO 11649): up to 25 alphanumeric characters The element must not be filled in for the reference type NO.",
+            "toolTipInfoFacture": "Biller's structural information contains coded information for automated payment posting. Data is not transmitted with payment. Maximum 140 characters.",
+            "toolTipInfosupp": "Unstructured information can be used for the indication of a reason for payment or for additional textual information about payments with structured reference. 56 characters maximum.",
+            "verifConfirm": "Verification before sending confirmation.",
+            "confirmer": "Confirm",
+            "annuler": "Abort",
+            "alertNom": "The 'Name' field is mandatory.",
+            "alertRrue": "The 'Street' field is mandatory.",
+            "alertNumDeRue": "The 'Street number' field is mandatory.",
+            "alertCodePostal": "The 'Postal code' field is mandatory.",
+            "alertVille": "The 'City' field is mandatory.",
+            "alertPays": "Please select a country",
+            "alertMontant": "The 'Amount' field is mandatory.",
+            "alertNumRef": "The 'Reference number' field is mandatory."
+        }
+    }
+}
