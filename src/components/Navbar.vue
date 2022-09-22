@@ -7,8 +7,11 @@
 
     <!-- Navbar buttons -->
     <v-btn to="/" text plain x-large>
-        <v-icon left>mdi-home</v-icon>
-        Home
+      <span class="mr-1">
+        <v-icon>mdi-home</v-icon>
+        {{ this.traduis('navbar.boutonAccueil') }}
+        <!-- Page d'accueil -->
+      </span>
     </v-btn>
 
     <v-spacer></v-spacer>
@@ -21,19 +24,21 @@
       </span>
     </v-btn> -->
     <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
-        <v-icon left>mdi-qrcode</v-icon>
-        Créer une facture
-    </v-btn>
-
-    <v-btn to="/Info" text plain icon>
-        <v-icon>info</v-icon>
+      <span class="mr-2 hide">
+        <v-icon>mdi-qrcode</v-icon>
+        {{ this.traduis('navbar.boutonFacture') }}
+        <!-- Créer une facture -->
+      </span>
     </v-btn>
   </v-app-bar>
 </template>
 
 <script>
+import { traductionMixin } from "@/mixins/traductionMixin.js"
+
 export default {
   name: "Nav-bar",
+  mixins: [traductionMixin],
   computed: {
     getImgUrl() {
       return require(process.env.VUE_APP_NAVBAR_LOGO);

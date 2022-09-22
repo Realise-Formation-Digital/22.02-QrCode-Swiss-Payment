@@ -3,16 +3,16 @@
   <v-row>
     <v-col lg="4" md="4" sm="12" xs="12">
       Here little description what the user have to do :)
-
+      {{ this.traduis('formqrcode.description') }}
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
       <!-- <h1>Bénéficiaire</h1> -->
       <v-form ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
-        <h1>Débiteur</h1>
+        <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
         <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" :rules="formRules.dnom" counter label="Nom" maxlength="70" required>
+        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -20,14 +20,12 @@
                   info
                 </v-icon>
               </template>
-              <span>Nom ou entreprise du débiteur final
-                70 caractères au maximum.
-                Nom, prénom (optionnel, si disponible) ou raison sociale</span>
+              <span></span>
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70"
-                      required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" :label="traduis('formqrcode.rue')"
+          v-on:keypress="lettreSeulement($event)" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -39,8 +37,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" :rules="formRules.dnr" append-icon="info" counter label="Numéro de rue"
-                      maxlength="16" required>
+        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" :label="traduis('formqrcode.numDeRue')"
+          append-icon="info" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -51,7 +49,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnpa" :rules="formRules.dnpa" counter label="Code postal" maxlength="16" required>
+        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa" :label="traduis('formqrcode.codePostal')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -62,7 +60,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace" :rules="formRules.dplace" counter label="Ville" maxlength="16" required>
+        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace" :label="traduis('formqrcode.ville')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -74,8 +72,8 @@
           </template>
 
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :items="countriesList"
-                        :rules="formRules.dcountry" item-text="french" item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
+        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')"
+          :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
           <!-- <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -87,9 +85,9 @@
           </template> -->
         </v-autocomplete>
 
-        <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12"
-                      required v-on:keypress="nombreSeulement">
+        <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
+        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" :label="traduis('formqrcode.montant')"
+          v-on:keypress="nombreSeulement" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -102,8 +100,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" :rules="formRules.nrref" counter label="Numéro de référence" maxlength="27"
-                      required>
+        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
+          required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -121,8 +119,21 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX."
-                      maxlength="56">
+        <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
+        :label="traduis('formqrcode.infoFacture')">
+          <template v-slot:append>
+            <v-tooltip top :max-width="maxWidthTooltip">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+              </template>
+              <span>Les informations structurelles de l'émetteur de factures contiennent des informations codées pour la
+                comptabilisation automatisée du paiement. Les données ne sont pas transmises avec le paiement. 140
+                caractères au maximum.</span>
+            </v-tooltip>
+          </template>
+        </v-textarea>
+        <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
+        :label="traduis('formqrcode.infoSupp')">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -137,30 +148,31 @@
       </v-form>
 
       <!--Buttons calling functions for the form-->
-      <v-btn class="mr-10 mt-10" color="success" elevation="10" outlined rounded x-large @click="showDialog()">Valider
+      <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{ this.traduis('formqrcode.valider') }}
       </v-btn>
-      <v-btn class="ml-10 mt-10" color="error" elevation="10" outlined rounded x-large @click="reset()">Effacer</v-btn>
+      <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{ this.traduis('formqrcode.effacer') }}</v-btn>
 
       <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" max-width="70%" persistent>
         <v-card>
           <v-card-title>
-            <h1>Vérification avant confirmation d'envoi.</h1>
+            <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
           </v-card-title>
 
           <!-- Checkform in the modal -->
           <v-card-text>
             <v-row class="container">
-              <v-col class="modalDialogStyle" cols="4">
-                <p><b><i>Nom</i></b>: {{ form.dnom }}</p>
-                <p><b><i>Rue</i></b>: {{ form.dstreet }}</p>
-                <p><b><i>Numéro de rue</i></b>: {{ form.dnr }}</p>
-                <p><b><i>Code postal</i></b>: {{ form.dnpa }}</p>
-                <p><b><i>Ville</i></b>: {{ form.dplace }}</p>
-                <p><b><i>Pays</i></b>: {{ form.dcountry }}</p>
-                <p><b><i>Montant</i></b>: {{ form.amount }}</p>
-                <p><b><i>Numéro de référence</i></b>: {{ form.nrref }}</p>
-                <p><b><i>Informations supplémentaires</i></b>: {{ form.infosupp }}</p>
+              <v-col cols="4" class="modalDialogStyle">
+                <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
               </v-col>
               <!-- <v-col cols="6">
                 <p>{{  form.dnom  }}</p>
@@ -180,9 +192,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
-                   x-large @click="confirm()">
-              Confirmer
+            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
+              :disabled="!!countDown" @click="confirm()">
+              {{ this.traduis('modale.confirmer') }}
               <template v-slot:loader>
                 <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
                                            color="orange">
@@ -191,8 +203,8 @@
               </template>
             </v-btn>
 
-            <v-btn class="ml-10" color="error" elevation="5" rounded text x-large @click="hideDialog()">
-              Retour
+            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+              {{ this.traduis('modale.annuler') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -218,6 +230,7 @@
 
 <script>
 import ApiService from "@/services/apiService.js";
+import { traductionMixin } from "@/mixins/traductionMixin.js"
 
 // Params used for amount.replace
 const regex = /,/gm;
@@ -225,6 +238,7 @@ const subst = `.`;
 
 export default {
   name: "FormQr",
+  mixins: [traductionMixin],
   data: () => ({
     // show: false, // Ne sert à rien ???
     snackbar: {
@@ -280,13 +294,13 @@ export default {
         v => !!v || 'Veuillez selectionner un pays',
       ],
       amount: [
-        v => !!v || "Le champ 'Montant est obligatoire.",
+        v => !!v || "Le champ 'Montant' est obligatoire.",
         v => {
           if (v) return v.length <= 12 || "Le montant ne peut excéder 12 caractères.";
           else return true;
         }],
       nrref: [
-        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => !!v || "Le champ 'Numéro de référence' est obligatoire.",
         v => {
           if (v) return v.length <= 27 || "La référence ne peut excéder 27 caractères.";
           else return true;

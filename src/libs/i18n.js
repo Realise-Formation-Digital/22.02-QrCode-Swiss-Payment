@@ -1,39 +1,24 @@
-import i18next from 'i18next';
+import i18next from "i18next";
+
+import en from "@/locales/en.json";
+import es from '@/locales/es.json';
+import fr from "vuetify/lib/locale/fr";
 
 class Traductor {
-
-    static async initTraducteur () {
-        await i18next.init({
-            lng:'en',
+    static async initTraductor() {
+        i18next.init({
+            lng: 'en', // if you're using a language detector, do not define the lng option
             debug: true,
             resources: {
-                en: {
-                    translation: {
-                        key: 'hello world'
-                    }
-                }
+                en: en,
+                fr: fr,
+                es: es
             }
         })
-
-        console.log('ciao', i18next.t('key'))
-        // initialisation.init(option, callback)
-        // return await i18next.
     }
-
     static traduction(key) {
         return i18next.t(key)
-    //   i18nex.t (valeur.clé)?
-    // Découvrir la signification de t
-    // Sous forme de tableau? (['unknown.key', 'my.key']) -> turn value for 'my.key' in set language /*Fonctionnement?
     }
 }
 
 export default Traductor
-
-// Besoin de créer une nouvelle instance à l'extérieur? Je pense que non, la classe est en static.
-
-// events
-// onLanguageChanged
-// i18next.on('languageChanged', function(lng) {})
-// Gets fired when changeLanguage got called.
-
