@@ -14,15 +14,15 @@
 
 import NavBar from "@/components/Navbar.vue";
 import FooTer from "@/components/Footer.vue";
-import Traductor from "@/libs/i18n.js"
+import Traductor from "@/libs/i18n.js";
 
 export default {
   name: 'App',
   components: {NavBar, FooTer},
   data: () => ({
   }),
-  async mounted(){
-    await Traductor.initTraducteur()
-  }
+  async mounted() {
+    await Traductor.initTraductor()
+  },
 };
 </script>
