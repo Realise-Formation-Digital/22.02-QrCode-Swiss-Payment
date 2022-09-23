@@ -6,20 +6,17 @@
         <router-view></router-view>
       </v-container>
     </v-main>
-    <fooTer></fooTer>
+    <FooterBar></FooterBar>
   </v-app>
 </template>
 
 <script>
 
 import NavBar from "@/components/Navbar.vue";
-import FooTer from "@/components/Footer.vue";
+import FooterBar from "@/components/Footer.vue";
+
 export default {
   name: 'App',
-  components: {NavBar, FooTer},
-  data: () => ({
-  }),
-  mounted(){
-  }
+  components: {NavBar, FooterBar}
 };
 </script>
