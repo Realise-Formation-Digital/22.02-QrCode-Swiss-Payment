@@ -43,6 +43,7 @@ class ApiService {
             console.log('[Service][ApiService][getListCountries] Getting the list of countries')
             const response = await axios.get(BASE_URL + '/v2/country' + API_KEY)
             if (response.status !== 200) throw Error('API Error')
+            console.log("REsponse", response)
             return response.data
         } catch (e) {
             console.error('[Service][ApiService][getListCountries] An error occurred when getting the countries list', e)
