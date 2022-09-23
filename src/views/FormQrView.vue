@@ -102,8 +102,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" :rules="formRules.nrref" counter label="Numéro de référence" maxlength="27"
-                      required>
+        <v-text-field v-model="form.nrref" :rules="formRules.nrref" counter label="Numéro de référence" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -121,7 +120,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif) 56 CARACTÈRES MAX."
+        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif)"
                       maxlength="56">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
@@ -288,7 +287,7 @@ export default {
       nrref: [
         v => !!v || "Le champ 'Numéro de référence est obligatoire.",
         v => {
-          if (v) return v.length <= 27 || "La référence ne peut excéder 27 caractères.";
+          if (v) return v.length == 27 || "Doit contenir 27 caractères";
           else return true;
         }],
       infosupp: [
