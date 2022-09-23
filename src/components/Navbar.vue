@@ -30,6 +30,19 @@
         <!-- Créer une facture -->
       </span>
     </v-btn>
+    <v-col
+        class="d-flex"
+        cols="12"
+        sm="6"
+      >
+        <v-select
+          :items="items"
+          label="Outlined style"
+          outlined
+          dense 
+        ></v-select>
+      </v-col>
+
   </v-app-bar>
 </template>
 

@@ -12,35 +12,10 @@
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
         <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" :label="traduis('formqrcode.nom')" required>
+        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
+          :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top v-model="filterBtnTTip">
-              <!-- Pour afficher en dynamique dans le champs "info" -->
-              <!-- <v-tooltip bottom
-  v-model="filterBtnTTip"
->
-  Filter displayed items
-</v-tooltip>
-
-<v-btn
-  icon
-  @click="isFilter = !isFilter"
-  @mouseover="filterBtnTTip = true"
-  @mouseleave="filterBtnTTip = false"
->
-  <v-icon>fa-filter</v-icon>
-</v-btn>
-
-...
-data () {
-  return {
-    ...
-    filterBtnTTip: false
-  }
-} -->
-
-
-
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" dark v-bind="attrs" v-on="on">
                   info
@@ -50,8 +25,8 @@ data () {
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" :label="traduis('formqrcode.rue')"
-          v-on:keypress="lettreSeulement($event)" required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet"
+          :label="traduis('formqrcode.rue')" v-on:keypress="lettreSeulement($event)" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -63,8 +38,8 @@ data () {
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" :label="traduis('formqrcode.numDeRue')"
-          append-icon="info" required>
+        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr"
+          :label="traduis('formqrcode.numDeRue')" append-icon="info" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -75,7 +50,8 @@ data () {
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa" :label="traduis('formqrcode.codePostal')" required>
+        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa"
+          :label="traduis('formqrcode.codePostal')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -86,7 +62,8 @@ data () {
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace" :label="traduis('formqrcode.ville')" required>
+        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace"
+          :label="traduis('formqrcode.ville')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -98,8 +75,8 @@ data () {
           </template>
 
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')"
-          :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
+        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
+          :items="countriesList" item-text="french" item-value="code">
           <!-- <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -112,8 +89,8 @@ data () {
         </v-autocomplete>
 
         <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
-        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" :label="traduis('formqrcode.montant')"
-          v-on:keypress="nombreSeulement" required>
+        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
+          :label="traduis('formqrcode.montant')" v-on:keypress="nombreSeulement" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -126,8 +103,8 @@ data () {
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
-          required>
+        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref"
+          :label="traduis('formqrcode.numRef')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -146,7 +123,7 @@ data () {
           </template>
         </v-text-field>
         <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
-        :label="traduis('formqrcode.infoFacture')">
+          :label="traduis('formqrcode.infoFacture')">
           <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -159,7 +136,7 @@ data () {
           </template>
         </v-textarea>
         <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
-        :label="traduis('formqrcode.infoSupp')">
+          :label="traduis('formqrcode.infoSupp')">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -171,11 +148,13 @@ data () {
             </v-tooltip>
           </template>
         </v-text-field>
-
+      </v-form>
       <!--Buttons calling functions for the form-->
-      <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{ this.traduis('formqrcode.valider') }}
+      <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{
+      this.traduis('formqrcode.valider') }}
       </v-btn>
-      <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{ this.traduis('formqrcode.effacer') }}</v-btn>
+      <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{
+      this.traduis('formqrcode.effacer') }}</v-btn>
 
       <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" max-width="70%" persistent>
@@ -221,10 +200,11 @@ data () {
               :disabled="!!countDown" @click="confirm()">
               {{ this.traduis('modale.confirmer') }}
               <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
-                                           color="orange">
+                <span>
+                  <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
                     {{ countDown }}
-                  </v-progress-circular></span>
+                  </v-progress-circular>
+                </span>
               </template>
             </v-btn>
 
@@ -484,7 +464,7 @@ export default {
             },
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
+              "reference": this.form.nrref + this.refe,
               //"reference": "210000000003139471430009017",
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp
@@ -495,7 +475,7 @@ export default {
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], {type: 'application/pdf'});
+          const file = new Blob([response.data], { type: 'application/pdf' });
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
@@ -632,7 +612,7 @@ export default {
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
-          // && (nombres 188(Virgule) && 222 (Apostrophe))
+      // && (nombres 188(Virgule) && 222 (Apostrophe))
       {
         e.preventDefault();
       } else {
