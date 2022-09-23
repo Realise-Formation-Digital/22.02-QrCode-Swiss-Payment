@@ -14,7 +14,33 @@
 
         <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
+            <v-tooltip :max-width="maxWidthTooltip" top v-model="filterBtnTTip">
+              <!-- Pour afficher en dynamique dans le champs "info" -->
+              <!-- <v-tooltip bottom
+  v-model="filterBtnTTip"
+>
+  Filter displayed items
+</v-tooltip>
+
+<v-btn
+  icon
+  @click="isFilter = !isFilter"
+  @mouseover="filterBtnTTip = true"
+  @mouseleave="filterBtnTTip = false"
+>
+  <v-icon>fa-filter</v-icon>
+</v-btn>
+
+...
+data () {
+  return {
+    ...
+    filterBtnTTip: false
+  }
+} -->
+
+
+
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" dark v-bind="attrs" v-on="on">
                   info
@@ -145,7 +171,6 @@
             </v-tooltip>
           </template>
         </v-text-field>
-      </v-form>
 
       <!--Buttons calling functions for the form-->
       <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{ this.traduis('formqrcode.valider') }}
