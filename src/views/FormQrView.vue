@@ -26,8 +26,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70"
-                      required>
+        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -40,7 +39,7 @@
           </template>
         </v-text-field>
         <v-text-field v-model="form.dnr" :rules="formRules.dnr" append-icon="info" counter label="Numéro de rue"
-                      maxlength="16" required>
+          maxlength="16" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -74,8 +73,8 @@
           </template>
 
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :items="countriesList"
-                        :rules="formRules.dcountry" item-text="french" item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
+        <v-autocomplete v-model="form.dcountry" :items="countriesList" :rules="formRules.dcountry" item-text="french"
+          item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
           <!-- <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -88,8 +87,8 @@
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12"
-                      required v-on:keypress="nombreSeulement">
+        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12" required
+          v-on:keypress="nombreSeulement">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -102,8 +101,18 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" :rules="formRules.nrref" counter label="Numéro de référence" required>
+        <v-text-field>
           <template v-slot:append>
+            <v-text-field v-model="form.nrrefa" :rules="formRules.nrref" outlined dense counter label="Numéro de référence" required>
+            </v-text-field>
+            <v-text-field v-model="form.nrrefb" :rules="formRules.nrref" outlined dense counter required>
+            </v-text-field>
+            <v-text-field v-model="form.nrrefc" :rules="formRules.nrref" outlined dense counter required>
+            </v-text-field>
+            <v-text-field v-model="form.nrrefd" :rules="formRules.nrref" outlined dense counter required>
+            </v-text-field>
+            <v-text-field v-model="form.nrrefe" :rules="formRules.nrref" outlined dense counter required>
+            </v-text-field>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
@@ -120,8 +129,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif)"
-                      maxlength="56">
+        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter
+          label="Informations supplémentaires (facultatif)" maxlength="56">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -158,7 +167,7 @@
                 <p><b><i>Ville</i></b>: {{ form.dplace }}</p>
                 <p><b><i>Pays</i></b>: {{ form.dcountry }}</p>
                 <p><b><i>Montant</i></b>: {{ form.amount }}</p>
-                <p><b><i>Numéro de référence</i></b>: {{ form.nrref }}</p>
+                <p><b><i>Numéro de référence</i></b>: {{ form.nrrefa }}</p>
                 <p><b><i>Informations supplémentaires</i></b>: {{ form.infosupp }}</p>
               </v-col>
               <!-- <v-col cols="6">
@@ -180,13 +189,14 @@
             <v-spacer></v-spacer>
 
             <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
-                   x-large @click="confirm()">
+              x-large @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
-                                           color="orange">
+                <span>
+                  <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
                     {{ countDown }}
-                  </v-progress-circular></span>
+                  </v-progress-circular>
+                </span>
               </template>
             </v-btn>
 
@@ -240,7 +250,11 @@ export default {
       dplace: "",
       dcountry: "",
       amount: "",
-      nrref: "",
+      nrrefa: "",
+      nrrefb: "",
+      nrrefc: "",
+      nrrefd: "",
+      nrrefe: "",
       infosupp: "",
       infobill: "",
     },
@@ -284,10 +298,34 @@ export default {
           if (v) return v.length <= 12 || "Le montant ne peut excéder 12 caractères.";
           else return true;
         }],
-      nrref: [
+      nrrefa: [
         v => !!v || "Le champ 'Numéro de référence est obligatoire.",
         v => {
-          if (v) return v.length == 27 || "Doit contenir 27 caractères";
+          if (v) return v.length == 2 || "Doit contenir 2 caractères";
+          else return true;
+        }],
+      nrrefb: [
+        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => {
+          if (v) return v.length == 5 || "Doit contenir 5 caractères";
+          else return true;
+        }],
+      nrrefc: [
+        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => {
+          if (v) return v.length == 5 || "Doit contenir 5 caractères";
+          else return true;
+        }],
+      nrrefd: [
+        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => {
+          if (v) return v.length == 5 || "Doit contenir 5 caractères";
+          else return true;
+        }],
+      nrrefe: [
+        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => {
+          if (v) return v.length == 5 || "Doit contenir 5 caractères";
           else return true;
         }],
       infosupp: [
@@ -444,7 +482,7 @@ export default {
             },
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
+              "reference": this.form.nrrefa + this.form.nrrefb + this.form.nrrefc + this.form.nrrefd + this.form.nrrefe,
               //"reference": "210000000003139471430009017",
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp
@@ -455,7 +493,7 @@ export default {
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], {type: 'application/pdf'});
+          const file = new Blob([response.data], { type: 'application/pdf' });
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
@@ -592,7 +630,7 @@ export default {
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
-          // && (nombres 188(Virgule) && 222 (Apostrophe))
+      // && (nombres 188(Virgule) && 222 (Apostrophe))
       {
         e.preventDefault();
       } else {
