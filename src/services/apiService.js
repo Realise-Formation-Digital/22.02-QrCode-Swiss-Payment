@@ -43,7 +43,6 @@ class ApiService {
             console.log('[Service][ApiService][getListCountries] Getting the list of countries')
             const response = await axios.get(BASE_URL + '/v2/country' + API_KEY)
             if (response.status !== 200) throw Error('API Error')
-            console.log("REsponse", response)
             return response.data
         } catch (e) {
             console.error('[Service][ApiService][getListCountries] An error occurred when getting the countries list', e)
@@ -114,6 +113,7 @@ class ApiService {
                     }
                 },
             )
+            if (response.status !== 200) throw Error('API Error')
             return response
         } catch (e) {
             console.error('[Service][ApiService][sendCsvList] An error has occurred when sending the list to the api', e)
@@ -128,8 +128,6 @@ class ApiService {
      */
     static async sendSinglePayment(payload) {
         try {
-            console.log("payload", payload)
-
             const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
                 {
                     responseType: "blob",
@@ -140,6 +138,7 @@ class ApiService {
                     }
                 },
             )
+            if (response.status !== 200) throw Error('API Error')
             return response
         } catch (e) {
             console.error('[Service][CsvService][sendJsonList] An error has occurred when sending the list to the api', e)
@@ -160,12 +159,25 @@ class ApiService {
         }
     }
 
+    /**
+     * Get Two check digit
+     * @param {String} referenceNumber - 27 digit reference number
+     * @returns {Promise<String>}
+     */
     static async getTwoCheckDigit(referenceNumber) {
         try {
-            const response = await axios.get(MARKDWN_URL)
+            console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params", referenceNumber)
+            const response = await axios.post(BASE_URL + '/v2/creditor-reference/modulo97' + API_KEY, referenceNumber,
+              {
+                  headers: {
+                      'Content-Type': 'text/plain',
+                      'accept': 'text/plain'
+                  }
+              })
+            if (response.status !== 200) throw Error('API Error')
             return response.data
         } catch (e) {
-            console.error("Request Mark axios error")
+            console.error("[Service][ApiService][getTwoCheckDigit] An error occurred when getting two check digit",e)
             throw new Error(e)
         }
     }

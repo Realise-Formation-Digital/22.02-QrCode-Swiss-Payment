@@ -6,11 +6,9 @@
 
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
-      <!-- <h1>Bénéficiaire</h1> -->
       <v-form ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
-        <!-- todo set rules with one in the api -->
 
         <v-text-field v-model="form.dnom" :rules="formRules.dnom" counter label="Nom" maxlength="70" required>
           <template v-slot:append>
@@ -76,15 +74,6 @@
         </v-text-field>
         <v-autocomplete v-model="form.dcountry" :items="countriesList"
                         :rules="formRules.dcountry" item-text="french" item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
-          <!-- <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
-              </template>
-              <span>Pays du débiteur final
-                Code de pays à deux positions selon ISO 3166-1</span>
-            </v-tooltip>
-          </template> -->
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
@@ -151,28 +140,16 @@
           <v-card-text>
             <v-row class="container">
               <v-col class="modalDialogStyle" cols="4">
-                <p><b><i>Nom</i></b>: {{ form.dnom }}</p>
-                <p><b><i>Rue</i></b>: {{ form.dstreet }}</p>
-                <p><b><i>Numéro de rue</i></b>: {{ form.dnr }}</p>
-                <p><b><i>Code postal</i></b>: {{ form.dnpa }}</p>
-                <p><b><i>Ville</i></b>: {{ form.dplace }}</p>
-                <p><b><i>Pays</i></b>: {{ form.dcountry }}</p>
-                <p><b><i>Montant</i></b>: {{ form.amount }}</p>
-                <p><b><i>Numéro de référence</i></b>: {{ form.nrref }}</p>
-                <p><b><i>Informations supplémentaires</i></b>: {{ form.infosupp }}</p>
+                <p><strong><em>Nom</em></strong>: {{ form.dnom }}</p>
+                <p><strong><em>Rue</em></strong>: {{ form.dstreet }}</p>
+                <p><strong><em>Numéro de rue</em></strong>: {{ form.dnr }}</p>
+                <p><strong><em>Code postal</em></strong>: {{ form.dnpa }}</p>
+                <p><strong><em>Ville</em></strong>: {{ form.dplace }}</p>
+                <p><strong><em>Pays</em></strong>: {{ form.dcountry }}</p>
+                <p><strong><em>Montant</em></strong>: {{ form.amount }}</p>
+                <p><strong><em>Numéro de référence</em></strong>: {{ form.nrref }}</p>
+                <p><strong><em>Informations supplémentaires</em></strong>: {{ form.infosupp }}</p>
               </v-col>
-              <!-- <v-col cols="6">
-                <p>{{  form.dnom  }}</p>
-                <p>{{  form.dstreet  }}</p>
-                <p>{{  form.dnr  }}</p>
-                <p>{{  form.dnpa  }}</p>
-                <p>{{  form.dplace  }}</p>
-                <p>{{  form.dcountry  }}</p>
-                <p>{{  form.amount  }}</p>
-                <p>{{  form.nrref  }}</p>
-                <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
-                <p>{{  !!form.infosupp ? form.infosupp : "N/A"  }}</p>
-              </v-col> -->
             </v-row>
           </v-card-text>
           <!-- Confirm or return buttons calling the functions -->
@@ -287,7 +264,7 @@ export default {
       nrref: [
         v => !!v || "Le champ 'Numéro de référence est obligatoire.",
         v => {
-          if (v) return v.length == 27 || "Doit contenir 27 caractères";
+          if (v) return v.length === 27 || "Doit contenir 27 caractères";
           else return true;
         }],
       infosupp: [
@@ -315,8 +292,7 @@ export default {
     try {
       console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
       this.isGettingCountriesList = true
-      const response = await ApiService.getListCountries()
-      this.countriesList = response
+      this.countriesList = await ApiService.getListCountries()
     } catch (e) {
       console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
@@ -381,7 +357,7 @@ export default {
         const isValidForm = this.validateForm()
         if (isValidForm) {
           this.showLoadingPopUp()
-          const referenceNumber = 0
+          const referenceNumber = String(this.form.nrref).slice(-21)
           const RFcheckDigit = await ApiService.getTwoCheckDigit(referenceNumber)
 
           // const ciao = {
@@ -447,7 +423,6 @@ export default {
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
               "reference": "RF" + RFcheckDigit + referenceNumber,
-              //"reference": "210000000003139471430009017",
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp
               }
