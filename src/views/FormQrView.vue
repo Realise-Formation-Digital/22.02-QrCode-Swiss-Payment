@@ -381,7 +381,9 @@ export default {
         const isValidForm = this.validateForm()
         if (isValidForm) {
           this.showLoadingPopUp()
-          this.hideDialog()
+          const referenceNumber = 0
+          const RFcheckDigit = await ApiService.getTwoCheckDigit(referenceNumber)
+
           // const ciao = {
           //   "creditorInformation": {
           //     "iban": "CH4431999123000889012",
@@ -444,7 +446,7 @@ export default {
             },
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
+              "reference": "RF" + RFcheckDigit + referenceNumber,
               //"reference": "210000000003139471430009017",
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp
@@ -465,6 +467,7 @@ export default {
           link.href = fileURL;
           link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
+          this.hideDialog()
           this.showSnackbarSuccess();
           this.reset();
         }

@@ -159,6 +159,16 @@ class ApiService {
             throw new Error(e)
         }
     }
+
+    static async getTwoCheckDigit(referenceNumber) {
+        try {
+            const response = await axios.get(MARKDWN_URL)
+            return response.data
+        } catch (e) {
+            console.error("Request Mark axios error")
+            throw new Error(e)
+        }
+    }
 }
 
 export default ApiService
