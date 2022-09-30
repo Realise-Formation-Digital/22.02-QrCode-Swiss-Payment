@@ -101,17 +101,17 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field>
+        <v-input label="Numéro de référence">
           <template v-slot:append>
-            <v-text-field v-model="form.nrrefa" :rules="formRules.nrref" outlined dense counter label="Numéro de référence" required>
+            <v-text-field v-model="form.nrrefa" :rules="formRules.nrref" outlined dense counter maxlength="2" required>
             </v-text-field>
-            <v-text-field v-model="form.nrrefb" :rules="formRules.nrref" outlined dense counter required>
+            <v-text-field v-model="form.nrrefb" :rules="formRules.nrref" outlined dense counter maxlength="5" required>
             </v-text-field>
-            <v-text-field v-model="form.nrrefc" :rules="formRules.nrref" outlined dense counter required>
+            <v-text-field v-model="form.nrrefc" :rules="formRules.nrref" outlined dense counter maxlength="5" required>
             </v-text-field>
-            <v-text-field v-model="form.nrrefd" :rules="formRules.nrref" outlined dense counter required>
+            <v-text-field v-model="form.nrrefd" :rules="formRules.nrref" outlined dense counter maxlength="5" required>
             </v-text-field>
-            <v-text-field v-model="form.nrrefe" :rules="formRules.nrref" outlined dense counter required>
+            <v-text-field v-model="form.nrrefe" :rules="formRules.nrrefe" outlined dense counter="5" required>
             </v-text-field>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -128,7 +128,7 @@
                 L'élément ne doit pas être rempli pour le type de référence NON.</span>
             </v-tooltip>
           </template>
-        </v-text-field>
+        </v-input>
         <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter
           label="Informations supplémentaires (facultatif)" maxlength="56">
           <template v-slot:append>
