@@ -30,6 +30,14 @@
         <!-- Créer une facture -->
       </span>
     </v-btn>
+    <v-col
+        class="d-flex"
+        cols="1"
+      >
+        <v-select
+          :items="langSelect"
+        ></v-select>
+      </v-col>
   </v-app-bar>
 </template>
 
@@ -45,7 +53,8 @@ export default {
     }
   },
   data: () => ({
-    navbarColor: process.env.VUE_APP_NAVBAR_COLOR
+    navbarColor: process.env.VUE_APP_NAVBAR_COLOR,
+    langSelect: ['English', 'Français', 'Italiano', 'Deutch', 'Español', 'Portuguese']
   })
 }
 </script>
