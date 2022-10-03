@@ -8,6 +8,7 @@ class Traductor {
     static async initTraductor() {
         i18next.init({
             lng: 'en', // if you're using a language detector, do not define the lng option
+            fallback: 'fr',
             debug: true,
             resources: {
                 en: en,
