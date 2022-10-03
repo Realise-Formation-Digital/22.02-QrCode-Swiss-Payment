@@ -14,12 +14,12 @@
     <v-spacer></v-spacer>
 
     <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
-    <!-- <v-btn v-show="$route.path !=='/'" to="/csv" text plain>
+    <v-btn v-show="$route.path !=='/'" to="/csv" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-file-delimited-outline</v-icon>
         Importer un fichier
       </span>
-    </v-btn> -->
+    </v-btn>
     <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
         <v-icon left>mdi-qrcode</v-icon>
         Créer une facture

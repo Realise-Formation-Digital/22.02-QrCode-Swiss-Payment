@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04 camt.054.001.04.xsd">
+   <BkToCstmrDbtCdtNtfctn>
+      <GrpHdr>
+         <MsgId>20220927375204935172068</MsgId>
+         <CreDtTm>2022-09-27T23:39:03</CreDtTm>
+         <MsgPgntn>
+            <PgNb>1</PgNb>
+            <LastPgInd>true</LastPgInd>
+         </MsgPgntn>
+         <AddtlInf>SPS/1.7/PROD</AddtlInf>
+      </GrpHdr>
+      <Ntfctn>
+         <Id>20220927375204935172071</Id>
+         <CreDtTm>2022-09-27T23:39:03</CreDtTm>
+         <FrToDt>
+            <FrDtTm>2022-09-27T00:00:00</FrDtTm>
+            <ToDtTm>2022-09-27T23:59:59</ToDtTm>
+         </FrToDt>
+         <RptgSrc>
+            <Prtry>OTHR</Prtry>
+         </RptgSrc>
+         <Acct>
+            <Id>
+               <IBAN>CH0509000000120187130</IBAN>
+            </Id>
+            <Ownr>
+               <Nm>Association Réalise Ateliers service 1202 Genève</Nm>
+            </Ownr>
+         </Acct>
+         <Ntry>
+            <NtryRef>010458810</NtryRef>
+            <Amt Ccy="CHF">400.00</Amt>
+            <CdtDbtInd>CRDT</CdtDbtInd>
+            <RvslInd>false</RvslInd>
+            <Sts>BOOK</Sts>
+            <BookgDt>
+               <Dt>2022-09-27</Dt>
+            </BookgDt>
+            <ValDt>
+               <Dt>2022-09-28</Dt>
+            </ValDt>
+            <AcctSvcrRef>2702200099E3ONTU</AcctSvcrRef>
+            <BkTxCd>
+               <Domn>
+                  <Cd>PMNT</Cd>
+                  <Fmly>
+                     <Cd>RCDT</Cd>
+                     <SubFmlyCd>VCOM</SubFmlyCd>
+                  </Fmly>
+               </Domn>
+            </BkTxCd>
+            <NtryDtls>
+               <Btch>
+                  <NbOfTxs>1</NbOfTxs>
+               </Btch>
+               <TxDtls>
+                  <Refs>
+                     <AcctSvcrRef>220926CH098Y7K28</AcctSvcrRef>
+                     <InstrId>20220926000800453233187</InstrId>
+                     <Prtry>
+                        <Tp>01</Tp>
+                        <Ref>220926CH098Y7K28</Ref>
+                     </Prtry>
+                  </Refs>
+                  <Amt Ccy="CHF">400.00</Amt>
+                  <CdtDbtInd>CRDT</CdtDbtInd>
+                  <BkTxCd>
+                     <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                           <Cd>RCDT</Cd>
+                           <SubFmlyCd>AUTT</SubFmlyCd>
+                        </Fmly>
+                     </Domn>
+                  </BkTxCd>
+                  <RltdPties>
+                     <Dbtr>
+                        <Nm>Martin, Hugues Jacques Maxime</Nm>
+                        <PstlAdr>
+                           <StrtNm>Route de la Tourbière</StrtNm>
+                           <BldgNb>11c</BldgNb>
+                           <PstCd>1267</PstCd>
+                           <TwnNm>Coinsins</TwnNm>
+                           <Ctry>CH</Ctry>
+                        </PstlAdr>
+                     </Dbtr>
+                     <DbtrAcct>
+                        <Id>
+                           <IBAN>CH3409000000154449239</IBAN>
+                        </Id>
+                     </DbtrAcct>
+                  </RltdPties>
+                  <RltdAgts>
+                     <DbtrAgt>
+                        <FinInstnId>
+                           <BICFI>POFICHBEXXX</BICFI>
+                           <Nm>POSTFINANCE AG</Nm>
+                           <PstlAdr>
+                              <AdrLine>MINGERSTRASSE , 20</AdrLine>
+                              <AdrLine>3030 BERN</AdrLine>
+                           </PstlAdr>
+                        </FinInstnId>
+                     </DbtrAgt>
+                  </RltdAgts>
+                  <RmtInf>
+                     <Strd>
+                        <CdtrRefInf>
+                           <Tp>
+                              <CdOrPrtry>
+                                 <Prtry>ISR Reference</Prtry>
+                              </CdOrPrtry>
+                           </Tp>
+                           <Ref>000000000101000094400098257</Ref>
+                        </CdtrRefInf>
+                        <AddtlRmtInf>?REJECT?0</AddtlRmtInf>
+                     </Strd>
+                  </RmtInf>
+                  <RltdDts>
+                     <AccptncDtTm>2022-09-27T20:00:00</AccptncDtTm>
+                  </RltdDts>
+               </TxDtls>
+            </NtryDtls>
+            <AddtlNtryInf>CRÉDIT GROUPÉ BVR TRAITEMENT DU 27.09.2022 NUMÉRO CLIENT 01-45881-0 PAQUET ID: 220927CH00000IWR</AddtlNtryInf>
+         </Ntry>
+      </Ntfctn>
+   </BkToCstmrDbtCdtNtfctn>
+</Document>
