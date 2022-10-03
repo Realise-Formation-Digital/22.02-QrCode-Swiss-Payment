@@ -181,6 +181,29 @@ class ApiService {
             throw new Error(e)
         }
     }
+
+     /**
+     * Get last modulo digit
+     * @param {String} referenceNumber - 27 digit reference number
+     * @returns {Promise<String>}
+     */
+    //   static async lastModuloDigit(referenceNumber) {
+    //     try {
+    //         console.log("[Service][ApiService][lastDigitModulo] Getting last digit with params", referenceNumber)
+    //         const response = await axios.post(BASE_URL + '/v2/qr-reference/modulo10recursive' + API_KEY, referenceNumber,
+    //           {
+    //               headers: {
+    //                   'Content-Type': 'text/plain',
+    //                   'accept': 'text/plain'
+    //               }
+    //           })
+    //         if (response.status !== 200) throw Error('API Error')
+    //         return response.data
+    //     } catch (e) {
+    //         console.error("[Service][ApiService][lastDigitModulo] An error occurred when getting last digit",e)
+    //         throw new Error(e)
+    //     }
+    // }
 }
 
 export default ApiService

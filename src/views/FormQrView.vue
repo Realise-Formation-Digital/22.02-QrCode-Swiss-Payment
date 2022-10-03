@@ -358,6 +358,8 @@ export default {
         if (isValidForm) {
           this.showLoadingPopUp()
           const referenceNumber = String(this.form.nrref).slice(-21)
+          // const lastDigitModulo = String(this.form.nreff).slice(-1)
+          // const lastDigitModif = await ApiService.lastModuloDigit(referenceNumber)
           const RFcheckDigit = await ApiService.getTwoCheckDigit(referenceNumber)
 
           // const ciao = {
@@ -422,7 +424,9 @@ export default {
             },
             "paymentReference": {
               "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": "RF" + RFcheckDigit + referenceNumber,
+              "reference": "RF" + RFcheckDigit + referenceNumber
+              //  + lastDigitModif + lastDigitModulo
+               ,
               "additionalInformation": {
                 "unstructuredMessage": this.form.infosupp
               }
