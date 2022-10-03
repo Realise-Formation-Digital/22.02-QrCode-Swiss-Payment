@@ -2,7 +2,7 @@ import i18next from "i18next";
 
 import en from "@/locales/en.json";
 import es from '@/locales/es.json';
-import fr from "vuetify/lib/locale/fr";
+import fr from "@/locales/fr.json";
 
 class Traductor {
     static async initTraductor() {

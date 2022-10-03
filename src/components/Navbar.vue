@@ -32,7 +32,7 @@
     </v-btn>
     <v-col
         class="d-flex"
-        cols="1"
+        cols="2"
       >
         <v-select
           :items="langSelect"
@@ -54,7 +54,7 @@ export default {
   },
   data: () => ({
     navbarColor: process.env.VUE_APP_NAVBAR_COLOR,
-    langSelect: ['English', 'Français', 'Italiano', 'Deutch', 'Español', 'Portuguese']
+    langSelect: ['English', 'Français', 'Italiano', 'Deutch', 'Español', 'Português']
   })
 }
 </script>
