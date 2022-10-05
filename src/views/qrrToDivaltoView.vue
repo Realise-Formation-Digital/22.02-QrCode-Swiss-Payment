@@ -2,11 +2,13 @@
   <v-row>
     <v-col>
 
-      <v-file-input accept="csv/*"
-        label="Cliquez ici pour importer le Fichier de confirmation de paiement pour conversion compatible avec Divalto (fichier .xml)" @change="xmlToJson">
+      <v-file-input accept="xml/*"
+        label="Cliquez ici pour importer le Fichier de confirmation de paiement pour conversion compatible avec Divalto (fichier .xml)"
+        @change="xmlToJson">
       </v-file-input>
 
-      <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir</v-btn>
+      <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir
+      </v-btn>
 
       <!-- Loading pop-up during the API's send -->
       <v-dialog v-model="dialogSendApi" hide-overlay persistent width="300">
@@ -20,28 +22,28 @@
 
       <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
-        {{  textE  }}
+        {{ textE }}
       </v-snackbar>
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
-        {{  textS  }}
+        {{ textS }}
       </v-snackbar>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import XmlParser from '@/libs/xmlParser.js';
+import XmlLibrary from '@/libs/XmlLibrary.js';
 
 // Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
 
 export default {
-  name: "csvView",
+  name: "xml-View",
   data: () => ({
-    payload: {},
+    // paylLa méthode getElementsByTagNameoad: {},
     loading: true,
     payloadArray: null,
     dialogSendApi: false,
@@ -75,22 +77,13 @@ export default {
      * @return promise<object>
      */
     async xmlToJson(convert) {
-      console.log(convert)
-      let conversion = XmlParser.parser(convert)
-      this.payloadArray = conversion.map((item) => {
-        return {
-          // Adapt the payload Realize with the payload of the API
-          reference: item.REFERENCE,
-          amount: this.amountReplace(item.MONTANT),
-          name: item.NOM,
-          streetName: item.ADRESSE,
-          houseNumber: item.NUMERO,
-          postalCode: item.CODEPOSTAL,
-          city: item.VILLE,
-          country: item.PAYS,
-          unstructuredMessage: item.INFOSUPLEMENTAIRE,
-        }
-      });
+      console.log('File', convert)
+      const xmlDoc = await XmlLibrary.getXMLDoc(convert)
+      console.log('converted', xmlDoc)
+      console.log("convert?", convert)
+      XmlLibrary.setPrTry(xmlDoc)
+      XmlLibrary.rmvTag(xmlDoc)
+      XmlLibrary.rplcTag(xmlDoc)
     },
     amountReplace(MONTANT) {
       return MONTANT ? parseFloat(MONTANT.replace(regex, subst)) : 0

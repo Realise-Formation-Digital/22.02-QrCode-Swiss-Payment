@@ -31,7 +31,7 @@ const routes = [
 
   {
     path: '/xml',
-    name: '/xml',
+    name: '/xml-View',
     component: XMLParser
   },
 ]

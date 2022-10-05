@@ -43,7 +43,7 @@ const subst = `.`;
 export default {
   name: "csvView",
   data: () => ({
-    payload: {},
+    // payload: {},
     loading: true,
     payloadArray: null,
     dialogSendApi: false,

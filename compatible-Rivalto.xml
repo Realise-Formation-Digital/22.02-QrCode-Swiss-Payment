@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04 camt.054.001.04.xsd">
+   <BkToCstmrDbtCdtNtfctn>
+      <GrpHdr>
+         <MsgId>20220927375204934616945</MsgId>
+         <CreDtTm>2022-09-27T23:38:18</CreDtTm>
+         <MsgPgntn>
+            <PgNb>1</PgNb>
+            <LastPgInd>true</LastPgInd>
+         </MsgPgntn>
+         <AddtlInf>SPS/1.7/PROD</AddtlInf>
+      </GrpHdr>
+      <Ntfctn>
+         <Id>20220927375204934616947</Id>
+         <CreDtTm>2022-09-27T23:38:18</CreDtTm>
+         <FrToDt>
+            <FrDtTm>2022-09-27T00:00:00</FrDtTm>
+            <ToDtTm>2022-09-27T23:59:59</ToDtTm>
+         </FrToDt>
+         <RptgSrc>
+            <Prtry>OTHR</Prtry>
+         </RptgSrc>
+         <Acct>
+            <Id>
+               <IBAN>CH0509000000120187130</IBAN>
+            </Id>
+            <Ownr>
+               <Nm>Réalise Les Acacias</Nm>
+            </Ownr>
+         </Acct>
+         <Ntry>
+            <NtryRef>010458810</NtryRef>
+            <Amt Ccy="CHF">1.00</Amt>
+            <CdtDbtInd>CRDT</CdtDbtInd>
+            <RvslInd>false</RvslInd>
+            <Sts>BOOK</Sts>
+            <BookgDt>
+               <Dt>2022-09-27</Dt>
+            </BookgDt>
+            <ValDt>
+               <Dt>2022-09-27</Dt>
+            </ValDt>
+            <AcctSvcrRef>2702200099E3M8GU</AcctSvcrRef>
+            <BkTxCd>
+               <Domn>
+                  <Cd>PMNT</Cd>
+                  <Fmly>
+                     <Cd>RCDT</Cd>
+                     <SubFmlyCd>VCOM</SubFmlyCd>
+                  </Fmly>
+               </Domn>
+            </BkTxCd>
+            <NtryDtls>
+               <Btch>
+                  <NbOfTxs>1</NbOfTxs>
+               </Btch>
+               <TxDtls>
+                  <Refs>
+                     <AcctSvcrRef>220926CH09939DNR</AcctSvcrRef>
+                     <InstrId>20220926000800460110027</InstrId>
+                     <Prtry>
+                        <Tp>00</Tp>
+                        <Ref>20220927375204604543881</Ref>
+                     </Prtry>
+                  </Refs>
+                  <Amt Ccy="CHF">1.00</Amt>
+                  <CdtDbtInd>CRDT</CdtDbtInd>
+                  <BkTxCd>
+                     <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                           <Cd>RCDT</Cd>
+                           <SubFmlyCd>AUTT</SubFmlyCd>
+                        </Fmly>
+                     </Domn>
+                  </BkTxCd>
+                  <RltdPties>
+                     <Dbtr>
+                        <Nm>Radaelli Valentina</Nm>
+                        <PstlAdr>
+                           <StrtNm>Rue de la Coulouvrenière</StrtNm>
+                           <BldgNb>23</BldgNb>
+                           <PstCd>1204</PstCd>
+                           <TwnNm>Genève</TwnNm>
+                           <Ctry>CH</Ctry>
+                        </PstlAdr>
+                     </Dbtr>
+                     <DbtrAcct>
+                        <Id>
+                           <IBAN>CH9709000000122213938</IBAN>
+                        </Id>
+                     </DbtrAcct>
+                     <UltmtDbtr>
+                        <Nm>Marco Tribuzio</Nm>
+                        <PstlAdr>
+                           <StrtNm>Rue Viguet</StrtNm>
+                           <BldgNb>8</BldgNb>
+                           <PstCd>1227</PstCd>
+                           <TwnNm>Genève</TwnNm>
+                           <Ctry>CH</Ctry>
+                        </PstlAdr>
+                     </UltmtDbtr>
+                  </RltdPties>
+                  <RltdAgts>
+                     <DbtrAgt>
+                        <FinInstnId>
+                           <BICFI>POFICHBEXXX</BICFI>
+                           <Nm>POSTFINANCE AG</Nm>
+                           <PstlAdr>
+                              <AdrLine>MINGERSTRASSE , 20</AdrLine>
+                              <AdrLine>3030 BERN</AdrLine>
+                           </PstlAdr>
+                        </FinInstnId>
+                     </DbtrAgt>
+                  </RltdAgts>
+                  <RmtInf>
+                     <Strd>
+                        <CdtrRefInf>
+                           <Tp>
+                              <CdOrPrtry>
+                                 <Prtry>ISR Reference</Prtry>
+                              </CdOrPrtry>
+                           </Tp>
+                           <Ref>000000000100000032400096483</Ref>
+                        </CdtrRefInf>
+                        <AddtlRmtInf>?REJECT?1</AddtlRmtInf>
+                     </Strd>
+                  </RmtInf>
+                  <RltdDts>
+                     <AccptncDtTm>2022-09-27T20:00:00</AccptncDtTm>
+                  </RltdDts>
+               </TxDtls>
+            </NtryDtls>
+            <AddtlNtryInf>CRÉDIT GROUPÉ POUR COMPTE: CH0830000002120187130 TRAITEMENT DU 27.09.2022  PAQUET ID: 220927CH00000H0M</AddtlNtryInf>
+         </Ntry>
+      </Ntfctn>
+   </BkToCstmrDbtCdtNtfctn>
+</Document>
