@@ -16,7 +16,7 @@
     <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
     <v-btn v-show="$route.path !=='/'" to="/xml" text plain>
       <span class="mr-2 hide">
-        <v-icon>mdi-file-delimited-outline</v-icon>
+        <v-icon>mdi-xml</v-icon>
         Importer un fichier xml
       </span>
     </v-btn>

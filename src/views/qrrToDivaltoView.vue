@@ -4,7 +4,7 @@
 
       <v-file-input accept="xml/*"
         label="Cliquez ici pour importer le Fichier de confirmation de paiement pour conversion compatible avec Divalto (fichier .xml)"
-        @change="xmlToJson">
+        @change="fixXMLDivalto">
       </v-file-input>
 
       <v-btn color="blue" outlined x-large rounded elevation="10" @click="sendCsvList()">cliquez ici pour convertir
@@ -34,8 +34,7 @@
 </template>
 
 <script>
-import XmlLibrary from '@/libs/XmlLibrary.js';
-
+import XmlService from "@/services/xmlService";
 // Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
@@ -76,14 +75,31 @@ export default {
      * @params {object[]????} - convert
      * @return promise<object>
      */
-    async xmlToJson(convert) {
-      console.log('File', convert)
-      const xmlDoc = await XmlLibrary.getXMLDoc(convert)
-      console.log('converted', xmlDoc)
-      console.log("convert?", convert)
-      XmlLibrary.setPrTry(xmlDoc)
-      XmlLibrary.rmvTag(xmlDoc)
-      XmlLibrary.rplcTag(xmlDoc)
+    async fixXMLDivalto(rawFile) {
+      try{
+        console.log('[Component][fixXMLDivalto] Fixing xml divalto with params', rawFile)
+        const response = await XmlService.fixXMLDivalto(rawFile)
+
+        const fileURL = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(response)], {
+          type: "text/plain",
+        }));
+
+        const link = document.createElement('a');
+        let date = new Date();
+        let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
+        link.href = fileURL;
+        link.download = "XMLDIVALTO" + "_" + dateActuelle + ".xml";
+        link.click();
+
+      }catch (e) {
+        console.error('[Component][fixXMLDivalto] Fixing xml divalto with params', e)
+        // todo handle error
+      }
+      //console.log('converted', xmlDoc)
+      //console.log("convert?", convert)
+      //XmlLibrary.setPrTry(xmlDoc)
+      //XmlLibrary.rmvTag(xmlDoc)
+      //XmlLibrary.rplcTag(xmlDoc)
     },
     amountReplace(MONTANT) {
       return MONTANT ? parseFloat(MONTANT.replace(regex, subst)) : 0
@@ -131,36 +147,7 @@ export default {
      */
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
-    },
-    async sendCsvList() {
-      try {
-        // this.dialogSendApi = true;
-        // console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params',)
-
-        // //todo use papaparse to convert from csv to json
-        // //todo send to the service the json produced
-        // console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params', this.payloadArray)
-        // //const response = await ApiService.sendJsonList(this.payloadArray);
-
-        // // set the blog type to final pdf
-        // const file = new Blob([response.data], { type: 'application/pdf' });
-
-        // // process to auto download it
-        // const fileURL = URL.createObjectURL(file);
-        // const link = document.createElement('a');
-        // link.href = fileURL;
-        // link.download = "FileName" + new Date().getTime() + ".pdf";
-        // link.click();
-        // this.showSnackbarSuccess();
-        // this.dialogSendApi = false;
-
-      } catch (e) {
-        this.showSnackbarError();
-        this.dialogSendApi = false;
-        console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
-        //todo handle the error
-      }
-    },
+    }
   },
 }
 </script>
