@@ -30,19 +30,15 @@
         <!-- Créer une facture -->
       </span>
     </v-btn>
-    <v-col
-        class="d-flex"
-        cols="2"
-      >
-        <v-select
-          :items="langSelect"
-        ></v-select>
-      </v-col>
+    <v-col class="d-flex" cols="2">
+      <v-autocomplete :items="langSelect"></v-autocomplete>
+    </v-col>
   </v-app-bar>
 </template>
 
 <script>
-import { traductionMixin } from "@/mixins/traductionMixin.js"
+import { traductionMixin } from "@/mixins/traductionMixin.js";
+import Traductor from '@/libs/i18n.js'
 
 export default {
   name: "Nav-bar",
@@ -53,11 +49,22 @@ export default {
     }
   },
   data: () => ({
+    langSelect: ["fr", "en", "es"],
     navbarColor: process.env.VUE_APP_NAVBAR_COLOR,
-    langSelect: ['English', 'Français', 'Italiano', 'Deutch', 'Español', 'Português']
-  })
+  }),
+  method: {
+    async traductSelect(key) {
+      try {
+        const response = await Traductor.initTraductor(key)
+        this.tradSelector = response
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
+
 </style>
