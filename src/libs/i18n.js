@@ -5,8 +5,9 @@ import es from '@/locales/es.json';
 import fr from "@/locales/fr.json";
 
 class Traductor {
+
     static async initTraductor() {
-        i18next.init({
+        await i18next.init({
             lng: 'fr', // if you're using a language detector, do not define the lng option
             fallback: 'fr',
             debug: true,
@@ -17,8 +18,12 @@ class Traductor {
             }
         })    
     }
+
+    static changeLanguage(lang) {
+        i18next.changeLanguage(lang)
+    }
+
     static traduction(key) {
-        console.log(key)
         return i18next.t(key)
        
     }

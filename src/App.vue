@@ -22,7 +22,6 @@ export default {
   data: () => ({
   }),
   async mounted() {
-    await Traductor.initTraductor()
   },
 };
 </script>

@@ -31,7 +31,7 @@
       </span>
     </v-btn>
     <v-col class="d-flex" cols="2">
-      <v-autocomplete :items="langSelect"></v-autocomplete>
+      <v-select :items="langSelect" item-text="value" item-value="key" @change="traductSelect"></v-select>
     </v-col>
   </v-app-bar>
 </template>
@@ -49,17 +49,21 @@ export default {
     }
   },
   data: () => ({
-    langSelect: ["fr", "en", "es"],
+    langSelect: [{
+      key :"fr",
+      value: "Francaise"
+    }, {
+      key: "en",
+      value: "English"
+    }, {
+      key : "es",
+      value: "Espaniol"
+    }],
     navbarColor: process.env.VUE_APP_NAVBAR_COLOR,
   }),
-  method: {
-    async traductSelect(key) {
-      try {
-        const response = await Traductor.initTraductor(key)
-        this.tradSelector = response
-      } catch (e) {
-        console.error(e)
-      }
+  methods: {
+    traductSelect(key) {
+        Traductor.changeLanguage(key)
     }
   }
 }
