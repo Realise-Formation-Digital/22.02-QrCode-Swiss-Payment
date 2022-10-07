@@ -22,7 +22,6 @@ class XmlService {
             console.log('[XmlService][fixXMLDivalto] Fixing xml coming from user input with params', xmlFile )
             //first parse the field coming from input
             const xmlRawDoc = await XmlLibrary.getXMLDoc(xmlFile)
-            console.log('File', xmlRawDoc)
 
             // second step remove useless tag
             // remove ultimateDebtorAccount
@@ -48,7 +47,6 @@ class XmlService {
                 if (itemNtryTag && itemNtryTag.childNodes[0] && itemNtryTag.childNodes[0].nodeValue && itemNtryTag.childNodes[0].nodeValue === XML_IBAN) itemNtryTag.childNodes[0].nodeValue = XML_DIVALTO_ACCOUNT
             }
 
-            console.log('File changed', xmlRawDoc)
             return xmlRawDoc
         }catch (e) {
             console.error('[XmlService][fixXMLDivalto] An error occurred when fixing xml coming from user input', e)

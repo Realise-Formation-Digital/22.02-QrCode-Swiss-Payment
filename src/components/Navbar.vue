@@ -17,16 +17,17 @@
     <v-btn v-show="$route.path !=='/'" to="/xml" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-xml</v-icon>
-        Importer un fichier xml
+        Convertir pour Divalto
       </span>
     </v-btn>
 
+    <!--
     <v-btn v-show="$route.path !=='/'" to="/csv" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-file-delimited-outline</v-icon>
         Importer un fichier
       </span>
-    </v-btn>
+    </v-btn> -->
 
     <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
         <v-icon left>mdi-qrcode</v-icon>
