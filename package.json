@@ -1,6 +1,6 @@
 {
   "name": "22.02-qrcode-swiss-payment",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

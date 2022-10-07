@@ -3,7 +3,7 @@
     <v-col cols="3"></v-col>
     <v-col>
       <div class="text-center">
-        Importer le fichier pour Divalto transmit par la Poste (fichier XML)
+        Importer le fichier pour Divalto transmis par la Poste (fichier XML)
       </div>
 
       <v-file-input accept="xml/*"

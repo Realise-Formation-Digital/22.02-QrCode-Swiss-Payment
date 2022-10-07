@@ -1,4 +1,15 @@
 # Journal des modifications
+
+- --
+# [Version 1.0.3] - 07.10.2022
+## Fixé
+- Bug qui empêchait l'importation de fichiers dans divalto
+
+## Ajouté
+- Page pour la conversion du fichier transmis
+
+## Modifié
+
 - --
 # [Version 1.0.2] - 19.09.2022
 ## Fixé
