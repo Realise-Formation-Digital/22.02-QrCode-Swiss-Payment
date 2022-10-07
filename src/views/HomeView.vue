@@ -15,6 +15,11 @@
             <v-icon left>mdi-qrcode</v-icon>
             Créer une facture
           </v-btn>
+
+          <v-btn outlined color="indigo" to="xml" x-large rounded elevation="10">
+            <v-icon left>mdi-xml</v-icon>
+            Convertir pour Divalto
+          </v-btn>
         </div>
       </v-col>
     </div>

@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue';
 import CsvView from '../views/CsvView.vue';
 import FormQrView from "@/views/FormQrView.vue";
 import InfoView from '@/views/InfoView.vue'
+import XMLParser from '@/views/qrrToDivaltoView.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,6 +27,12 @@ const routes = [
     path: '/info',
     name: '/Info-View',
     component: InfoView
+  },
+
+  {
+    path: '/xml',
+    name: '/xml-View',
+    component: XMLParser
   },
 ]
 
