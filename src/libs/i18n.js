@@ -8,24 +8,26 @@ class Traductor {
 
     static async initTraductor() {
         await i18next.init({
-            lng: 'fr', // if you're using a language detector, do not define the lng option
-            fallback: 'fr',
+            lng: 'en', // if you're using a language detector, do not define the lng option
             debug: true,
             resources: {
                 en: en,
                 fr: fr,
                 es: es
             }
-        })    
+        })
     }
 
-    static changeLanguage(lang) {
-        i18next.changeLanguage(lang)
+    static async changeLanguage(resources) {
+        console.log("change Langage", resources)
+        console.log("change Langage", typeof (resources))
+        await i18next.changeLanguage(resources)
+        console.log("i18", i18next)
+        console.log("i18", i18next.t)
     }
 
     static traduction(key) {
         return i18next.t(key)
-       
     }
 }
 

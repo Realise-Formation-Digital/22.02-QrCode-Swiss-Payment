@@ -51,21 +51,26 @@ export default {
   data: () => ({
     langSelect: [{
       key :"fr",
-      value: "Francaise"
+      value: "Français"
     }, {
       key: "en",
       value: "English"
     }, {
       key : "es",
-      value: "Espaniol"
+      value: "Español"
     }],
     navbarColor: process.env.VUE_APP_NAVBAR_COLOR,
   }),
   methods: {
-    traductSelect(key) {
-        Traductor.changeLanguage(key)
+    traductSelect(langSelect) {
+        Traductor.changeLanguage(langSelect)
+        console.log("miaouu", langSelect)
+        console.log("miaouu", typeof(langSelect))
+        this.$forceUpdate();
+
+        return this.langSelect
     }
-  }
+  },
 }
 </script>
 
