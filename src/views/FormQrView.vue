@@ -3,7 +3,9 @@
   <v-row>
     <v-col lg="4" md="4" sm="12" xs="12">
       Here little description what the user have to do :)
-
+      <v-file-input accept="csv/*"
+        label="Cliquez ici pour importer le Fichier contenant la facture Divalto (Format pdf)" @change="sendDivaltoPdf">
+      </v-file-input>
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -24,8 +26,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70"
-                      required>
+        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -38,7 +39,7 @@
           </template>
         </v-text-field>
         <v-text-field v-model="form.dnr" :rules="formRules.dnr" append-icon="info" counter label="Numéro de rue"
-                      maxlength="16" required>
+          maxlength="16" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -72,13 +73,13 @@
           </template>
 
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :items="countriesList"
-                        :rules="formRules.dcountry" item-text="french" item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
+        <v-autocomplete v-model="form.dcountry" :items="countriesList" :rules="formRules.dcountry" item-text="french"
+          item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
         </v-autocomplete>
 
         <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12"
-                      required v-on:keypress="nombreSeulement">
+        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12" required
+          v-on:keypress="nombreSeulement">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -109,8 +110,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif)"
-                      maxlength="56">
+        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter
+          label="Informations supplémentaires (facultatif)" maxlength="56">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -157,13 +158,14 @@
             <v-spacer></v-spacer>
 
             <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
-                   x-large @click="confirm()">
+              x-large @click="confirm()">
               Confirmer
               <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
-                                           color="orange">
+                <span>
+                  <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
                     {{ countDown }}
-                  </v-progress-circular></span>
+                  </v-progress-circular>
+                </span>
               </template>
             </v-btn>
 
@@ -326,6 +328,17 @@ export default {
   },
 
   methods: {
+
+    async sendDivaltoPdf(divaltoFile) {
+      try {
+        console.log("test file", divaltoFile)
+        console.log("test file", typeof (divaltoFile))
+        let sendDivalto = await ApiService.mergeFiles(divaltoFile)
+        console.log("sendDivalto await formqr", sendDivalto)
+      } catch (e) {
+        console.error(e)
+      }
+    },
     /**
      * Welcome In Hell Marco's Function
      */
@@ -396,7 +409,7 @@ export default {
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], {type: 'application/pdf'});
+          const file = new Blob([response.data], { type: 'application/pdf' });
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
@@ -534,7 +547,7 @@ export default {
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
-          // && (nombres 188(Virgule) && 222 (Apostrophe))
+      // && (nombres 188(Virgule) && 222 (Apostrophe))
       {
         e.preventDefault();
       } else {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL} from "@/libs/consts";
+import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL } from "@/libs/consts";
 import MarkParse from "../libs/marked.js";
 // import MARKDWN_URL from "@/libs/urlMarked.js"
 
@@ -168,16 +168,35 @@ class ApiService {
         try {
             console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params", referenceNumber)
             const response = await axios.post(BASE_URL + '/v2/creditor-reference/modulo97' + API_KEY, referenceNumber,
-              {
-                  headers: {
-                      'Content-Type': 'text/plain',
-                      'accept': 'text/plain'
-                  }
-              })
+                {
+                    headers: {
+                        'Content-Type': 'text/plain',
+                        'accept': 'text/plain'
+                    }
+                })
             if (response.status !== 200) throw Error('API Error')
             return response.data
         } catch (e) {
-            console.error("[Service][ApiService][getTwoCheckDigit] An error occurred when getting two check digit",e)
+            console.error("[Service][ApiService][getTwoCheckDigit] An error occurred when getting two check digit", e)
+            throw new Error(e)
+        }
+    }
+
+    /**
+     * Envoi à l'API pour merge
+     * @params {object} divaltoFile
+     * @Author Xavier de Juan
+     */
+    static async mergeFiles(divaltoFile, qrCodeApi) {
+        try {
+            console.log("[Service][ApiService][mergeFiles] Envoi des fichiers pdf Divalto + pdf QR")
+            console.log("Divalto", divaltoFile)
+            console.log("qrCodeApi", qrCodeApi)
+            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY, divaltoFile, qrCodeApi)
+            if (response.status !== 200) throw Error('API merge Error')
+            return response
+        } catch (e) {
+            console.error("[Service][ApiService][mergeFiles] Echec de retour du pdf mergé (erreur 4xx)")
             throw new Error(e)
         }
     }
