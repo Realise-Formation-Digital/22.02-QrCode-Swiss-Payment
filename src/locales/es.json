@@ -1,3 +1,62 @@
 {
-    "test": "Holà"
+    "translation": {
+        "navbar": {
+            "boutonAccueil": "Pagina principal",
+            "boutonFacture": "Crear una factura"
+        },
+        "formqrcode": {
+            "description": "Descripción por venir",
+            "debiteur": "Deudor",
+            "nom": "Apellido",
+            "rue": "Calle",
+            "numDeRue": "Numero de calle",
+            "codePostal": "Código postal",
+            "ville": "Ciudad",
+            "pays": "Pays (Haga clic aquí para seleccionar un país)",
+            "infoMontPaiement": "Información de la cantidad",
+            "montant": "Pagamento????",
+            "numRef": "Número de referencia (no debe contener espacios entre números)",
+            "infoFacture": "Información de la factura (opcional)",
+            "infoSupp": "Información adicional: (Opcional)",
+            "valider": "Validar",
+            "effacer": "Borrar"
+        },
+        "modale": {
+            "verifConfirm": "Página de verificación.",
+            "confirmer": "Confirmar",
+            "annuler": "anular"
+        },
+        "toolTip": {
+            "nom": "Nombre o empresa del último deudor 70 caracteres máximo. Apellido, nombre (opcional, si está disponible) o razón social.",
+            "rue": "Calle/Apartado de correos del último deudor Máximo de 70 caracteres permitidos. No puede contener números de casas o edificios.",
+            "numDeRue": "Número de casa del deudor final. 16 caracteres máximo permitido",
+            "codePostal": "Código postal del deudor final Máximo 16 caracteres permitidos. Indique siempre sin tener en cuenta el código de país.",
+            "ville": "Ubicación del deudor final. Máximo de 16 caracteres permitidos.",
+            "montant": "Monto del pago. El elemento debe especificarse sin ceros a la izquierda, incluido el separador decimal y dos lugares decimales. Se permite un máximo de 12 posiciones, incluido el separador decimal. Solo se permite el punto ('.') como separador decimal.",
+            "numRef": "Número de referencia de pago estructurado. -Nota: La referencia es una referencia QR o una referencia de acreedor (ISO 11649) Máximo 27 caracteres alfanuméricos. Debe completarse si usa un QR-IBAN. Referencia QR: 27 caracteres numéricos, cálculo del dígito de control según el módulo 10 recursivo (posición 27 de la referencia) Referencia del acreedor (ISO 11649): hasta 25 caracteres alfanuméricos El elemento no debe completarse para el tipo de referencia NO .",
+            "infoFacture": "La información de la estructura de la factura contiene información codificada para el registro automático de pagos. Los datos no se transmiten con el pago. 140 caracteres como máximo.",
+            "infosupp": "La información no estructurada se puede utilizar para indicar un motivo de pago o para información textual adicional sobre pagos con una referencia estructurada. 56 caracteres como máximo."    
+        },
+        "alert": {   
+            "nom": "El campo 'Nombre' es obligatorio.",
+            "rue": "El campo 'Calle' es obligatorio.",
+            "numDeRue": "El campo 'Número de calle' es obligatorio.",
+            "codePostal": "El campo 'Código postal' es obligatorio.",
+            "ville": "El campo 'Ciudad' es obligatorio.",
+            "pays": "Por favor seleccione un país",
+            "montant": "El campo 'Cantidad' es obligatorio.",
+            "numRef": "El número de referencia es obligatorio."
+        },
+        "lang": {
+            "english": "English",
+            "francais": "Français",
+            "italiano": "Italiano",
+            "deutch": "Deutch",
+            "espanol": "Español",
+            "portuguese": "Portuguese"
+        },
+        "homepage": {
+            "facture": "Crear una factura"
+        }
+    }
 }

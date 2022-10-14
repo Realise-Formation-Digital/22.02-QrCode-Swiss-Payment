@@ -30,9 +30,9 @@
         <!-- Créer une facture -->
       </span>
     </v-btn>
-    <v-col class="d-flex" cols="2">
+    <!-- <v-col class="d-flex" cols="2">
       <v-select :items="langSelect" item-text="value" item-value="key" @change="traductSelect"></v-select>
-    </v-col>
+    </v-col> -->
   </v-app-bar>
 </template>
 
@@ -66,8 +66,6 @@ export default {
         Traductor.changeLanguage(langSelect)
         console.log("miaouu", langSelect)
         console.log("miaouu", typeof(langSelect))
-        this.$forceUpdate();
-
         return this.langSelect
     }
   },

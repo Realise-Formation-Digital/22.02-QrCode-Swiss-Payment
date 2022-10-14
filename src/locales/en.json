@@ -29,7 +29,7 @@
         "toolTip": {
             "nom": "Name or company of ultimate debtor 70 characters maximum. Last name, first name (optional, if available) or company name.",
             "rue": "Ultimate debtor's street/PO box Maximum 70 characters allowed. Cannot contain a house or building number.",
-            "numDeRue": "Numéro de maison du débiteur final. 16 caractères au maximum admis",
+            "numDeRue": "Final debtor's house number. 16 characters maximum allowed",
             "codePostal": "Ultimate debtor's postal code 16 characters maximum allowed. Always to be indicated without leading country code.",
             "ville": "Ultimate debtor location. Maximum 16 characters allowed.",
             "montant": "Amount of payment. The element must be indicated without leading zeros, including decimal separator, and two decimal places. A maximum of 12 positions are allowed, including decimal separator. Only the period (“.”) is allowed as decimal separator.",
@@ -54,6 +54,9 @@
             "deutch": "Deutch",
             "espanol": "Español",
             "portuguese": "Portuguese"
+        },
+        "homepage": {
+            "facture": " Create an invoice"
         }
     }
 }

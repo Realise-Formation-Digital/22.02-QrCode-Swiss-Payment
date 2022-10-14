@@ -1,51 +1,51 @@
 {
     "translation": {
         "navbar": {
-            "boutonAccueil": "Home",
-            "boutonFacture": "Create an invoice"
+            "boutonAccueil": "Page principal",
+            "boutonFacture": "Créer une facture"
         },
         "formqrcode": {
-            "description": "Ciao Marco",
+            "description": "Description à venir",
             "debiteur": "Débiteur",
             "nom": "Nom",
             "rue": "Rue",
             "numDeRue": "Numéro de rue",
             "codePostal": "Code postal",
-            "ville": "City",
-            "pays": "Country (Please click here to select a country)",
-            "infoMontPaiement": "Payment amount information",
-            "montant": "Amount",
-            "numRef": "Reference number (The reference must be 27 characters)",
-            "infoFacture": "Invoice information (optional)",
-            "infoSupp": "Additional Information (optional)",
-            "valider": "Validate",
-            "effacer": "Erase"
+            "ville": "Ville",
+            "pays": "Pays (Veuillez cliquer içi pour sélectionner un pays)",
+            "infoMontPaiement": "Information du montant",
+            "montant": "Montant",
+            "numRef": "Numéro de référence (Ne doit contenir aucun espace entre les numéros)",
+            "infoFacture": "Information de facture (optionnel)",
+            "infoSupp": "Information supplémentaires (optionnel)",
+            "valider": "Valider",
+            "effacer": "Effacer"
         },
         "modale": {
-            "verifConfirm": "Verification before sending confirmation.",
-            "confirmer": "Confirm",
-            "annuler": "Abort"
+            "verifConfirm": "Page de vérification.",
+            "confirmer": "Confirmer",
+            "annuler": "Annuler"
         },
         "toolTip": {
-            "nom": "Name or company of ultimate debtor 70 characters maximum. Last name, first name (optional, if available) or company name.",
-            "rue": "Ultimate debtor's street/PO box Maximum 70 characters allowed. Cannot contain a house or building number.",
+            "nom": "Nom ou société du débiteur final 70 caractères maximum. Nom, prénom (facultatif, si disponible) ou raison sociale.",
+            "rue": "Rue/boîte postale du débiteur final 70 caractères maximum autorisés. Ne peut pas contenir de numéro de maison ou de bâtiment.",
             "numDeRue": "Numéro de maison du débiteur final. 16 caractères au maximum admis",
-            "codePostal": "Ultimate debtor's postal code 16 characters maximum allowed. Always to be indicated without leading country code.",
-            "ville": "Ultimate debtor location. Maximum 16 characters allowed.",
-            "montant": "Amount of payment. The element must be indicated without leading zeros, including decimal separator, and two decimal places. A maximum of 12 positions are allowed, including decimal separator. Only the period (“.”) is allowed as decimal separator.",
-            "numRef": "Reference number Structured payment reference Note: The reference is either a QR reference or a Creditor Reference (ISO 11649) Maximum 27 alphanumeric characters. Must be filled in if using a QR-IBAN. QR reference: 27 numeric characters, calculation of the check digit according to recursive modulo 10 (27th position of the reference) Creditor Reference (ISO 11649): up to 25 alphanumeric characters The element must not be filled in for the reference type NO.",
-            "infoFacture": "Biller's structural information contains coded information for automated payment posting. Data is not transmitted with payment. Maximum 140 characters.",
-            "infosupp": "Unstructured information can be used for the indication of a reason for payment or for additional textual information about payments with structured reference. 56 characters maximum."    
+            "codePostal": "Code postal du débiteur final 16 caractères maximum autorisés. Toujours à indiquer sans code de pays en tête.",
+            "ville": "Localisation du débiteur final. 16 caractères maximum autorisés.",
+            "montant": "Montant du paiement. L'élément doit être indiqué sans zéros non significatifs, y compris le séparateur décimal et deux décimales. Un maximum de 12 positions sont autorisées, y compris le séparateur décimal. Seul le point ('.') est autorisé comme séparateur décimal.",
+            "numRef": "Numéro de référence de paiement structuré. -Remarque : La référence est soit une référence QR, soit une référence créancier (ISO 11649) Maximum 27 caractères alphanumériques. Doit être rempli si vous utilisez un QR-IBAN. Référence QR : 27 caractères numériques, calcul du chiffre de contrôle selon le modulo récursif 10 (27ème position de la référence) Creditor Reference (ISO 11649) : jusqu'à 25 caractères alphanumériques L'élément ne doit pas être renseigné pour le type de référence NO.",
+            "infoFacture": "Les informations structurelles de la facture contiennent des informations codées pour l'enregistrement automatisé des paiements. Les données ne sont pas transmises avec le paiement. 140 caractères maximum.",
+            "infosupp": "Les informations non structurées peuvent être utilisées pour l'indication d'un motif de paiement ou pour des informations textuelles supplémentaires sur les paiements avec une référence structurée. 56 caractères maximum."    
         },
         "alert": {   
-            "nom": "The 'Name' field is mandatory.",
-            "rue": "The 'Street' field is mandatory.",
-            "numDeRue": "The 'Street number' field is mandatory.",
-            "codePostal": "The 'Postal code' field is mandatory.",
-            "ville": "The 'City' field is mandatory.",
-            "pays": "Please select a country",
-            "montant": "The 'Amount' field is mandatory.",
-            "numRef": "The 'Reference number' field is mandatory."
+            "nom": "Le champ 'Nom' est obligatoire.",
+            "rue": "Le champ 'Rue' est obligatoire.",
+            "numDeRue": "Le champ 'Numéro de rue' est obligatoire.",
+            "codePostal": "Le champ 'Code postal' est obligatoire.",
+            "ville": "Le champ 'Ville' est obligatoire.",
+            "pays": "Veuillez sélectionner un pays",
+            "montant": "Le champ 'Montant' est obligatoire.",
+            "numRef": "Le numéro de référence est obligatoire."
         },
         "lang": {
             "english": "English",
@@ -54,6 +54,9 @@
             "deutch": "Deutch",
             "espanol": "Español",
             "portuguese": "Portuguese"
+        },
+        "homepage": {
+            "facture": " Créer une facture"
         }
     }
 }

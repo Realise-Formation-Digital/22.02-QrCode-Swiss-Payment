@@ -1,29 +1,37 @@
 import i18next from "i18next";
 
+import de from "@/locales/de.json";
 import en from "@/locales/en.json";
 import es from '@/locales/es.json';
 import fr from "@/locales/fr.json";
+import it from "@/locales/it.json";
+import pt from "@/locales/pt.json";
 
 class Traductor {
 
     static async initTraductor() {
         await i18next.init({
-            lng: 'en', // if you're using a language detector, do not define the lng option
+            lng: navigator.language, // if you're using a language detector, do not define the lng option
+            fallback: 'en',
             debug: true,
             resources: {
+                de: de,
                 en: en,
+                es: es,
                 fr: fr,
-                es: es
+                it: it,
+                pt: pt,
             }
         })
     }
 
-    static async changeLanguage(resources) {
-        console.log("change Langage", resources)
-        console.log("change Langage", typeof (resources))
-        await i18next.changeLanguage(resources)
-        console.log("i18", i18next)
-        console.log("i18", i18next.t)
+    static async changeLanguage(lng) {
+        console.log("change Langage", lng);
+        console.log("change Langage", typeof (lng));
+        await i18next.changeLanguage(lng);
+        console.log("lng???", lng);
+        console.log("lng???", typeof (lng));
+        return lng
     }
 
     static traduction(key) {

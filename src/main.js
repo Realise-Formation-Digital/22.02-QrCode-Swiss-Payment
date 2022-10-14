@@ -11,7 +11,6 @@ import Traductor from "@/libs/i18n";
 Vue.config.productionTip = false
 
 Traductor.initTraductor()
-
 new Vue({
   router,
   store,

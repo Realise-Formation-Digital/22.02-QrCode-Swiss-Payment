@@ -13,7 +13,7 @@
 
           <v-btn outlined color="indigo" to="form-qr" x-large rounded elevation="10">
             <v-icon left>mdi-qrcode</v-icon>
-            Créer une facture
+           {{ this.traduis('homepage.facture')}}
           </v-btn>
         </div>
       </v-col>
@@ -22,8 +22,11 @@
 </template>
 
 <script>
+import { traductionMixin } from "@/mixins/traductionMixin.js"
+
 
 export default {
   name: 'HomeView',
+  mixins: [traductionMixin],
 }
 </script>
