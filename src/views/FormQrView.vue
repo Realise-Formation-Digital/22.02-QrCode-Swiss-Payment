@@ -204,6 +204,9 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
+    
+    file: new Blob(["".data], { type: 'application/pdf' }),
+
     // show: false, // Ne sert à rien ???
     snackbar: {
       flag: false,
@@ -328,12 +331,14 @@ export default {
   },
 
   methods: {
-
-    async sendDivaltoPdf(divaltoFile) {
+    async sendDivaltoPdf(divaltoFile,) {
       try {
-        console.log("test file", divaltoFile)
+        const qrCodeBlob = this.confirm()
+        this.confirm()
+        console.log("test file", divaltoFile, qrCodeBlob)
         console.log("test file", typeof (divaltoFile))
-        let sendDivalto = await ApiService.mergeFiles(divaltoFile)
+        console.log("test QR", qrCodeBlob)
+        let sendDivalto = await ApiService.mergeFiles(divaltoFile, qrCodeBlob)
         console.log("sendDivalto await formqr", sendDivalto)
       } catch (e) {
         console.error(e)
@@ -410,9 +415,11 @@ export default {
 
           // set the blog type to final pdf
           const file = new Blob([response.data], { type: 'application/pdf' });
+          console.log("receptionQR", file)
 
           // process to auto download it
           const fileURL = URL.createObjectURL(file);
+          console.log("linkFile", fileURL)
           const link = document.createElement('a');
           let date = new Date();
           let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());

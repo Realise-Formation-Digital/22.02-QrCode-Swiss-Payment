@@ -190,8 +190,8 @@ class ApiService {
     static async mergeFiles(divaltoFile, qrCodeApi) {
         try {
             console.log("[Service][ApiService][mergeFiles] Envoi des fichiers pdf Divalto + pdf QR")
-            console.log("Divalto", divaltoFile)
-            console.log("qrCodeApi", qrCodeApi)
+            console.log("DivaltoService", divaltoFile)
+            console.log("qrCodeService", qrCodeApi)
             const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY, divaltoFile, qrCodeApi)
             if (response.status !== 200) throw Error('API merge Error')
             return response
