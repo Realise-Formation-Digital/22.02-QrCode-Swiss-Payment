@@ -196,6 +196,7 @@
 
 <script>
 import ApiService from "@/services/apiService.js";
+import { PDFDocument , rgb} from 'pdf-lib';
 
 // Params used for amount.replace
 const regex = /,/gm;
@@ -331,15 +332,38 @@ export default {
   },
 
   methods: {
-    async sendDivaltoPdf(divaltoFile,) {
+    async sendDivaltoPdf(divaltoFile) {
       try {
-        const qrCodeBlob = this.confirm()
-        this.confirm()
-        console.log("test file", divaltoFile, qrCodeBlob)
-        console.log("test file", typeof (divaltoFile))
-        console.log("test QR", qrCodeBlob)
-        let sendDivalto = await ApiService.mergeFiles(divaltoFile, qrCodeBlob)
-        console.log("sendDivalto await formqr", sendDivalto)
+        const test = await divaltoFile.arrayBuffer()
+        const pdfDoc = await PDFDocument.load(test, { ignoreEncryption: true })
+          const pages = pdfDoc.getPages()
+        const firstPage = pages[0]
+
+        const { width, height } = firstPage.getSize()
+
+        console.log("Ciao", width, height)
+
+        firstPage.drawRectangle({
+          x: 0,
+          y: 0,
+          width: width,
+          height: 290,
+          color: rgb(1, 1, 1),
+        });
+
+        const pdfBytes = await pdfDoc.save();
+
+        const file = new Blob([pdfBytes], { type: 'application/pdf' });
+
+        // process to auto download it
+        const fileURL = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        let date = new Date();
+        let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
+        link.href = fileURL;
+        link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
+        link.click();
+
       } catch (e) {
         console.error(e)
       }
