@@ -204,9 +204,8 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
-    
-    file: new Blob(["".data], { type: 'application/pdf' }),
-
+    divaltoFileBlob: null,
+    qrFileBlob: null,
     // show: false, // Ne sert à rien ???
     snackbar: {
       flag: false,
@@ -331,15 +330,18 @@ export default {
   },
 
   methods: {
-    async sendDivaltoPdf(divaltoFile,) {
+    /**
+     * Function 
+     * @param {*} divaltoFile -
+     * @author Xavier de Juan - 
+     */
+    async sendDivaltoPdf(divaltoFile) {
       try {
-        const qrCodeBlob = this.confirm()
-        this.confirm()
-        console.log("test file", divaltoFile, qrCodeBlob)
-        console.log("test file", typeof (divaltoFile))
-        console.log("test QR", qrCodeBlob)
-        let sendDivalto = await ApiService.mergeFiles(divaltoFile, qrCodeBlob)
-        console.log("sendDivalto await formqr", sendDivalto)
+        console.log("[]", divaltoFile)
+        this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
+        console.log("divalto File Blob", this.divaltoFileBlob)
+        // let sendDivalto = await ApiService.mergeFiles(divaltoFile, qrCodeBlob)
+        // console.log("sendDivalto await formqr", sendDivalto)
       } catch (e) {
         console.error(e)
       }
@@ -414,11 +416,12 @@ export default {
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], { type: 'application/pdf' });
-          console.log("receptionQR", file)
+          const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
 
+          const sendtomerge = await ApiService.mergeFiles(this.divaltoFileBlob, qrFileBlob)
+          
           // process to auto download it
-          const fileURL = URL.createObjectURL(file);
+          const fileURL = URL.createObjectURL(sendtomerge);
           console.log("linkFile", fileURL)
           const link = document.createElement('a');
           let date = new Date();
