@@ -2,10 +2,28 @@
 <template>
   <v-row>
     <v-col lg="4" md="4" sm="12" xs="12">
-      Here little description what the user have to do :)
-      <v-file-input accept="csv/*"
-        label="Cliquez ici pour importer le Fichier contenant la facture Divalto (Format pdf)" @change="sendDivaltoPdf">
-      </v-file-input>
+      <h1>Facture Divalto</h1>
+      <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
+        label="Glissez-déposez ou cliquez ici (Format pdf)" @change="sendDivaltoPdf">
+      </v-file-input> -->
+      <v-card :rules="formRules.filInput" @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true"
+        @dragleave.prevent="dragover = false" :class="{ 'grey lighten-2': dragover }">
+        <v-card-text>
+          <v-btn @click.stop="removeDivaltoFile" icon>
+            <v-icon> mdi-close-circle </v-icon>
+          </v-btn>
+          <p>{{ dropTakeName }}</p>
+          <v-row class="d-flex flex-column" dense align="center" justify="center">
+            <v-icon class="mt-5" size="60">{{divaltoFileBlob ? 'mdi-cloud-check' : 'mdi-cloud-upload'}}</v-icon>
+            <p>
+              Glissez-déposer ou cliquez ici pour importer la facture. (fichier pdf)
+            </p>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -204,6 +222,9 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
+    dragover: false,
+    dropTakeName: null,
+    divaltoFile: null,
     divaltoFileBlob: null,
     qrFileBlob: null,
     // show: false, // Ne sert à rien ???
@@ -224,6 +245,7 @@ export default {
       nrref: "",
       infosupp: "",
       infobill: "",
+      filInput: null,
     },
     formRules: {
       dnom: [
@@ -281,6 +303,10 @@ export default {
           if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
           else return true;
         }],
+      filInput: [
+        v => !!v || "Oups!! Vous avez oublié la facture.",
+        
+      ],
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
@@ -330,6 +356,20 @@ export default {
   },
 
   methods: {
+
+    onDrop(e) {
+      this.dragover = false
+      this.divaltoFile = this.sendDivaltoPdf(e.dataTransfer.files[0])
+      this.dropTakeName = e.dataTransfer.files[0].name
+      let verification = e.dataTransfer.files[0].type
+      console.log("verif pdf", verification)
+    },
+
+    removeDivaltoFile() {
+      this.divaltoFile = null
+      this.divaltoFileBlob = null
+      this.dropTakeName = null
+    },
     /**
      * Function 
      * @param {*} divaltoFile -
@@ -337,11 +377,9 @@ export default {
      */
     async sendDivaltoPdf(divaltoFile) {
       try {
-        console.log("[]", divaltoFile)
+        console.log("[sendDivatopdf]", divaltoFile)
         this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
         console.log("divalto File Blob", this.divaltoFileBlob)
-        // let sendDivalto = await ApiService.mergeFiles(divaltoFile, qrCodeBlob)
-        // console.log("sendDivalto await formqr", sendDivalto)
       } catch (e) {
         console.error(e)
       }
@@ -419,7 +457,7 @@ export default {
           const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
 
           const sendtomerge = await ApiService.mergeFiles(this.divaltoFileBlob, qrFileBlob)
-          
+
           // process to auto download it
           const fileURL = URL.createObjectURL(sendtomerge);
           console.log("linkFile", fileURL)
@@ -432,6 +470,7 @@ export default {
           this.hideDialog()
           this.showSnackbarSuccess();
           this.reset();
+          this.removeDivaltoFile()
         }
       } catch (e) {
         this.showSnackbarError();
