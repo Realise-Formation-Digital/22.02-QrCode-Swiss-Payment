@@ -200,6 +200,27 @@ class ApiService {
             throw new Error(e)
         }
     }
+
+    static async unlockPdf(pdf) {
+        try {
+            const test = new FormData()
+            test.append('pdf', pdf)
+
+            const response = await axios.post('http://localhost:3000/pdfUnlock', test, {
+                responseType: "blob",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/pdf',
+                    'Accept-Language': 'fr'
+                }}
+            )
+            if (response.status !== 200) throw Error('API merge Error')
+            return response
+        }catch (e) {
+            console.error("[Service][ApiService][mergeFiles] An error has occurred when trying to unlock pdf")
+            throw new Error(e)
+        }
+    }
 }
 
 export default ApiService
