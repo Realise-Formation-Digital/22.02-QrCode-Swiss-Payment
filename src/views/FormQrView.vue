@@ -334,9 +334,15 @@ export default {
   methods: {
     async sendDivaltoPdf(divaltoFile) {
       try {
-        const test = await divaltoFile.arrayBuffer()
-        const pdfDoc = await PDFDocument.load(test, { ignoreEncryption: true })
-          const pages = pdfDoc.getPages()
+
+        const response = await ApiService.unlockPdf(divaltoFile)
+        console.log("response", response)
+
+
+        const test = await response.data.arrayBuffer()
+        //const test = await divaltoFile.arrayBuffer()
+        const pdfDoc = await PDFDocument.load(test)
+        const pages = pdfDoc.getPages()
         const firstPage = pages[0]
 
         const { width, height } = firstPage.getSize()
