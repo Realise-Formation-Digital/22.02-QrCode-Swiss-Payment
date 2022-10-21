@@ -7,26 +7,27 @@
       <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
         label="Glissez-déposez ou cliquez ici (Format pdf)" @change="sendDivaltoPdf">
       </v-file-input> -->
-
-      <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
-        :class="{ 'grey lighten-2': dragover }">
-        <v-card-text>
-          <v-btn @click.stop="removeDivaltoFile" icon>
-            <v-icon> mdi-close-circle </v-icon>
-          </v-btn>
-          <p>{{ dropTakeName }}</p>
-          <v-row class="d-flex flex-column" dense align="center" justify="center">
-            <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
-            'mdi-cloud-check' : 'mdi-cloud-upload' }}</v-icon>
-            <p>
-              Glissez-déposer ou cliquez ici pour importer la facture. (fichier pdf)
-            </p>
-          </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
+      <v-sheet outlined :color="isAPdf ? 'black' : 'red'" rounded>
+        <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+          :class="{ 'grey lighten-2': dragover }">
+          <v-card-text>
+            <v-btn @click.stop="removeDivaltoFile" icon>
+              <v-icon> mdi-close-circle </v-icon>
+            </v-btn>
+            <p>{{ dropTakeName }}</p>
+            <v-row class="d-flex flex-column" dense align="center" justify="center">
+              <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
+              'mdi-cloud-check' : 'mdi-cloud-upload' }}</v-icon>
+              <p >
+                {{ divaltoFileBlob ? '' : 'Glissez-déposer ici la facture Divalto à importer. (fichier pdf)' }}
+              </p>
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-sheet>
     </v-col>
     <v-col lg="8" md="8" sm="12" xs="12">
       <v-form ref="form" v-model="valid" lazy-validation>
