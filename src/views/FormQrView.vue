@@ -162,6 +162,7 @@
             <v-card-text>
               <v-row class="container">
                 <v-col class="modalDialogStyle" cols="4">
+                  <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
                   <p><strong><em>Nom</em></strong>: {{ form.dnom }}</p>
                   <p><strong><em>Rue</em></strong>: {{ form.dstreet }}</p>
                   <p><strong><em>Numéro de rue</em></strong>: {{ form.dnr }}</p>
