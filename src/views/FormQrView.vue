@@ -27,7 +27,6 @@
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
-        <!-- <v-file-input accept="application/pdf" :rules="formRules.filInput" prepend-icon hide-inpu >{{}}</v-file-input> -->
       </v-col>
       <v-col lg="8" md="8" sm="12" xs="12">
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -227,7 +226,6 @@ export default {
     dragover: false,
     dropTakeName: null,
     isAPdf: false,
-    validAsPdf: false,
     divaltoFile: null,
     divaltoFileBlob: null,
     qrFileBlob: null,
@@ -249,7 +247,6 @@ export default {
       nrref: "",
       infosupp: "",
       infobill: "",
-      filInput: "",
     },
     formRules: {
       dnom: [
@@ -307,10 +304,6 @@ export default {
           if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
           else return true;
         }],
-      filInput: [
-        v => !!v || "Nop!",
-        value => !value || value.type == "application/pdf" || 'pdf',
-      ],
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
@@ -366,6 +359,7 @@ export default {
       this.divaltoFile = this.sendDivaltoPdf(e.dataTransfer.files[0])
       this.dropTakeName = e.dataTransfer.files[0].name
       this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
+      console.log("isPdf", this.isAPdf)
       if (!this.isAPdf) this.removeDivaltoFile()
     },
 
@@ -500,10 +494,6 @@ export default {
       return this.$refs.form.validate();
     },
 
-    validateDragCard() {
-      this.validAsPdf = this.isAPdf
-    },
-
     /**
      * Function that reset the form
      * @author Xavier de Juan
@@ -523,9 +513,8 @@ export default {
      * @return boolean/numbers
      */
     showDialog() {
-      
         const isValid = this.$refs.form.validate();
-        if (this.pdfVerif == "application/pdf" && isValid) {
+        if (this.isAPdf && isValid) {
           this.dialog = true;
           this.activCountDown()
         
