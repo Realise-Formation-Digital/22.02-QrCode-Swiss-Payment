@@ -227,7 +227,7 @@ export default {
   data: () => ({
     dragover: false,
     dropTakeName: null,
-    pdfVerif: null,
+    isAPdf: false,
     divaltoFile: null,
     divaltoFileBlob: null,
     qrFileBlob: null,
@@ -362,20 +362,18 @@ export default {
   methods: {
 
     onDrop(e) {
-      this.pdfVerif = false
       this.dragover = false
       this.divaltoFile = this.sendDivaltoPdf(e.dataTransfer.files[0])
       this.dropTakeName = e.dataTransfer.files[0].name
-      this.pdfVerif = e.dataTransfer.files[0].type
-      console.log("verif pdf", this.pdfVerif !== "application/pdf" ? false : true)
-      this.pdfVerif !== "application/pdf" ? this.removeDivaltoFile() : ""
+      this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
+      if (!this.isAPdf) this.removeDivaltoFile()
     },
 
     removeDivaltoFile() {
       this.divaltoFile = null
       this.divaltoFileBlob = null
       this.dropTakeName = null
-      this.pdfVerif = false
+      this.isAPdf = false
     },
     /**
      * Function 
@@ -523,10 +521,9 @@ export default {
     showDialog() {
       
         const isValid = this.$refs.form.validate();
-        if (this.pdfVerif == "application/pdf" && isValid) {
+        if (this.isAPdf && isValid) {
           this.dialog = true;
           this.activCountDown()
-        
       }
     },
 
