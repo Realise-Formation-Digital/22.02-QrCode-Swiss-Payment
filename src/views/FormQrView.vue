@@ -1,7 +1,7 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
 <template>
   <v-row>
-    <v-form ref="form" v-model="valid" lazy-validation>
+   
       <v-col lg="4" md="4" sm="12" xs="12">
         <h1>Facture Divalto</h1>
         <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
@@ -30,7 +30,7 @@
         <!-- <v-file-input accept="application/pdf" :rules="formRules.filInput" prepend-icon hide-inpu >{{}}</v-file-input> -->
       </v-col>
       <v-col lg="8" md="8" sm="12" xs="12">
-
+        <v-form ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
 
@@ -210,8 +210,8 @@
             </v-card-text>
           </v-card>
         </v-dialog>
+      </v-form>
       </v-col>
-    </v-form>
   </v-row>
 </template>
 <script>
