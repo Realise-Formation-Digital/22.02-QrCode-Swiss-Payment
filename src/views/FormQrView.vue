@@ -1,32 +1,36 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
 <template>
   <v-row>
-    <v-col lg="4" md="4" sm="12" xs="12">
-      <h1>Facture Divalto</h1>
-      <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-col lg="4" md="4" sm="12" xs="12">
+        <h1>Facture Divalto</h1>
+        <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
         label="Glissez-déposez ou cliquez ici (Format pdf)" @change="sendDivaltoPdf">
       </v-file-input> -->
-      <v-card :rules="formRules.filInput" @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true"
-        @dragleave.prevent="dragover = false" :class="{ 'grey lighten-2': dragover }">
-        <v-card-text>
-          <v-btn @click.stop="removeDivaltoFile" icon>
-            <v-icon> mdi-close-circle </v-icon>
-          </v-btn>
-          <p>{{ dropTakeName }}</p>
-          <v-row class="d-flex flex-column" dense align="center" justify="center">
-            <v-icon class="mt-5" size="60">{{divaltoFileBlob ? 'mdi-cloud-check' : 'mdi-cloud-upload'}}</v-icon>
-            <p>
-              Glissez-déposer ou cliquez ici pour importer la facture. (fichier pdf)
-            </p>
-          </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-    <v-col lg="8" md="8" sm="12" xs="12">
-      <v-form ref="form" v-model="valid" lazy-validation>
+
+        <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+          :class="{ 'grey lighten-2': dragover }">
+          <v-card-text>
+            <v-btn @click.stop="removeDivaltoFile" icon>
+              <v-icon> mdi-close-circle </v-icon>
+            </v-btn>
+            <p>{{ dropTakeName }}</p>
+            <v-row class="d-flex flex-column" dense align="center" justify="center">
+              <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
+              'mdi-cloud-check' : 'mdi-cloud-upload' }}</v-icon>
+              <p>
+                Glissez-déposer ou cliquez ici pour importer la facture. (fichier pdf)
+              </p>
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+        <!-- <v-file-input accept="application/pdf" :rules="formRules.filInput" prepend-icon hide-inpu >{{}}</v-file-input> -->
+      </v-col>
+      <v-col lg="8" md="8" sm="12" xs="12">
+
         <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
 
@@ -141,74 +145,73 @@
             </v-tooltip>
           </template>
         </v-text-field>
-      </v-form>
 
-      <!--Buttons calling functions for the form-->
-      <v-btn class="mr-10 mt-10" color="success" elevation="10" outlined rounded x-large @click="showDialog()">Valider
-      </v-btn>
-      <v-btn class="ml-10 mt-10" color="error" elevation="10" outlined rounded x-large @click="reset()">Effacer</v-btn>
+        <!--Buttons calling functions for the form-->
+        <v-btn class="mr-10 mt-10" color="success" elevation="10" outlined rounded x-large @click="showDialog()">Valider
+        </v-btn>
+        <v-btn class="ml-10 mt-10" color="error" elevation="10" outlined rounded x-large @click="reset()">Effacer
+        </v-btn>
 
-      <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" max-width="70%" persistent>
-        <v-card>
-          <v-card-title>
-            <h1>Vérification avant confirmation d'envoi.</h1>
-          </v-card-title>
+        <!--Modal to check and confirm the form -->
+        <v-dialog v-model="dialog" max-width="70%" persistent>
+          <v-card>
+            <v-card-title>
+              <h1>Vérification avant confirmation d'envoi.</h1>
+            </v-card-title>
 
-          <!-- Checkform in the modal -->
-          <v-card-text>
-            <v-row class="container">
-              <v-col class="modalDialogStyle" cols="4">
-                <p><strong><em>Nom</em></strong>: {{ form.dnom }}</p>
-                <p><strong><em>Rue</em></strong>: {{ form.dstreet }}</p>
-                <p><strong><em>Numéro de rue</em></strong>: {{ form.dnr }}</p>
-                <p><strong><em>Code postal</em></strong>: {{ form.dnpa }}</p>
-                <p><strong><em>Ville</em></strong>: {{ form.dplace }}</p>
-                <p><strong><em>Pays</em></strong>: {{ form.dcountry }}</p>
-                <p><strong><em>Montant</em></strong>: {{ form.amount }}</p>
-                <p><strong><em>Numéro de référence</em></strong>: {{ form.nrref }}</p>
-                <p><strong><em>Informations supplémentaires</em></strong>: {{ form.infosupp }}</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <!-- Confirm or return buttons calling the functions -->
-          <v-card-actions>
-            <v-spacer></v-spacer>
+            <!-- Checkform in the modal -->
+            <v-card-text>
+              <v-row class="container">
+                <v-col class="modalDialogStyle" cols="4">
+                  <p><strong><em>Nom</em></strong>: {{ form.dnom }}</p>
+                  <p><strong><em>Rue</em></strong>: {{ form.dstreet }}</p>
+                  <p><strong><em>Numéro de rue</em></strong>: {{ form.dnr }}</p>
+                  <p><strong><em>Code postal</em></strong>: {{ form.dnpa }}</p>
+                  <p><strong><em>Ville</em></strong>: {{ form.dplace }}</p>
+                  <p><strong><em>Pays</em></strong>: {{ form.dcountry }}</p>
+                  <p><strong><em>Montant</em></strong>: {{ form.amount }}</p>
+                  <p><strong><em>Numéro de référence</em></strong>: {{ form.nrref }}</p>
+                  <p><strong><em>Informations supplémentaires</em></strong>: {{ form.infosupp }}</p>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <!-- Confirm or return buttons calling the functions -->
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
+                x-large @click="confirm()">
+                Confirmer
+                <template v-slot:loader>
+                  <span>
+                    <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
+                      {{ countDown }}
+                    </v-progress-circular>
+                  </span>
+                </template>
+              </v-btn>
+              <v-btn class="ml-10" color="error" elevation="5" rounded text x-large @click="hideDialog()">
+                Retour
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
-            <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
-              x-large @click="confirm()">
-              Confirmer
-              <template v-slot:loader>
-                <span>
-                  <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
-                    {{ countDown }}
-                  </v-progress-circular>
-                </span>
-              </template>
-            </v-btn>
+        <!-- Pop-up when the QR code is received -->
+        <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
+          {{ snackbar.text }}
+        </v-snackbar>
 
-            <v-btn class="ml-10" color="error" elevation="5" rounded text x-large @click="hideDialog()">
-              Retour
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <!-- Pop-up when the QR code is received -->
-      <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
-        {{ snackbar.text }}
-      </v-snackbar>
-
-      <!-- Pop-up until the QR code is received or an error -->
-      <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
-        <v-card color="primary" dark>
-          <v-card-text>
-            Veuillez patienter, en attente de réception
-            <v-progress-linear class="mb-0" color="white" indeterminate></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </v-col>
+        <!-- Pop-up until the QR code is received or an error -->
+        <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
+          <v-card color="primary" dark>
+            <v-card-text>
+              Veuillez patienter, en attente de réception
+              <v-progress-linear class="mb-0" color="white" indeterminate></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-form>
   </v-row>
 </template>
 
@@ -224,6 +227,7 @@ export default {
   data: () => ({
     dragover: false,
     dropTakeName: null,
+    pdfVerif: null,
     divaltoFile: null,
     divaltoFileBlob: null,
     qrFileBlob: null,
@@ -245,7 +249,7 @@ export default {
       nrref: "",
       infosupp: "",
       infobill: "",
-      filInput: null,
+      filInput: "",
     },
     formRules: {
       dnom: [
@@ -304,8 +308,8 @@ export default {
           else return true;
         }],
       filInput: [
-        v => !!v || "Oups!! Vous avez oublié la facture.",
-        
+        v => !!v || "Nop!",
+        value => !value || value.type == "application/pdf" || 'pdf',
       ],
     },
     dialog: false,// Boolean modal by default
@@ -358,17 +362,20 @@ export default {
   methods: {
 
     onDrop(e) {
+      this.pdfVerif = false
       this.dragover = false
       this.divaltoFile = this.sendDivaltoPdf(e.dataTransfer.files[0])
       this.dropTakeName = e.dataTransfer.files[0].name
-      let verification = e.dataTransfer.files[0].type
-      console.log("verif pdf", verification)
+      this.pdfVerif = e.dataTransfer.files[0].type
+      console.log("verif pdf", this.pdfVerif !== "application/pdf" ? false : true)
+      this.pdfVerif !== "application/pdf" ? this.removeDivaltoFile() : ""
     },
 
     removeDivaltoFile() {
       this.divaltoFile = null
       this.divaltoFileBlob = null
       this.dropTakeName = null
+      this.pdfVerif = false
     },
     /**
      * Function 
@@ -514,10 +521,12 @@ export default {
      * @return boolean/numbers
      */
     showDialog() {
-      const isValid = this.$refs.form.validate();
-      if (isValid) {
-        this.dialog = true;
-        this.activCountDown()
+      
+        const isValid = this.$refs.form.validate();
+        if (this.pdfVerif == "application/pdf" && isValid) {
+          this.dialog = true;
+          this.activCountDown()
+        
       }
     },
 
