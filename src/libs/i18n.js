@@ -12,7 +12,7 @@ class Traductor {
     static async initTraductor() {
         await i18next.init({
             lng: navigator.language, // if you're using a language detector, do not define the lng option
-            fallback: 'en',
+            fallbackLng: 'en',
             debug: true,
             resources: {
                 de: de,
