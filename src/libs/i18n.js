@@ -29,7 +29,7 @@ class Traductor {
         })
     }
     /**
-     * 
+     * Fonction pour le changement de langue
      * @param {*} lng 
      * @author Xavier de Juan
      * @returns 

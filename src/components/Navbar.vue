@@ -62,6 +62,11 @@ export default {
     navbarColor: process.env.VUE_APP_NAVBAR_COLOR,
   }),
   methods: {
+    /**
+     * Fonction de selection de langage dans le dropDown
+     * @param {*} langSelect
+     * @author Xavier de Juan
+     */
     traductSelect(langSelect) {
         Traductor.changeLanguage(langSelect)
         console.log("miaouu", langSelect)
