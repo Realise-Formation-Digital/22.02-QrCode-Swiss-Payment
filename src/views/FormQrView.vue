@@ -7,19 +7,19 @@
       <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
         label="Glissez-déposez ou cliquez ici (Format pdf)" @change="sendDivaltoPdf">
       </v-file-input> -->
-      <v-sheet outlined :color="isAPdf ? 'black' : 'red'" rounded>
+      <v-sheet outlined :color="cardState ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
             <v-btn @click.stop="removeDivaltoFile" icon>
               <v-icon> mdi-close-circle </v-icon>
             </v-btn>
-            <p>{{ dropTakeName }}</p>
+            <p :class="dropTakeNameColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
               'mdi-cloud-check' : 'mdi-cloud-upload' }}</v-icon>
-              <p >
-                {{ divaltoFileBlob ? '' : 'Glissez-déposer ici la facture Divalto à importer. (fichier pdf)' }}
+              <p :class="cardState ? 'black--text' : 'red--text'">
+                {{ divaltoFileBlob ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer. (format .pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -227,7 +227,9 @@ export default {
   data: () => ({
     dragover: false,
     dropTakeName: null,
+    cardState: true,
     isAPdf: false,
+    dropTakeNameColor: null,
     divaltoFile: null,
     divaltoFileBlob: null,
     qrFileBlob: null,
@@ -362,7 +364,15 @@ export default {
       this.dropTakeName = e.dataTransfer.files[0].name
       this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
       console.log("isPdf", this.isAPdf)
-      if (!this.isAPdf) this.removeDivaltoFile()
+      if (this.isAPdf) {
+        this.cardState = true
+        this.dropTakeNameColor = true
+      } else if (!this.isAPdf) {
+        this.removeDivaltoFile()
+        this.cardState = false
+        this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
+        this.dropTakeNameColor = false
+      }
     },
 
     removeDivaltoFile() {
@@ -371,6 +381,7 @@ export default {
       this.dropTakeName = null
       this.isAPdf = false
     },
+
     /**
      * Function 
      * @param {*} divaltoFile -
@@ -495,6 +506,12 @@ export default {
     validateForm() {
       return this.$refs.form.validate();
     },
+    /**
+     * 
+     */
+    // cardColor() {
+    //   this.isAPdf ? this.cardState = true : this.cardState = false
+    // },
 
     /**
      * Function that reset the form
@@ -503,6 +520,7 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
+      this.cardState = true
     },
 
     /*
@@ -518,7 +536,13 @@ export default {
       const isValid = this.$refs.form.validate();
       if (this.isAPdf && isValid) {
         this.dialog = true;
-        this.activCountDown()
+        this.activCountDown();
+      } else if (!this.isAPdf && isValid) {
+        this.cardState = false;
+      } else if (this.isAPdf && !isValid) {
+        this.cardState = true;
+      } else if (!this.isAPdf && !isValid) { 
+        this.cardState = false;
       }
     },
 
