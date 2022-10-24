@@ -398,11 +398,11 @@ export default {
         console.error(e)
       }
     },
-   /**
-     * W_I_H_M_F
-     * 
-     * Welcome In Hell Marco's Function
-     */
+    /**
+      * W_I_H_M_F
+      * 
+      * Welcome In Hell Marco's Function
+      */
 
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
@@ -544,7 +544,7 @@ export default {
         this.cardStateColor = false;
       } else if (this.isAPdf && !isValid) {
         this.cardStateColor = true;
-      } else if (!this.isAPdf && !isValid) { 
+      } else if (!this.isAPdf && !isValid) {
         this.cardStateColor = false;
       }
     },
