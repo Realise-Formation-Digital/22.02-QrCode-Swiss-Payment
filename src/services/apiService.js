@@ -145,12 +145,14 @@ class ApiService {
             throw new Error(e)
         }
     }
-
+    /**
+     * Requête à la libraire
+     * @returns promise
+     */
     static async axioRequ() {
         try {
             console.log("Request Mark axios success")
             const getAxioRequ = await axios.get(MARKDWN_URL)
-            // if (getAxioRequ !== 200) throw Error("C'est nuuuul!!")
             console.log("getAxioRequ", getAxioRequ)
             return MarkParse.txtParse(getAxioRequ.data);
         } catch (e) {
