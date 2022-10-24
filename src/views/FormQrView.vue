@@ -7,18 +7,18 @@
       <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
         label="Glissez-déposez ou cliquez ici (Format pdf)" @change="sendDivaltoPdf">
       </v-file-input> -->
-      <v-sheet outlined :color="cardState ? 'black' : 'red'" rounded>
+      <v-sheet outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
             <v-btn @click.stop="removeDivaltoFile" icon>
               <v-icon> mdi-close-circle </v-icon>
             </v-btn>
-            <p :class="dropTakeNameColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
+            <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
               'mdi-cloud-check' : 'mdi-cloud-upload' }}</v-icon>
-              <p :class="cardState ? 'black--text' : 'red--text'">
+              <p :class="cardStateColor ? 'black--text' : 'red--text'">
                 {{ divaltoFileBlob ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer. (format .pdf)' }}
               </p>
             </v-row>
@@ -225,21 +225,19 @@ const subst = `.`;
 export default {
   name: "FormQr",
   data: () => ({
-    dragover: false,
-    dropTakeName: null,
-    cardState: true,
-    isAPdf: false,
-    dropTakeNameColor: null,
-    divaltoFile: null,
-    divaltoFileBlob: null,
-    qrFileBlob: null,
-    // show: false, // Ne sert à rien ???
-    snackbar: {
+    dragover: false, // Réaction au passage du fichier au dessus du drag & drop
+    dropTakeName: null, // Variable qui récupère Le nom du fichier ou le message d'erreur en cas de non pdf
+    cardStateColor: true, // Couleur noir ou rouge du bord du cadre et du texte du drag & drop 
+    isAPdf: false, // Vérifie si c'est un pdf ou non
+    divaltoFile: null, // fichier pdf
+    divaltoFileBlob: null, // fichier pdf converti en Blob
+    qrFileBlob: null, // Fichier pdf reçu de l'API
+    snackbar: { // Message de l'état de réception du fichier mergé de l'API
       flag: false,
       text: null,
       color: null,
     },
-
+    // Formulaire
     form: {
       dnom: "",
       dstreet: "",
@@ -357,7 +355,13 @@ export default {
   },
 
   methods: {
-
+    /**
+     * Fonction de drag and drop qui récupère le fichier, le nom du fichier et le type de fichier
+     * Le nom du fichier est réutilisé
+     * Le type de fichier est utilisé pour cérifier si il s'agit d'un pdf ou non
+     * @param {*} e 
+     * @author Xavier de Juan
+     */
     onDrop(e) {
       this.dragover = false
       this.divaltoFile = this.sendDivaltoPdf(e.dataTransfer.files[0])
@@ -365,16 +369,17 @@ export default {
       this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
       console.log("isPdf", this.isAPdf)
       if (this.isAPdf) {
-        this.cardState = true
-        this.dropTakeNameColor = true
+        this.cardStateColor = true
       } else if (!this.isAPdf) {
         this.removeDivaltoFile()
-        this.cardState = false
+        this.cardStateColor = false
         this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
-        this.dropTakeNameColor = false
       }
     },
-
+    /**
+     * Fonction qui efface le fichier pdf importé.
+     * @author Xavier de Juan
+     */
     removeDivaltoFile() {
       this.divaltoFile = null
       this.divaltoFileBlob = null
@@ -383,9 +388,10 @@ export default {
     },
 
     /**
-     * Function 
+     * Fonction qui cahnge le fichier pdf (objet en format Blob)
      * @param {*} divaltoFile -
-     * @author Xavier de Juan - 
+     * @author Xavier de Juan -
+     * @return Blob 
      */
     async sendDivaltoPdf(divaltoFile) {
       try {
@@ -510,7 +516,7 @@ export default {
      * 
      */
     // cardColor() {
-    //   this.isAPdf ? this.cardState = true : this.cardState = false
+    //   this.isAPdf ? this.cardStateColor = true : this.cardStateColor = false
     // },
 
     /**
@@ -520,7 +526,7 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      this.cardState = true
+      this.cardStateColor = true
     },
 
     /*
@@ -538,11 +544,11 @@ export default {
         this.dialog = true;
         this.activCountDown();
       } else if (!this.isAPdf && isValid) {
-        this.cardState = false;
+        this.cardStateColor = false;
       } else if (this.isAPdf && !isValid) {
-        this.cardState = true;
+        this.cardStateColor = true;
       } else if (!this.isAPdf && !isValid) { 
-        this.cardState = false;
+        this.cardStateColor = false;
       }
     },
 
