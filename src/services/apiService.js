@@ -35,7 +35,8 @@ class ApiService {
      *     "english": "string",
      *     "german": "string",
      *     "french": "string",
-     *     "italian": "string"
+     *     "italian": "string",
+     * 
      * }]>}
      */
     static async getListCountries() {
@@ -145,12 +146,15 @@ class ApiService {
             throw new Error(e)
         }
     }
-
+    /**
+     * Requête à la libraire
+     * @author Xavier de Juan
+     * @returns promise
+     */
     static async axioRequ() {
         try {
             console.log("Request Mark axios success")
             const getAxioRequ = await axios.get(MARKDWN_URL)
-            // if (getAxioRequ !== 200) throw Error("C'est nuuuul!!")
             console.log("getAxioRequ", getAxioRequ)
             return MarkParse.txtParse(getAxioRequ.data);
         } catch (e) {

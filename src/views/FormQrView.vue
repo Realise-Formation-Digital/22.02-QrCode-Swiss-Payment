@@ -315,7 +315,7 @@ export default {
 
   async mounted() {
     try {
-      console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
+      console.log('[Views][CsvView][mounted] Getting countries list')
       this.isGettingCountriesList = true
       this.countriesList = await ApiService.getListCountries()
     } catch (e) {
