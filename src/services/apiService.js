@@ -35,7 +35,8 @@ class ApiService {
      *     "english": "string",
      *     "german": "string",
      *     "french": "string",
-     *     "italian": "string"
+     *     "italian": "string",
+     * 
      * }]>}
      */
     static async getListCountries() {
@@ -147,6 +148,7 @@ class ApiService {
     }
     /**
      * Requête à la libraire
+     * @author Xavier de Juan
      * @returns promise
      */
     static async axioRequ() {

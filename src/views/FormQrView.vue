@@ -294,7 +294,7 @@ export default {
 
   async mounted() {
     try {
-      console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
+      console.log('[Views][CsvView][mounted] Getting countries list')
       this.isGettingCountriesList = true
       this.countriesList = await ApiService.getListCountries()
     } catch (e) {
@@ -343,7 +343,7 @@ export default {
         // let sendDivalto = await ApiService.mergeFiles(divaltoFile, qrCodeBlob)
         // console.log("sendDivalto await formqr", sendDivalto)
       } catch (e) {
-        console.error(e)
+        console.error('[Views][FormQrView][mounted] An error has occurred when getting countries list', e)
       }
     },
     /**
