@@ -7,8 +7,12 @@ import fr from "@/locales/fr.json";
 import it from "@/locales/it.json";
 import pt from "@/locales/pt.json";
 
+/**
+ * Fonction d'initiation de l'instance i18next
+ * @author Xavier de Juan
+ * @return void
+ */
 class Traductor {
-
     static async initTraductor() {
         await i18next.init({
             lng: navigator.language, // if you're using a language detector, do not define the lng option
@@ -24,7 +28,7 @@ class Traductor {
             }
         })
     }
-
+    
     static async changeLanguage(lng) {
         console.log("change Langage", lng);
         console.log("change Langage", typeof (lng));
