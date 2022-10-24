@@ -314,7 +314,7 @@ export default {
     countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
-    maxWidthTooltip: 350
+    maxWidthTooltip: 350 // Taille du toolTip (icones i dans le formulaire)
   }),
 
   async mounted() {
