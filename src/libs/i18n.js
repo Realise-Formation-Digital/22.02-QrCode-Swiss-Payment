@@ -15,7 +15,7 @@ import pt from "@/locales/pt.json";
 class Traductor {
     static async initTraductor() {
         await i18next.init({
-            lng: navigator.language, // if you're using a language detector, do not define the lng option
+            lng: navigator.language, // Prends le langage du navigateur
             fallbackLng: 'en',
             debug: true,
             resources: {
@@ -28,7 +28,12 @@ class Traductor {
             }
         })
     }
-    
+    /**
+     * 
+     * @param {*} lng 
+     * @author Xavier de Juan
+     * @returns 
+     */
     static async changeLanguage(lng) {
         console.log("change Langage", lng);
         console.log("change Langage", typeof (lng));
