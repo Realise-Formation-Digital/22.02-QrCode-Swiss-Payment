@@ -1,12 +1,9 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
 <template>
   <v-row>
-
+    <!-- Drag and drop -->
     <v-col lg="4" md="4" sm="12" xs="12">
       <h1>Facture Divalto</h1>
-      <!-- <v-file-input prepend-icon="false" accept="pdf/*" outlined :show-size="1000"
-        label="Glissez-déposez ou cliquez ici (Format pdf)" @change="sendDivaltoPdf">
-      </v-file-input> -->
       <v-sheet outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
@@ -29,11 +26,10 @@
         </v-card>
       </v-sheet>
     </v-col>
+    <!-- Formulaire -->
     <v-col lg="8" md="8" sm="12" xs="12">
       <v-form ref="form" v-model="valid" lazy-validation>
-        <!--Text fields form for the debtors -->
         <h1>Débiteur</h1>
-
         <v-text-field v-model="form.dnom" :rules="formRules.dnom" counter label="Nom" maxlength="70" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
