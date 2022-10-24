@@ -310,8 +310,8 @@ export default {
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
     loadingPopUp: false,// Pop-up loading modal until receipt snackbar
-    isGettingCountriesList: false,
-    countriesList: [],
+    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
+    countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350
@@ -330,7 +330,7 @@ export default {
     }
 
     /**
-     * See W_I_H_M_F row 369
+     * Voir W_I_H_M_F plus bas
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -407,10 +407,11 @@ export default {
      */
 
     /**
+     * W_I_H_M_F
+     * 
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
      * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
      * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
-     *
      * @author Xavier de Juan
      */
     activCountDown() {
