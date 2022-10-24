@@ -391,11 +391,12 @@ export default {
      */
     async sendDivaltoPdf(divaltoFile) {
       try {
-        console.log("[sendDivatopdf]", divaltoFile)
+        console.log("[views][FormQrView.vue][sendDivatopdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
         console.log("divalto File Blob", this.divaltoFileBlob)
       } catch (e) {
-        console.error(e)
+        console.error("[views][FormQrView.vue][sendDivatopdf] Erreur durant la conversion du pdf en Blob")
+        throw new Error(e)
       }
     },
     /**
