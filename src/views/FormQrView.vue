@@ -338,7 +338,7 @@ export default {
     }
 
     /**
-     * See W_I_H_M_F row 369
+     * See W_I_H_M_F
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -364,6 +364,8 @@ export default {
 
   methods: {
     /**
+     * W_I_H_M_F
+     * 
      * Welcome In Hell Marco's Function
      */
 
