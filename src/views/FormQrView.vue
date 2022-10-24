@@ -47,8 +47,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" :label="traduis('formqrcode.rue')"
-          v-on:keypress="lettreSeulement($event)" required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" :label="traduis('formqrcode.rue')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">

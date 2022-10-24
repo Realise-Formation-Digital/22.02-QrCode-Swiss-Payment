@@ -42,6 +42,9 @@
     <!-- <v-col class="d-flex" cols="2">
       <v-select :items="langSelect" item-text="value" item-value="key" @change="traductSelect"></v-select>
     </v-col> -->
+    <v-btn to="/Info" text plain icon>
+        <v-icon>info</v-icon>
+    </v-btn>
   </v-app-bar>
 </template>
 
