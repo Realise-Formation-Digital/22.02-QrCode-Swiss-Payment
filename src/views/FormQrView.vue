@@ -398,13 +398,13 @@ export default {
         console.error(e)
       }
     },
-    /**
+   /**
+     * W_I_H_M_F
+     * 
      * Welcome In Hell Marco's Function
      */
 
     /**
-     * W_I_H_M_F
-     * 
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
      * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
      * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
