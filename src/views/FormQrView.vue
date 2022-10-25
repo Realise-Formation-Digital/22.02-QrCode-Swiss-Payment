@@ -251,6 +251,7 @@
 <script>
 import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js"
+// import { PDFDocument , rgb} from 'pdf-lib';
 
 // Params used for amount.replace
 const regex = /,/gm;
@@ -354,11 +355,11 @@ export default {
 
   async mounted() {
     try {
-      console.log('[Views][CsvView][mounted] Getting countries list')
+      console.log('[Views][FormQrView][mounted] Getting countries list')
       this.isGettingCountriesList = true
       this.countriesList = await ApiService.getListCountries()
     } catch (e) {
-      console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
+      console.error('[Views][FormQrView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
     } finally {
       this.isGettingCountriesList = false
@@ -431,30 +432,30 @@ export default {
     async sendDivaltoPdf(divaltoFile) {
       try {
 
-        const response = await ApiService.unlockPdf(divaltoFile)
-        console.log("response", response)
+        // const response = await ApiService.unlockPdf(divaltoFile)
+        // console.log("response", response)
 
 
-        const test = await response.data.arrayBuffer()
-        //const test = await divaltoFile.arrayBuffer()
-        const pdfDoc = await PDFDocument.load(test)
-        const pages = pdfDoc.getPages()
-        const firstPage = pages[0]
+        // const test = await response.data.arrayBuffer()
+        // //const test = await divaltoFile.arrayBuffer()
+        // const pdfDoc = await PDFDocument.load(test)
+        // const pages = pdfDoc.getPages()
+        // const firstPage = pages[0]
 
-        const { width, height } = firstPage.getSize()
+        // const { width, height } = firstPage.getSize()
 
-        console.log("Ciao", width, height)
+        // console.log("Ciao", width, height)
 
-        firstPage.drawRectangle({
-          x: 0,
-          y: 0,
-          width: width,
-          height: 290,
-          color: rgb(1, 1, 1),
-        });
+        // firstPage.drawRectangle({
+        //   x: 0,
+        //   y: 0,
+        //   width: width,
+        //   height: 290,
+        //   color: rgb(1, 1, 1),
+        // });
 
-        const pdfBytes = await pdfDoc.save();
-        console.log(pdfBytes)
+        // const pdfBytes = await pdfDoc.save();
+        // console.log(pdfBytes)
 
         console.log("[views][FormQrView.vue][sendDivatopdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
@@ -555,7 +556,7 @@ export default {
         }
       } catch (e) {
         this.showSnackbarError();
-        console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
+        console.error('[Views][FormQrView][sendCsvList] An error has occurred when send the form', e)
       } finally {
         this.dialog = false
         this.hideLoadingPopUp()
