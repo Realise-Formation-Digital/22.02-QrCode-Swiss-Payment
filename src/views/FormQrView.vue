@@ -261,8 +261,8 @@
 <script>
 import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js"
-// import Pdf from '@/libs/pdf.js'
-import { PDFDocument, rgb } from 'pdf-lib';
+import Pdf from '@/libs/pdf.js'
+// import { PDFDocument, rgb } from 'pdf-lib';
 
 // Params used for amount.replace
 const regex = /,/gm;
@@ -441,30 +441,14 @@ export default {
      * @return Blob 
      */
     async sendDivaltoPdf(divaltoFile) {
-      try {
-        const responseUnlock = await ApiService.unlockPdf(divaltoFile)
-        console.log("response", responseUnlock)
-        const pdfLibResp = await responseUnlock.data.arrayBuffer()
-        console.log("pdflibresp", pdfLibResp)
-        const pdfUnlocked = await PDFDocument.load(pdfLibResp)
-        console.log("pdfUnlocked", pdfUnlocked)
-        const pages = pdfUnlocked.getPages()
-        console.log("pages", pages)
-        const firstPage = pages[0]
-        console.log("firstPage", firstPage)
-        const { width } = firstPage.getSize()
-        console.log("{ width }", { width })
-        firstPage.drawRectangle({
-          x: 0,
-          y: 0,
-          width: width,
-          height: 290,
-          color: rgb(1, 1, 1),
-        });
-        const pdfBytes = await pdfUnlocked.save();
+      try { 
+        const response = await ApiService.unlockPdf(divaltoFile)
+        console.log("response", response)
+        const test = await response.data.arrayBuffer()
+        const pdfBytes = await Pdf.PdfLibrary(test)
         console.log("pdfBytes", pdfBytes)
         console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
-        this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
+        this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
         console.log("divalto File Blob", this.divaltoFileBlob)
       } catch (e) {
         console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
