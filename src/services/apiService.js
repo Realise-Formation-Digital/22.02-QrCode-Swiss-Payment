@@ -189,7 +189,7 @@ class ApiService {
 
     static async unlockPdf(pdf) {
         try {
-            console.log("serviceunlockPdf", pdf)
+            console.log("service UnlockPdf", pdf)
             const pdfToUnlock = new FormData()
             pdfToUnlock.append('pdf', pdf)
 

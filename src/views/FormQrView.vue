@@ -14,9 +14,10 @@
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
-              'mdi-cloud-check' : 'mdi-cloud-upload' }}</v-icon>
+                  'mdi-cloud-check' : 'mdi-cloud-upload'
+              }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
-                {{ divaltoFileBlob ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer. (format .pdf)' }}
+                {{ divaltoFileBlob ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -35,9 +36,10 @@
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
         <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom" :label="traduis('formqrcode.nom')" required>
+        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
+          :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>            
+            <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon color="primary" dark v-bind="attrs" v-on="on">
                   info
@@ -47,7 +49,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet" :label="traduis('formqrcode.rue')" required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet"
+          :label="traduis('formqrcode.rue')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -59,8 +62,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr" :label="traduis('formqrcode.numDeRue')"
-          append-icon="info" required>
+        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr"
+          :label="traduis('formqrcode.numDeRue')" append-icon="info" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -71,7 +74,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa" :label="traduis('formqrcode.codePostal')" required>
+        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa"
+          :label="traduis('formqrcode.codePostal')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -82,7 +86,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace" :label="traduis('formqrcode.ville')" required>
+        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace"
+          :label="traduis('formqrcode.ville')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -93,8 +98,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')"
-          :rules="formRules.dcountry" :items="countriesList" item-text="french" item-value="code">
+        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
+          :items="countriesList" item-text="french" item-value="code">
           <!-- <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -107,8 +112,8 @@
         </v-autocomplete>
 
         <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
-        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount" :label="traduis('formqrcode.montant')"
-          v-on:keypress="nombreSeulement" required>
+        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
+          :label="traduis('formqrcode.montant')" v-on:keypress="nombreSeulement" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -121,8 +126,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
-          required>
+        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref"
+          :label="traduis('formqrcode.numRef')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -141,7 +146,7 @@
           </template>
         </v-text-field>
         <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
-        :label="traduis('formqrcode.infoFacture')">
+          :label="traduis('formqrcode.infoFacture')">
           <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
               <template v-slot:activator="{ on, attrs }">
@@ -154,7 +159,7 @@
           </template>
         </v-textarea>
         <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
-        :label="traduis('formqrcode.infoSupp')">
+          :label="traduis('formqrcode.infoSupp')">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -167,35 +172,39 @@
           </template>
         </v-text-field>
 
-      <!--Buttons calling functions for the form-->
-      <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{ this.traduis('formqrcode.valider') }}
-      </v-btn>
-      <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{ this.traduis('formqrcode.effacer') }}</v-btn>
+        <!--Buttons calling functions for the form-->
+        <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{
+            this.traduis('formqrcode.valider')
+        }}
+        </v-btn>
+        <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{
+            this.traduis('formqrcode.effacer')
+        }}</v-btn>
 
-      <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" max-width="70%" persistent>
-        <v-card>
-          <v-card-title>
-            <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
-          </v-card-title>
+        <!--Modal to check and confirm the form -->
+        <v-dialog v-model="dialog" max-width="70%" persistent>
+          <v-card>
+            <v-card-title>
+              <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
+            </v-card-title>
 
-          <!-- Checkform in the modal -->
-          <v-card-text>
-            <v-row class="container">
-              <v-col cols="4" class="modalDialogStyle">
-                <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
-              </v-col>
-              <!-- <v-col cols="6">
+            <!-- Checkform in the modal -->
+            <v-card-text>
+              <v-row class="container">
+                <v-col cols="4" class="modalDialogStyle">
+                  <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
+                </v-col>
+                <!-- <v-col cols="6">
                 <p>{{  form.dnom  }}</p>
                 <p>{{  form.dstreet  }}</p>
                 <p>{{  form.dnr  }}</p>
@@ -207,29 +216,30 @@
                 <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
                 <p>{{  !!form.infosupp ? form.infosupp : "N/A"  }}</p>
               </v-col> -->
-            </v-row>
-          </v-card-text>
-          <!-- Confirm or return buttons calling the functions -->
-          <v-card-actions>
-            <v-spacer></v-spacer>
+              </v-row>
+            </v-card-text>
+            <!-- Confirm or return buttons calling the functions -->
+            <v-card-actions>
+              <v-spacer></v-spacer>
 
-            <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
-              :disabled="!!countDown" @click="confirm()">
-              {{ this.traduis('modale.confirmer') }}
-              <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
-                                           color="orange">
-                    {{ countDown }}
-                  </v-progress-circular></span>
-              </template>
-            </v-btn>
+              <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
+                :disabled="!!countDown" @click="confirm()">
+                {{ this.traduis('modale.confirmer') }}
+                <template v-slot:loader>
+                  <span>
+                    <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
+                      {{ countDown }}
+                    </v-progress-circular>
+                  </span>
+                </template>
+              </v-btn>
 
-            <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
-              {{ this.traduis('modale.annuler') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+              <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+                {{ this.traduis('modale.annuler') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-form>
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
@@ -251,7 +261,7 @@
 <script>
 import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js"
-import { PDFDocument , rgb} from 'pdf-lib';
+import Pdf from '@/libs/pdf.js'
 
 // Params used for amount.replace
 const regex = /,/gm;
@@ -366,7 +376,7 @@ export default {
     }
 
     /**
-     * Voir W_I_H_M_F plus bas
+     * Voir N_M_F plus bas
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -424,27 +434,21 @@ export default {
     },
 
     /**
-     * Fonction qui cahnge le fichier pdf (objet en format Blob)
+     * Fonction qui change le fichier pdf (objet en format Blob)
      * @param {*} divaltoFile -
      * @author Xavier de Juan -
      * @return Blob 
      */
     async sendDivaltoPdf(divaltoFile) {
       try {
-
         const responseUnlock = await ApiService.unlockPdf(divaltoFile)
         console.log("response", responseUnlock)
-
-        const test = await responseUnlock.data.arrayBuffer()
-        //const test = await divaltoFile.arrayBuffer()
-        const pdfUnlocked = await PDFDocument.load(test)
+        const pdfLibResp = await responseUnlock.data.arrayBuffer()
+        console.log("pdflibresp", pdfLibResp)
+        const pdfUnlocked = await Pdf.load(pdfLibResp)
         const pages = pdfUnlocked.getPages()
         const firstPage = pages[0]
-
-        const { width, height } = firstPage.getSize()
-
-        console.log("Ciao", width, height)
-
+        const { width } = firstPage.getSize()
         firstPage.drawRectangle({
           x: 0,
           y: 0,
@@ -452,32 +456,25 @@ export default {
           height: 290,
           color: rgb(1, 1, 1),
         });
-
         const pdfBytes = await pdfUnlocked.save();
         console.log("pdfBytes", pdfBytes)
-
-        // const file = new Blob([pdfBytes], { type: 'application/pdf' });
-
-
         console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
         console.log("divalto File Blob", this.divaltoFileBlob)
-
-
       } catch (e) {
         console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
         throw new Error(e)
       }
     },
     /**
-      * W_I_H_M_F
+      * N_M_F
       * 
-      * Welcome In Hell Marco's Function
+      * Not My Fault
       */
 
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
-     * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
+     * (Une personne dont le nom restera secret, est coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
      * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
      * @author Xavier de Juan
      */
