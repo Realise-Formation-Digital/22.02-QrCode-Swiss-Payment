@@ -461,7 +461,7 @@ export default {
           height: 290,
           color: rgb(1, 1, 1),
         });
-        const pdfBytes = await PDFDocument.save(pdfUnlocked);
+        const pdfBytes = await pdfUnlocked.save();
         console.log("pdfBytes", pdfBytes)
         console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
