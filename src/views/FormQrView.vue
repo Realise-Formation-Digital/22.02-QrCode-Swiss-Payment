@@ -431,18 +431,14 @@ export default {
      */
     async sendDivaltoPdf(divaltoFile) {
       try {
-        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
-        this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
-        console.log("divalto File Blob", this.divaltoFileBlob)
 
-        const response = await ApiService.unlockPdf(divaltoFile)
-        console.log("response", response)
+        const responseUnlock = await ApiService.unlockPdf(divaltoFile)
+        console.log("response", responseUnlock)
 
-
-        const test = await response.data.arrayBuffer()
+        const test = await responseUnlock.data.arrayBuffer()
         //const test = await divaltoFile.arrayBuffer()
-        const pdfDoc = await PDFDocument.load(test)
-        const pages = pdfDoc.getPages()
+        const pdfUnlocked = await PDFDocument.load(test)
+        const pages = pdfUnlocked.getPages()
         const firstPage = pages[0]
 
         const { width, height } = firstPage.getSize()
@@ -457,8 +453,15 @@ export default {
           color: rgb(1, 1, 1),
         });
 
-        const pdfBytes = await pdfDoc.save();
+        const pdfBytes = await pdfUnlocked.save();
         console.log("pdfBytes", pdfBytes)
+
+        // const file = new Blob([pdfBytes], { type: 'application/pdf' });
+
+
+        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
+        this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
+        console.log("divalto File Blob", this.divaltoFileBlob)
 
 
       } catch (e) {

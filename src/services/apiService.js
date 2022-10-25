@@ -189,10 +189,11 @@ class ApiService {
 
     static async unlockPdf(pdf) {
         try {
-            const test = new FormData()
-            test.append('pdf', pdf)
+            console.log("serviceunlockPdf", pdf)
+            const pdfToUnlock = new FormData()
+            pdfToUnlock.append('pdf', pdf)
 
-            const response = await axios.post('http://localhost:3000/pdfUnlock', test, {
+            const response = await axios.post('http://localhost:3000/pdfUnlock', pdfToUnlock, {
                 responseType: "blob",
                 headers: {
                     'Content-Type': 'application/json',

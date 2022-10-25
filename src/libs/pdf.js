@@ -5,6 +5,7 @@ class Pdf {
   static async test(file) {
     const pdfDoc = await PDFDocument.load(file)
     console.log("ciao", file)
+    console.log("miao", pdfDoc)
 
   }
 
