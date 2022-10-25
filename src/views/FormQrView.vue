@@ -430,6 +430,32 @@ export default {
      */
     async sendDivaltoPdf(divaltoFile) {
       try {
+
+        const response = await ApiService.unlockPdf(divaltoFile)
+        console.log("response", response)
+
+
+        const test = await response.data.arrayBuffer()
+        //const test = await divaltoFile.arrayBuffer()
+        const pdfDoc = await PDFDocument.load(test)
+        const pages = pdfDoc.getPages()
+        const firstPage = pages[0]
+
+        const { width, height } = firstPage.getSize()
+
+        console.log("Ciao", width, height)
+
+        firstPage.drawRectangle({
+          x: 0,
+          y: 0,
+          width: width,
+          height: 290,
+          color: rgb(1, 1, 1),
+        });
+
+        const pdfBytes = await pdfDoc.save();
+        console.log(pdfBytes)
+
         console.log("[views][FormQrView.vue][sendDivatopdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         this.divaltoFileBlob = new Blob([divaltoFile], { type: "application/pdf" })
         console.log("divalto File Blob", this.divaltoFileBlob)
