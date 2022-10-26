@@ -7,6 +7,7 @@ import MarkParse from "../libs/marked.js";
 /**
  * @class
  * @classdesc - Service for csv page
+ * @author Marco Tribuzio
  */
 class ApiService {
 
@@ -39,6 +40,7 @@ class ApiService {
      *     "italian": "string",
      * 
      * }]>}
+     * @author Marco Tribuzio
      */
     static async getListCountries() {
         try {
@@ -59,6 +61,8 @@ class ApiService {
      * @async
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
+     * @author Marco Tribuzio
+     * @author Xavier de Juan
      */
     static async sendJsonList(csvList) {
         try {
@@ -127,6 +131,7 @@ class ApiService {
      * Sending Single Payment to the api
      * @param payload
      * @returns {Promise<*>}
+     * @author Marco Tribuzio
      */
     static async sendSinglePayment(payload) {
         try {
@@ -148,9 +153,9 @@ class ApiService {
         }
     }
     /**
-     * Requête à la libraire
-     * @author Xavier de Juan
+     * Function that makes a request to the markdown library
      * @returns promise
+     * @author Xavier de Juan
      */
     static async axioRequ() {
         try {
@@ -168,6 +173,7 @@ class ApiService {
      * Get Two check digit
      * @param {String} referenceNumber - 27 digit reference number
      * @returns {Promise<String>}
+     * @author Marco Tribuzio
      */
     static async getTwoCheckDigit(referenceNumber) {
         try {
@@ -186,33 +192,40 @@ class ApiService {
             throw new Error(e)
         }
     }
-
+    /**
+     * Function that sends the pdf to a nodejs server to unlock the metadata
+     * @param {*} pdf 
+     * @returns promise
+     * @author Xavier de Juan 
+     */
     static async unlockPdf(pdf) {
         try {
             console.log("service UnlockPdf", pdf)
             const pdfToUnlock = new FormData()
             pdfToUnlock.append('pdf', pdf)
 
-            const response = await axios.post('http://localhost:3000/pdfUnlock', pdfToUnlock, {
+            const response = await axios.post(process.env.VUE_APP_PDFUNLOCK_URL, pdfToUnlock, {
                 responseType: "blob",
                 headers: {
                     'Content-Type': 'application/json',
                     'accept': 'application/pdf',
                     'Accept-Language': 'fr'
-                }}
+                }
+            }
             )
             if (response.status !== 200) throw Error('API merge Error')
             return response
-        }catch (e) {
+        } catch (e) {
             console.error("[Service][ApiService][mergeFiles] An error has occurred when trying to unlock pdf")
             throw new Error(e)
         }
     }
 
     /**
-     * Envoi à l'API pour merge
+     * Send to API for merge
      * @param {object} divaltoFile - 
-     * @param {object} qrCodeCreateByApi - 
+     * @param {object} qrCodeCreateByApi
+     * @author Marco Tribuzio
      * @author Xavier de Juan
      */
     static async mergeFiles(divaltoFile, qrCodeCreateByApi) {
@@ -220,18 +233,18 @@ class ApiService {
             console.log("[Service][ApiService][mergeFiles] Envoi des fichiers pdf Divalto + pdf QR")
 
             const formData = new FormData()
-            
+
             formData.append('file', divaltoFile)
             formData.append('file2', qrCodeCreateByApi)
 
             const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=1", formData,
-            {
-                responseType: "blob",
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/pdf'
-                }
-            })
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'accept': 'application/pdf'
+                    }
+                })
             if (response.status !== 200) throw Error('API merge Error')
             return response.data
         } catch (e) {

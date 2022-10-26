@@ -81,8 +81,6 @@ export default {
      */
     traductSelect(langSelect) {
         Traductor.changeLanguage(langSelect)
-        console.log("miaouu", langSelect)
-        console.log("miaouu", typeof(langSelect))
         return this.langSelect
     }
   },

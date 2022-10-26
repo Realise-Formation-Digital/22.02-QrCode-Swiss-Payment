@@ -31,7 +31,7 @@
     </v-col>
     <v-col lg="1" md="1" class="sureleve milieu"></v-col>
     <!-- Formulaire -->
-    <v-col lg="6" md="6" sm="12" xs="12">
+    <v-col lg="7" md="7" sm="12" xs="12">
       <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
@@ -127,7 +127,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" counter maxlength="27" :rules="formRules.nrref"
+        <v-text-field v-model="form.nrref" counter :rules="formRules.nrref"
           :label="traduis('formqrcode.numRef')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
@@ -261,8 +261,8 @@
 </template>
 <script>
 import ApiService from "@/services/apiService.js";
-import { traductionMixin } from "@/mixins/traductionMixin.js"
-import Pdf from '@/libs/pdf.js'
+import { traductionMixin } from "@/mixins/traductionMixin.js";
+import PdfService from '@/services/pdfService.js';
 // import { PDFDocument, rgb } from 'pdf-lib';
 
 // Params used for amount.replace
@@ -447,8 +447,8 @@ export default {
       try { 
         const response = await ApiService.unlockPdf(divaltoFile)
         console.log("response", response)
-        const test = await response.data.arrayBuffer()
-        const pdfBytes = await Pdf.PdfLibrary(test)
+        const pdf = await response.data.arrayBuffer()
+        const pdfBytes = await PdfService.callPdfLibrary(pdf)
         console.log("pdfBytes", pdfBytes)
         console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
@@ -705,9 +705,7 @@ export default {
 .formulaire {
   box-shadow:  10px 20px 20px 10px rgb(200, 200, 200);
 }
-.sureleve {
 
-}
 .background {
   background-color: rgb(255, 255, 255);
 }

@@ -1,5 +1,4 @@
 import i18next from "i18next";
-
 import de from "@/locales/de.json";
 import en from "@/locales/en.json";
 import es from '@/locales/es.json';
@@ -34,12 +33,8 @@ class Traductor {
      * @author Xavier de Juan
      * @returns 
      */
-    static async changeLanguage(lng) {
-        console.log("change Langage", lng);
-        console.log("change Langage", typeof (lng));
+    static async changeLanguage(lng) {  
         await i18next.changeLanguage(lng);
-        console.log("lng???", lng);
-        console.log("lng???", typeof (lng));
         return lng
     }
 
