@@ -10,11 +10,6 @@ class ParseCsv {
         header: true,
     }
 
-    // static csvToJson(csvFile, config) {
-    //     return this.$papa.parse(csvFile, config)
-    // }
-
-
     static csvToJson(csvFile) {
         return new Promise((resolve) => {
             Papa.parse(csvFile, {

@@ -34,6 +34,12 @@ export default {
     version: process.env.VUE_APP_VERSION
   }),
   methods: {
+    /**
+     * Link to the realized site
+     * @return void
+     * @author Marco Tribuzio
+     * @author Xavier de Juan
+     */
     openSiteRealise() {
       window.open(process.env.VUE_APP_FOOTER_ICONS, '_blank')
     }
