@@ -2,7 +2,7 @@
 <template class="background">
   <v-row class="background">
     <!-- Drag and drop -->
-    <v-col lg="4" md="4" sm="12" xs="12" class="sureleve" >
+    <v-col lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
       <v-sheet elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
@@ -30,7 +30,7 @@
       {{ this.traduis('formqrcode.description') }}
     </v-col>
     <v-col lg="1" md="1" class="sureleve milieu"></v-col>
-    <!-- Formulaire -->
+    <!-- Form -->
     <v-col lg="7" md="7" sm="12" xs="12">
       <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
@@ -101,15 +101,6 @@
         </v-text-field>
         <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
           :items="countriesList" item-text="french" item-value="code">
-          <!-- <template v-slot:append>
-            <v-tooltip top :max-width="maxWidthTooltip">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
-              </template>
-              <span>Pays du débiteur final
-                Code de pays à deux positions selon ISO 3166-1</span>
-            </v-tooltip>
-          </template> -->
         </v-autocomplete>
 
         <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
@@ -127,8 +118,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" counter :rules="formRules.nrref"
-          :label="traduis('formqrcode.numRef')" required>
+        <v-text-field v-model="form.nrref" counter :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
+          required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -273,19 +264,19 @@ export default {
   name: "FormQr",
   mixins: [traductionMixin],
   data: () => ({
-    dragover: false, // Réaction au passage du fichier au dessus du drag & drop
-    dropTakeName: null, // Variable qui récupère Le nom du fichier ou le message d'erreur en cas de non pdf
-    cardStateColor: true, // Couleur noir ou rouge du bord du cadre et du texte du drag & drop 
-    isAPdf: false, // Vérifie si c'est un pdf ou non
-    divaltoFile: null, // fichier pdf
-    divaltoFileBlob: null, // fichier pdf converti en Blob
-    qrFileBlob: null, // Fichier pdf reçu de l'API
-    snackbar: { // Message de l'état de réception du fichier mergé de l'API
+    dragover: false, // Reaction to the passage of the file above the drag & drop
+    dropTakeName: null, // Variable that retrieves the file name or the error message in case of no pdf
+    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
+    isAPdf: false, // Check if it is a pdf or not
+    divaltoFile: null, // PDF file
+    divaltoFileBlob: null, // pdf file converted to Blob
+    qrFileBlob: null, // Pdf file received from API
+    snackbar: { // API merge file receipt status message
       flag: false,
       text: null,
       color: null,
     },
-    // Formulaire
+    // Form
     form: {
       dnom: "",
       dstreet: "",
@@ -379,7 +370,7 @@ export default {
     }
 
     /**
-     * Voir N_M_F plus bas
+     * See N_M_F below
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -394,7 +385,7 @@ export default {
 
   watch: {
     /**
-     * active la modal tant que la valeur n'est pas égale.
+     * activates the modal until the value is equal.
      * @param {*} val
      * @author Xavier de Juan
      */
@@ -405,9 +396,9 @@ export default {
 
   methods: {
     /**
-     * Fonction de drag and drop qui récupère le fichier, le nom du fichier et le type de fichier
-     * Le nom du fichier est réutilisé
-     * Le type de fichier est utilisé pour cérifier si il s'agit d'un pdf ou non
+     * Drag and drop function that retrieves file, file name and file type
+     * The file name is reused
+     * File type is used to certify whether it is a pdf or not
      * @param {*} e 
      * @author Xavier de Juan
      */
@@ -427,7 +418,7 @@ export default {
       }
     },
     /**
-     * Fonction qui efface le fichier pdf importé.
+     * Function that deletes the imported pdf file.
      * @author Xavier de Juan
      */
     removeDivaltoFile() {
@@ -438,13 +429,13 @@ export default {
     },
 
     /**
-     * Fonction qui change le fichier pdf (objet en format Blob)
+     * Function that changes the pdf file (object to Blob format)
      * @param {*} divaltoFile -
-     * @author Xavier de Juan -
      * @return Blob 
+     * @author Xavier de Juan -
      */
     async sendDivaltoPdf(divaltoFile) {
-      try { 
+      try {
         const response = await ApiService.unlockPdf(divaltoFile)
         console.log("response", response)
         const pdf = await response.data.arrayBuffer()
@@ -463,11 +454,11 @@ export default {
       * 
       * Not My Fault
       */
-
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
-     * (Une personne dont le nom restera secret, est coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
-     * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
+     * (Une personne dont le nom restera secret, est coupable de cette idée et
+     *  non l'auteur de ces lignes qui est bien trop gentil
+     *  et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
      * @author Xavier de Juan
      */
     activCountDown() {
@@ -478,14 +469,15 @@ export default {
     },
 
     /**
-     * Function that call validate (see validate())
-     * Hide the "check" modal
-     * Show the loading pop-up
-     *
-     * @author Xavier de Juan
-     * @return void
+     *Function that call validate (see validate())
+     *Hide the "check" modal
+     *Show the loading pop-up
+     *@return void
+     *@author Marco Tribuzio
+     *@author Xavier de Juan
      */
     async confirm() {
+      console.error('[Views][FormQrView][sendCsvList] Send the form')
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
@@ -572,13 +564,6 @@ export default {
     validateForm() {
       return this.$refs.form.validate();
     },
-    /**
-     * 
-     */
-    // cardColor() {
-    //   this.isAPdf ? this.cardStateColor = true : this.cardStateColor = false
-    // },
-
     /**
      * Function that reset the form
      * @author Xavier de Juan
@@ -702,12 +687,12 @@ export default {
 .modalDialogStyle {
   font-size: x-large;
 }
+
 .formulaire {
-  box-shadow:  10px 20px 20px 10px rgb(200, 200, 200);
+  box-shadow: 10px 20px 20px 10px rgb(200, 200, 200);
 }
 
 .background {
   background-color: rgb(255, 255, 255);
 }
-
 </style>

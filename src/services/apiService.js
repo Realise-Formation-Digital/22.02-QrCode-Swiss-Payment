@@ -159,7 +159,7 @@ class ApiService {
      */
     static async axioRequ() {
         try {
-            console.log("Request Mark axios success")
+            console.log("[service][apiService][axioRequ] Request Mark axios")
             const getAxioRequ = await axios.get(MARKDWN_URL)
             console.log("getAxioRequ", getAxioRequ)
             return MarkParse.txtParse(getAxioRequ.data);
@@ -200,7 +200,7 @@ class ApiService {
      */
     static async unlockPdf(pdf) {
         try {
-            console.log("service UnlockPdf", pdf)
+            console.log("[Service][ApiService][mergeFiles] Unlock pdf", pdf)
             const pdfToUnlock = new FormData()
             pdfToUnlock.append('pdf', pdf)
 
@@ -230,7 +230,7 @@ class ApiService {
      */
     static async mergeFiles(divaltoFile, qrCodeCreateByApi) {
         try {
-            console.log("[Service][ApiService][mergeFiles] Envoi des fichiers pdf Divalto + pdf QR")
+            console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreateByApi)
 
             const formData = new FormData()
 

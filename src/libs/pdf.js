@@ -14,7 +14,7 @@ class Pdf {
    * @author Xavier de Juan
    */
   static async pdfLoad(file) {
-    console.log("[libs][pdf][pdfLoad] Loading unlocked pdf", file)
+    console.log("[libs][pdf][pdfLoad] Loading unlocked pdf with param", file)
     try {
       console.log(file)
       return await PDFDocument.load(file)
@@ -31,7 +31,7 @@ class Pdf {
    * @author Xavier de Juan
    */
   static gettingPages(pdfDoc) {
-    console.log("[libs][pdf][gettingPages] Getting pages", pdfDoc)
+    console.log("[libs][pdf][gettingPages] Getting pages with param", pdfDoc)
     try {
       const pages = pdfDoc.getPages()
       console.log("libsPages 0?", pages[0])
@@ -49,7 +49,7 @@ class Pdf {
    * @author Xavier de Juan
    */
   static drawRectangle(firstPage) {
-    console.log("[libs][pdf][drawRectangle] rectangle drawed")
+    console.log("[libs][pdf][drawRectangle] rectangle drawed with param")
     try {
       const { width } = firstPage.getSize()
       firstPage.drawRectangle({
@@ -72,7 +72,7 @@ class Pdf {
    * @author Xavier de Juan
    */
   static async pdfSave(pdfDoc) {
-    console.log("[libs][pdf][pdfSave] Save pdf")
+    console.log("[libs][pdf][pdfSave] Save pdf with param", pdfDoc)
     try {
       return await pdfDoc.save();
     } catch (e) {

@@ -75,7 +75,7 @@ export default {
   }),
   methods: {
     /**
-     * Fonction de selection de langage dans le dropDown
+     * Language selection function in the dropDown
      * @param {*} langSelect
      * @author Xavier de Juan
      */
