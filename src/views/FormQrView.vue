@@ -1,10 +1,10 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
-<template>
-  <v-row>
+<template class="background">
+  <v-row class="background">
     <!-- Drag and drop -->
-    <v-col lg="4" md="4" sm="12" xs="12">
+    <v-col lg="4" md="4" sm="12" xs="12" class="sureleve" >
       <h1>Facture Divalto</h1>
-      <v-sheet outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
@@ -13,11 +13,11 @@
             </v-btn>
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
-              <v-icon class="mt-5" size="60" :color="divaltoFileBlob ? 'green' : 'grey'">{{ divaltoFileBlob ?
+              <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
-                {{ divaltoFileBlob ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
+                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -29,9 +29,10 @@
       Here little description what the user have to do :)
       {{ this.traduis('formqrcode.description') }}
     </v-col>
+    <v-col lg="1" md="1" class="sureleve milieu"></v-col>
     <!-- Formulaire -->
-    <v-col lg="8" md="8" sm="12" xs="12">
-      <v-form ref="form" v-model="valid" lazy-validation>
+    <v-col lg="6" md="6" sm="12" xs="12">
+      <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
         <!-- todo set rules with one in the api -->
@@ -45,7 +46,7 @@
                   info
                 </v-icon>
               </template>
-              <span></span>
+              <span>Texte traduit automatiquement à integrer</span>
             </v-tooltip>
           </template>
         </v-text-field>
@@ -361,7 +362,8 @@ export default {
     countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
-    maxWidthTooltip: 350 // Taille du toolTip (icones i dans le formulaire)
+    maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
+    rawPdfFile: false,
   }),
 
   async mounted() {
@@ -410,12 +412,13 @@ export default {
      * @author Xavier de Juan
      */
     onDrop(e) {
+      this.rawPdfFile = false
       this.dragover = false
-      this.divaltoFile = this.sendDivaltoPdf(e.dataTransfer.files[0])
       this.dropTakeName = e.dataTransfer.files[0].name
       this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
       console.log("isPdf", this.isAPdf)
       if (this.isAPdf) {
+        this.rawPdfFile = e.dataTransfer.files[0]
         this.cardStateColor = true
       } else if (!this.isAPdf) {
         this.removeDivaltoFile()
@@ -523,6 +526,9 @@ export default {
             },
           }
 
+          this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
+
+
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
@@ -580,7 +586,7 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      this.cardStateColor = true
+      // this.cardStateColor = true
     },
 
     /*
@@ -696,4 +702,14 @@ export default {
 .modalDialogStyle {
   font-size: x-large;
 }
+.formulaire {
+  box-shadow:  10px 20px 20px 10px rgb(200, 200, 200);
+}
+.sureleve {
+
+}
+.background {
+  background-color: rgb(255, 255, 255);
+}
+
 </style>
