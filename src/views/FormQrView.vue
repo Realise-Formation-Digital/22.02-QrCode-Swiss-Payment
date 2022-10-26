@@ -26,8 +26,6 @@
           </v-card-actions>
         </v-card>
       </v-sheet>
-      Here little description what the user have to do :)
-      {{ this.traduis('formqrcode.description') }}
     </v-col>
     <v-col lg="1" md="1" class="sureleve milieu"></v-col>
     <!-- Form -->
@@ -407,7 +405,6 @@ export default {
       this.dragover = false
       this.dropTakeName = e.dataTransfer.files[0].name
       this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
-      console.log("isPdf", this.isAPdf)
       if (this.isAPdf) {
         this.rawPdfFile = e.dataTransfer.files[0]
         this.cardStateColor = true

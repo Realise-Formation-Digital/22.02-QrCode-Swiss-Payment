@@ -18,7 +18,7 @@ class PdfService {
             const pdfFile = await Pdf.pdfLoad(file)
             const pages = Pdf.gettingPages(pdfFile)
             Pdf.drawRectangle(pages)
-            const pdfSave = await Pdf.pdfSave(pdfFile)
+            const pdfSave = await Pdf.savePdf(pdfFile)
             return pdfSave
         } catch (e) {
             console.error("[service][pdfService][callPdfLibrary] Error loading and saving pdf", e)
