@@ -4,7 +4,10 @@
     <!-- Drag and drop -->
     <v-col lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-hover>
+      <template v-slot:default="{ hover }">
+        <v-sheet :class="`elevation-${hover ? 24 : 8}`"
+          class="transition-swing" elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
@@ -26,6 +29,8 @@
           </v-card-actions>
         </v-card>
       </v-sheet>
+      </template>
+    </v-hover>
     </v-col>
     <v-col lg="1" md="1" class="sureleve milieu"></v-col>
     <!-- Form -->
@@ -683,10 +688,6 @@ export default {
 <style>
 .modalDialogStyle {
   font-size: x-large;
-}
-
-.formulaire {
-  box-shadow: 10px 20px 20px 10px rgb(200, 200, 200);
 }
 
 .background {
