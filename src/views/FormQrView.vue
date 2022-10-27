@@ -6,8 +6,8 @@
       <h1>Facture Divalto</h1>
       <v-hover>
       <template v-slot:default="{ hover }">
-        <v-sheet :class="`elevation-${hover ? 24 : 8}`"
-          class="transition-swing" elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+        <v-sheet :class="`elevation-${hover ? 24 : 6}`"
+          class="mx-auto transition-swing" elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
@@ -30,7 +30,7 @@
         </v-card>
       </v-sheet>
       </template>
-    </v-hover>
+    </v-hover> 
     </v-col>
     <v-col lg="1" md="1" class="sureleve milieu"></v-col>
     <!-- Form -->
