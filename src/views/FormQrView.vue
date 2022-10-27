@@ -8,7 +8,8 @@
       <template v-slot:default="{ hover }">
         <v-sheet :class="`elevation-${hover ? 24 : 6}`"
           class="mx-auto transition-swing" elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
-        <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+          <draggable >
+        <v-card :forceFallback="true" @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
             <v-btn @click.stop="removeDivaltoFile" icon>
@@ -28,6 +29,7 @@
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
+      </draggable>
       </v-sheet>
       </template>
     </v-hover> 

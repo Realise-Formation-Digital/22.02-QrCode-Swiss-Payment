@@ -18,7 +18,7 @@ class Pdf {
     console.log("[libs][pdf][gettingPages] Getting pages with param", pdfDoc)
     try {
       const pages = pdfDoc.getPages()
-      return pages[0]
+      return pages[pages.lenght - 1]
     } catch (e) {
       console.error("[libs][pdf][gettingPages] Error when getting pages", e)
       throw new Error
