@@ -14,29 +14,29 @@ class Pdf {
    * @author Marco Tribuzio
    * @author Xavier de Juan
    */
-  static gettingPages(pdfDoc) {
-    console.log("[libs][pdf][gettingPages] Getting pages with param", pdfDoc)
+  static getLastPage(pdfDoc) {
+    console.log("[libs][pdf][getLastPage] Getting pages with param", pdfDoc)
     try {
-      const pages = pdfDoc.getPages()
-      return pages[0]
+      const pagesList = pdfDoc.getPages()
+      return pagesList[pagesList.length - 1]
     } catch (e) {
-      console.error("[libs][pdf][gettingPages] Error when getting pages", e)
+      console.error("[libs][pdf][getLastPage] Error when getting pages", e)
       throw new Error
     }
   }
-
+ 
   /**
    * Function that draws a white square instead of the BVR
-   * @param {*} firstPage
+   * @param {*} page
    * @returns - void
    * @author Marco Tribuzio
    * @author Xavier de Juan
    */
-  static drawRectangle(firstPage) {
+  static drawRectangle(page) {
     console.log("[libs][pdf][drawRectangle] rectangle drawed with param")
     try {
-      const {width} = firstPage.getSize()
-      firstPage.drawRectangle({
+      const {width} = page.getSize()
+      page.drawRectangle({
         x: 0,
         y: 0,
         width: width,
@@ -69,17 +69,17 @@ class Pdf {
     }
   }
 
-  static getPdfFirstPage(pdfDoc) {
-    console.log('[Lib][PDF][getPdfFirstPage] Getting first page with params', pdfDoc)
-    const pages = pdfDoc.getPages()
-    return pages[0]
-  }
-
   static getPdfWidth(pdfPage) {
     console.log('[Lib][PDF][getPdfWidth] Getting pdf width with params', pdfPage)
     const {width} = pdfPage.getSize()
     return width
   }
+
+   // static getPdfFirstPage(pdfDoc) {
+  //   console.log('[Lib][PDF][getPdfFirstPage] Getting first page with params', pdfDoc)
+  //   const pages = pdfDoc.getPages()
+  //   return pages[0]
+  // }
 
 }
 
