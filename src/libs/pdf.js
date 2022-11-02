@@ -8,13 +8,13 @@ import {PDFDocument, rgb} from 'pdf-lib';
 class Pdf {
 
   /**
-   * Function that takes pages and returns the first page
-   * @param {*} pdfDoc
+   * Function that takes pages and returns the last page
+   * @param {*} pdfDoc - the document that has been loaded
    * @returns - object
    * @author Marco Tribuzio
    * @author Xavier de Juan
    */
-  static getLastPage(pdfDoc) {
+  static getPdfPages(pdfDoc) {
     console.log("[libs][pdf][getLastPage] Getting pages with param", pdfDoc)
     try {
       const pagesList = pdfDoc.getPages()
@@ -24,7 +24,23 @@ class Pdf {
       throw new Error
     }
   }
- 
+  /**
+   * Function taking the pdf page(s) and giving the length
+   * @param {*} pdfDoc 
+   * @returns - array length
+   * @author Xavier de Juan
+   */
+  static getPdfLength(pdfDoc) {
+    console.log("[libs][pdf][getPdfLength] Getting pages length with params", pdfDoc)
+    try {
+      const pagesList = pdfDoc.getPages()
+      return pagesList.length
+    } catch (e) {
+      console.error("[libs][pdf][getLastPage] Error when getting pages length", e)
+      throw new Error
+    }
+  }
+  
   /**
    * Function that draws a white square instead of the BVR
    * @param {*} page
@@ -48,7 +64,12 @@ class Pdf {
       throw new Error
     }
   }
-
+  /**
+   * Function that loads the pdf file
+   * @param {*} file 
+   * @returns - promise
+   * @author Xavier de Juan
+   */
   static async pdfLoad(file) {
     console.log('[Lib][PDF][pdfLoad] Loading pdf with params', file)
     try {
@@ -58,29 +79,21 @@ class Pdf {
       throw new Error('') //todo
     }
   }
-
+  /**
+   * Function that saves the pdf file
+   * @param {*} pdfDoc 
+   * @returns - promise
+   * @author Xavier de Juan
+   */
   static async savePdf(pdfDoc) {
-    console.log('[Lib][PDF][save] saving pdf with params', pdfDoc)
+    console.log('[Lib][PDF][savePdf] saving pdf with params', pdfDoc)
     try {
       return await pdfDoc.save()
     } catch (e) {
-      console.error('[Lib][PDF][pdfLoad] An error occurred when saving pdf', e)
+      console.error('[Lib][PDF][savePdf] An error occurred when saving pdf', e)
       throw new Error('') //todo
     }
   }
-
-  static getPdfWidth(pdfPage) {
-    console.log('[Lib][PDF][getPdfWidth] Getting pdf width with params', pdfPage)
-    const {width} = pdfPage.getSize()
-    return width
-  }
-
-   // static getPdfFirstPage(pdfDoc) {
-  //   console.log('[Lib][PDF][getPdfFirstPage] Getting first page with params', pdfDoc)
-  //   const pages = pdfDoc.getPages()
-  //   return pages[0]
-  // }
-
 }
 
 

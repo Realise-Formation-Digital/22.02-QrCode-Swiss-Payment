@@ -1,8 +1,7 @@
 import axios from "axios";
 import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL } from "@/libs/consts";
 import MarkParse from "../libs/marked.js";
-// import MARKDWN_URL from "@/libs/urlMarked.js"
-
+import PdfService from "./pdfService.js";
 
 /**
  * @class
@@ -233,11 +232,13 @@ class ApiService {
             console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreateByApi)
 
             const formData = new FormData()
+            // const pdfLength = PdfService.CallPdfLengthLib()
+            const pdfLength = await PdfService.CallPdfLengthLib(divaltoFile)
 
             formData.append('file', divaltoFile)
             formData.append('file2', qrCodeCreateByApi)
 
-            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=1", formData,
+            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength , formData,
                 {
                     responseType: "blob",
                     headers: {

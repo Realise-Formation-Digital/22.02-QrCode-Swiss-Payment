@@ -432,15 +432,12 @@ export default {
      * @author Xavier de Juan -
      */
     async sendDivaltoPdf(divaltoFile) {
+      console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
       try {
         const response = await ApiService.unlockPdf(divaltoFile)
-        console.log("response", response)
         const pdf = await response.data.arrayBuffer()
-        const pdfBytes = await PdfService.callPdfLibrary(pdf)
-        console.log("pdfBytes", pdfBytes)
-        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
+        const pdfBytes = await PdfService.callPdfLibrary(pdf)   
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
-        console.log("divalto File Blob", this.divaltoFileBlob)
       } catch (e) {
         console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
         throw new Error(e)
@@ -527,7 +524,6 @@ export default {
 
           // process to auto download it
           const fileURL = URL.createObjectURL(sendtomerge);
-          console.log("linkFile", fileURL)
           const link = document.createElement('a');
           let date = new Date();
           let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
@@ -685,9 +681,6 @@ export default {
   font-size: x-large;
 }
 
-.formulaire {
-  box-shadow: 10px 20px 20px 10px rgb(200, 200, 200);
-}
 
 .background {
   background-color: rgb(255, 255, 255);
