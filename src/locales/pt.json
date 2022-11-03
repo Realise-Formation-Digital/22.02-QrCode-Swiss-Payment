@@ -38,13 +38,13 @@
             "infosupp": "As informações não estruturadas podem ser usadas para indicar o motivo do pagamento ou para informações textuais adicionais sobre pagamentos com referência estruturada. máximo de 56 caracteres."    
         },
         "alert": {   
-            "nom": "O campo 'Nome' é obrigatório.",
-            "rue": "O campo 'Rua' é obrigatório.",
-            "numDeRue": "O campo 'Número da rua' é obrigatório.",
-            "codePostal": "O campo 'Código postal' é obrigatório.",
-            "ville": "O campo 'Cidade' é obrigatório.",
-            "pays": "Por favor, selecione um País.",
-            "montant": "O campo 'Valor' é obrigatório.",
+            "nom": "O nome é obrigatório.",
+            "rue": "A rua é obrigatório.",
+            "numDeRue": "O número da rua' é obrigatório.",
+            "codePostal": "O código postal' é obrigatório.",
+            "ville": "A cidade' é obrigatório.",
+            "pays": "é obrigatório selecionar um País .",
+            "montant": "O valor é obrigatório.",
             "numRef": "O número de referência é obrigatório."
         },
         "lang": {
