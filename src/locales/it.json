@@ -14,7 +14,7 @@
             "ville": "città",
             "pays": "Paese (clicca qui per selezionare un Paese)",
             "infoMontPaiement": "Informazioni sull'importo",
-            "montant": "Montantini",
+            "montant": "importo",
             "numRef": "Numero di riferimento (non deve contenere spazi tra i numeri)",
             "infoFacture": "Dati fattura (facoltativo)",
             "infoSupp": "Informazioni aggiuntive (facoltative)",
@@ -38,13 +38,13 @@
             "infosupp": "Le informazioni non strutturate possono essere utilizzate per l'indicazione di una causale di pagamento o per ulteriori informazioni testuali sui pagamenti con un riferimento strutturato. Massimo 56 caratteri."    
         },
         "alert": {   
-            "nom": "Il campo 'Nome' è obbligatorio.",
-            "rue": "Il campo 'Via' è obbligatorio.",
-            "numDeRue": "Il campo 'Numero civico' è obbligatorio.",
-            "codePostal": "Il campo 'CAP' è obbligatorio.",
-            "ville": "Il campo 'Città' è obbligatorio.",
-            "pays": "Per favore seleziona un paese",
-            "montant": "Il campo 'Importo' è obbligatorio.",
+            "nom": "Il nome è obbligatorio.",
+            "rue": "La via è obbligatorio.",
+            "numDeRue": "Il numero civico è obbligatorio.",
+            "codePostal": "Il'CAP' è obbligatorio.",
+            "ville": "La città è obbligatorio.",
+            "pays": "la selezione de un paese è obbligatoria",
+            "montant": "Il Importo è obbligatorio.",
             "numRef": "Il numero di riferimento è obbligatorio."
         },
         "lang": {
