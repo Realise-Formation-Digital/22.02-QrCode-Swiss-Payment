@@ -191,34 +191,7 @@ class ApiService {
             throw new Error(e)
         }
     }
-    /**
-     * Function that sends the pdf to a nodejs server to unlock the metadata
-     * @param {*} pdf 
-     * @returns promise
-     * @author Xavier de Juan 
-     */
-    static async unlockPdf(pdf) {
-        try {
-            console.log("[Service][ApiService][mergeFiles] Unlock pdf", pdf)
-            const pdfToUnlock = new FormData()
-            pdfToUnlock.append('pdf', pdf)
 
-            const response = await axios.post(process.env.VUE_APP_PDFUNLOCK_URL, pdfToUnlock, {
-                responseType: "blob",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/pdf',
-                    'Accept-Language': 'fr'
-                }
-            }
-            )
-            if (response.status !== 200) throw Error('API merge Error')
-            return response
-        } catch (e) {
-            console.error("[Service][ApiService][mergeFiles] An error has occurred when trying to unlock pdf")
-            throw new Error(e)
-        }
-    }
 
     /**
      * Send to API for merge
