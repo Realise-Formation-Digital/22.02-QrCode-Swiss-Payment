@@ -205,7 +205,6 @@ class ApiService {
             console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreateByApi)
 
             const formData = new FormData()
-            // const pdfLength = PdfService.CallPdfLengthLib()
             const pdfLength = await PdfService.CallPdfLengthLib(divaltoFile)
 
             formData.append('file', divaltoFile)
