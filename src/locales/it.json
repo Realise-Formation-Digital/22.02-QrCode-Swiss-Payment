@@ -1,0 +1,62 @@
+{
+    "translation": {
+        "navbar": {
+            "boutonAccueil": "Pagina principale",
+            "boutonFacture": "Crea una fattura"
+        },
+        "formqrcode": {
+            "description": "Descrizione a venire",
+            "debiteur": "Debitore",
+            "nom": "Nome",
+            "rue": "Strada",
+            "numDeRue": "Civico",
+            "codePostal": "Codice postale",
+            "ville": "Città",
+            "pays": "Paese (clicca qui per selezionare un Paese)",
+            "infoMontPaiement": "Informazioni sull'importo",
+            "montant": "Importo",
+            "numRef": "Numero di riferimento (non deve contenere spazi tra i numeri)",
+            "infoFacture": "Dati fattura (facoltativo)",
+            "infoSupp": "Informazioni aggiuntive (facoltative)",
+            "valider": "Convalidare",
+            "effacer": "Pulire"
+        },
+        "modale": {
+            "verifConfirm": "Pagina di verifica.",
+            "confirmer": "Confermare",
+            "annuler": "Cancellare"
+        },
+        "toolTip": {
+            "nom": "Nome o società del debitore finale Massimo 70 caratteri. Cognome, nome (facoltativo, se disponibile) o ragione sociale.",
+            "rue": "Via/casella postale del debitore finale Massimo 70 caratteri consentiti. Non può contenere numeri civici o di edificio.",
+            "numDeRue": "Numero civico del debitore finale. Massimo 16 caratteri consentito",
+            "codePostal": "CAP del debitore finale Massimo 16 caratteri consentiti. Indicare sempre senza prefisso internazionale.",
+            "ville": "Posizione del debitore finale. Massimo 16 caratteri consentiti.",
+            "montant": "Importo del pagamento. L'elemento deve essere specificato senza zeri iniziali, inclusi il separatore decimale e due cifre decimali. Sono consentite al massimo 12 posizioni, compreso il separatore decimale. Solo il punto ('.') è consentito come separatore decimale.",
+            "numRef": "Numero di riferimento del pagamento strutturato. -Nota: il riferimento è un riferimento QR o un riferimento creditore (ISO 11649) Massimo 27 caratteri alfanumerici. Deve essere compilato se si utilizza un QR-IBAN. Riferimento QR: 27 caratteri numerici, calcolo della check digit secondo il ricorsivo modulo 10 (27a posizione del riferimento) Riferimento creditore (ISO 11649): fino a 25 caratteri alfanumerici L'elemento non deve essere compilato per il tipo di riferimento NO .",
+            "infoFacture": "Le informazioni sulla struttura della fattura contengono informazioni codificate per la registrazione automatizzata dei pagamenti. I dati non vengono trasmessi con il pagamento. Massimo 140 caratteri.",
+            "infosupp": "Le informazioni non strutturate possono essere utilizzate per l'indicazione di una causale di pagamento o per ulteriori informazioni testuali sui pagamenti con un riferimento strutturato. Massimo 56 caratteri."    
+        },
+        "alert": {   
+            "nom": "Il nome è obbligatorio.",
+            "rue": "La via è obbligatorio.",
+            "numDeRue": "Il numero civico è obbligatorio.",
+            "codePostal": "Il'CAP' è obbligatorio.",
+            "ville": "La città è obbligatorio.",
+            "pays": "La selezione de un paese è obbligatoria",
+            "montant": "Il Importo è obbligatorio.",
+            "numRef": "Il numero di riferimento è obbligatorio."
+        },
+        "lang": {
+            "english": "English",
+            "francais": "Français",
+            "italiano": "Italiano",
+            "deutch": "Deutch",
+            "espanol": "Español",
+            "portuguese": "Portuguese"
+        },
+        "homepage": {
+            "facture": "Crea una fattura"
+        }
+    }
+}

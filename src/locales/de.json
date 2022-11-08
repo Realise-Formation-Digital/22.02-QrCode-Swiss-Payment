@@ -1,0 +1,62 @@
+{
+    "translation": {
+        "navbar": {
+            "boutonAccueil": "Hauptseite",
+            "boutonFacture": "Erstellen Sie eine Rechnung"
+        },
+        "formqrcode": {
+            "description": "Beschreibung kommt noch",
+            "debiteur": "Schuldner",
+            "nom": "Nachname",
+            "rue": "Straße",
+            "numDeRue": "Hausnummer",
+            "codePostal": "Postleitzahl",
+            "ville": "Stadt, Dorf",
+            "pays": "Land (Bitte klicken Sie hier, um ein Land auszuwählen)",
+            "infoMontPaiement": "Angaben zum Betrag",
+            "montant": "Steigend",
+            "numRef": "Referenznummer (darf keine Leerzeichen zwischen den Zahlen enthalten)",
+            "infoFacture": "Rechnungsinformationen (optional)",
+            "infoSupp": "Zusätzliche Informationen (optional)",
+            "valider": "Bestätigen",
+            "effacer": "Abwischen"
+        },
+        "modale": {
+            "verifConfirm": "Bestätigungsseite",
+            "confirmer": "Bestätigen",
+            "annuler": "abbrechen"
+        },
+        "toolTip": {
+            "nom": "Name oder Firma des Endschuldners maximal 70 Zeichen. Nachname, Vorname (optional, falls vorhanden) oder Firmenname.",
+            "rue": "Straße/Postfach des Endschuldners Maximal 70 Zeichen erlaubt. Darf keine Haus- oder Gebäudenummern enthalten.",
+            "numDeRue": "Hausnummer des endgültigen Schuldners. Maximal 16 Zeichen erlaubt",
+            "codePostal": "Endgültige Postleitzahl des Schuldners Maximal 16 Zeichen erlaubt. Geben Sie immer ohne Ländercode an.",
+            "ville": "Ort des Endschuldners. Maximal 16 Zeichen erlaubt.",
+            "montant": "Zahlungsbetrag. Das Element muss ohne führende Nullen inklusive Dezimaltrennzeichen und zwei Nachkommastellen angegeben werden. Es sind maximal 12 Stellen erlaubt, einschließlich des Dezimaltrennzeichens. Als Dezimaltrennzeichen ist nur der Punkt ('.') erlaubt.",
+            "numRef": "Strukturierte Zahlungsreferenznummer. -Hinweis: Die Referenz ist entweder eine QR-Referenz oder eine Gläubigerreferenz (ISO 11649) Maximal 27 alphanumerische Zeichen. Muss ausgefüllt werden, wenn eine QR-IBAN verwendet wird. QR-Referenz: 27 numerische Zeichen , Berechnung der Prüfziffer nach dem rekursiven Modulo 10 (27. Stelle der Referenz) Creditor Reference (ISO 11649): bis zu 25 alphanumerische Zeichen Bei der Referenzart NO darf das Element nicht ausgefüllt werden.",
+            "infoFacture": "Rechnungsstrukturinformationen enthalten verschlüsselte Informationen zur automatisierten Erfassung von Zahlungen. Die Daten werden nicht mit der Zahlung übermittelt. 140 Zeichen maximal.",
+            "infosupp": "Unstrukturierte Informationen können zur Angabe eines Zahlungszwecks oder für zusätzliche textliche Informationen zu Zahlungen mit strukturiertem Bezug verwendet werden. Maximal 56 Zeichen."    
+        },
+        "alert": {   
+            "nom": "Das Feld „Name“ ist obligatorisch.",
+            "rue": "Das Feld „Straße“ ist ein Pflichtfeld.",
+            "numDeRue": "Das Feld „Hausnummer“ ist ein Pflichtfeld.",
+            "codePostal": "Das Feld „Postleitzahl“ ist ein Pflichtfeld.",
+            "ville": "Das Feld „Ort“ ist obligatorisch.",
+            "pays": "Bitte wähle ein Land",
+            "montant": "Das Feld „Betrag“ ist ein Pflichtfeld.",
+            "numRef": "Die Referenznummer ist obligatorisch."
+        },
+        "lang": {
+            "english": "English",
+            "francais": "Français",
+            "italiano": "Italiano",
+            "deutch": "Deutch",
+            "espanol": "Español",
+            "portuguese": "Portuguese"
+        },
+        "homepage": {
+            "facture": "Erstellen Sie eine Rechnung"
+        }
+    }
+}

@@ -1,16 +1,42 @@
 <!-- Form to send to payload to get back a PDF/Qr file -->
-<template>
-  <v-row>
-    <v-col lg="4" md="4" sm="12" xs="12">
-      Here little description what the user have to do :)
-
+<template class="background">
+  <v-row class="background">
+    <!-- Drag and drop -->
+    <v-col lg="4" md="4" sm="12" xs="12" class="sureleve">
+      <h1>Facture Divalto</h1>
+      <v-sheet elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+        <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+          :class="{ 'grey lighten-2': dragover }">
+          <v-card-text>
+            <v-btn @click.stop="reset()" icon>
+              <v-icon> mdi-close-circle </v-icon>
+            </v-btn>
+            <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
+            <v-row class="d-flex flex-column" dense align="center" justify="center">
+              <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
+                  'mdi-cloud-check' : 'mdi-cloud-upload'
+              }}</v-icon>
+              <p :class="cardStateColor ? 'black--text' : 'red--text'">
+                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
+              </p>
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-sheet>
     </v-col>
-    <v-col lg="8" md="8" sm="12" xs="12">
-      <v-form ref="form" v-model="valid" lazy-validation>
+    <v-col lg="1" md="1" class="sureleve milieu"></v-col>
+    <!-- Form -->
+    <v-col lg="7" md="7" sm="12" xs="12">
+      <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
-        <h1>Débiteur</h1>
+        <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
+        <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" :rules="formRules.dnom" counter label="Nom" maxlength="70" required>
+        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
+          :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -18,14 +44,12 @@
                   info
                 </v-icon>
               </template>
-              <span>Nom ou entreprise du débiteur final
-                70 caractères au maximum.
-                Nom, prénom (optionnel, si disponible) ou raison sociale</span>
+              <span>Texte traduit automatiquement à integrer</span>
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dstreet" :rules="formRules.dstreet" counter label="Rue" maxlength="70"
-                      required>
+        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet"
+          :label="traduis('formqrcode.rue')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -37,8 +61,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnr" :rules="formRules.dnr" append-icon="info" counter label="Numéro de rue"
-                      maxlength="16" required>
+        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr"
+          :label="traduis('formqrcode.numDeRue')" append-icon="info" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -49,7 +73,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dnpa" :rules="formRules.dnpa" counter label="Code postal" maxlength="16" required>
+        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa"
+          :label="traduis('formqrcode.codePostal')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -60,7 +85,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.dplace" :rules="formRules.dplace" counter label="Ville" maxlength="16" required>
+        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace"
+          :label="traduis('formqrcode.ville')" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -70,15 +96,14 @@
                 16 caractères au maximum admis</span>
             </v-tooltip>
           </template>
-
         </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :items="countriesList"
-                        :rules="formRules.dcountry" item-text="french" item-value="code" label="Pays (Veuillez cliquer ici pour sélectionner un pays)">
+        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
+          :items="countriesList" item-text="french" item-value="code">
         </v-autocomplete>
 
-        <h1>Information sur le montant du paiement</h1>
-        <v-text-field v-model="form.amount" :rules="formRules.amount" counter label="Montant" maxlength="12"
-                      required v-on:keypress="nombreSeulement">
+        <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
+        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
+          :label="traduis('formqrcode.montant')" v-on:keypress="nombreSeulement" required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -91,7 +116,8 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.nrref" :rules="formRules.nrref" counter label="Numéro de référence" required>
+        <v-text-field v-model="form.nrref" counter :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
+          required>
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -109,8 +135,24 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-text-field v-model="form.infosupp" :rules="formRules.infosupp" counter label="Informations supplémentaires (facultatif)"
-                      maxlength="56">
+
+        <!-- Annulé pour le moment... en attente de confirmation pour effacer le code. -->
+
+        <!-- <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
+          :label="traduis('formqrcode.infoFacture')">
+          <template v-slot:append>
+            <v-tooltip top :max-width="maxWidthTooltip">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-on="on" v-bind="attrs">info</v-icon>
+              </template>
+              <span>Les informations structurelles de l'émetteur de factures contiennent des informations codées pour la
+                comptabilisation automatisée du paiement. Les données ne sont pas transmises avec le paiement. 140
+                caractères au maximum.</span>
+            </v-tooltip>
+          </template>
+        </v-textarea> -->
+        <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
+          :label="traduis('formqrcode.infoSupp')">
           <template v-slot:append>
             <v-tooltip :max-width="maxWidthTooltip" top>
               <template v-slot:activator="{ on, attrs }">
@@ -122,58 +164,76 @@
             </v-tooltip>
           </template>
         </v-text-field>
+
+        <!--Buttons calling functions for the form-->
+        <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{
+            this.traduis('formqrcode.valider')
+        }}
+        </v-btn>
+        <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{
+            this.traduis('formqrcode.effacer')
+        }}</v-btn>
+
+        <!--Modal to check and confirm the form -->
+        <v-dialog v-model="dialog" max-width="70%" persistent>
+          <v-card>
+            <v-card-title>
+              <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
+            </v-card-title>
+
+            <!-- Checkform in the modal -->
+            <v-card-text>
+              <v-row class="container">
+                <v-col cols="4" class="modalDialogStyle">
+                  <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
+                  <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
+                  <!-- <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p> -->
+                  <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
+                </v-col>
+                <!-- <v-col cols="6">
+                <p>{{  form.dnom  }}</p>
+                <p>{{  form.dstreet  }}</p>
+                <p>{{  form.dnr  }}</p>
+                <p>{{  form.dnpa  }}</p>
+                <p>{{  form.dplace  }}</p>
+                <p>{{  form.dcountry  }}</p>
+                <p>{{  form.amount  }}</p>
+                <p>{{  form.nrref  }}</p>
+                <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
+                <p>{{  !!form.infosupp ? form.infosupp : "N/A"  }}</p>
+              </v-col> -->
+              </v-row>
+            </v-card-text>
+            <!-- Confirm or return buttons calling the functions -->
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
+                :disabled="!!countDown" @click="confirm()">
+                {{ this.traduis('modale.confirmer') }}
+                <template v-slot:loader>
+                  <span>
+                    <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
+                      {{ countDown }}
+                    </v-progress-circular>
+                  </span>
+                </template>
+              </v-btn>
+
+              <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+                {{ this.traduis('modale.annuler') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-form>
-
-      <!--Buttons calling functions for the form-->
-      <v-btn class="mr-10 mt-10" color="success" elevation="10" outlined rounded x-large @click="showDialog()">Valider
-      </v-btn>
-      <v-btn class="ml-10 mt-10" color="error" elevation="10" outlined rounded x-large @click="reset()">Effacer</v-btn>
-
-      <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" max-width="70%" persistent>
-        <v-card>
-          <v-card-title>
-            <h1>Vérification avant confirmation d'envoi.</h1>
-          </v-card-title>
-
-          <!-- Checkform in the modal -->
-          <v-card-text>
-            <v-row class="container">
-              <v-col class="modalDialogStyle" cols="4">
-                <p><strong><em>Nom</em></strong>: {{ form.dnom }}</p>
-                <p><strong><em>Rue</em></strong>: {{ form.dstreet }}</p>
-                <p><strong><em>Numéro de rue</em></strong>: {{ form.dnr }}</p>
-                <p><strong><em>Code postal</em></strong>: {{ form.dnpa }}</p>
-                <p><strong><em>Ville</em></strong>: {{ form.dplace }}</p>
-                <p><strong><em>Pays</em></strong>: {{ form.dcountry }}</p>
-                <p><strong><em>Montant</em></strong>: {{ form.amount }}</p>
-                <p><strong><em>Numéro de référence</em></strong>: {{ form.nrref }}</p>
-                <p><strong><em>Informations supplémentaires</em></strong>: {{ form.infosupp }}</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <!-- Confirm or return buttons calling the functions -->
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn :disabled="!!countDown" :loading="!!countDown" class="mr-16" color="success" elevation="5" rounded
-                   x-large @click="confirm()">
-              Confirmer
-              <template v-slot:loader>
-                <span><v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
-                                           color="orange">
-                    {{ countDown }}
-                  </v-progress-circular></span>
-              </template>
-            </v-btn>
-
-            <v-btn class="ml-10" color="error" elevation="5" rounded text x-large @click="hideDialog()">
-              Retour
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
         {{ snackbar.text }}
@@ -191,35 +251,43 @@
     </v-col>
   </v-row>
 </template>
-
 <script>
 import ApiService from "@/services/apiService.js";
+import { traductionMixin } from "@/mixins/traductionMixin.js";
+import PdfService from '@/services/pdfService.js';
+import Vue from "vue";
 
-// Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
 
 export default {
   name: "FormQr",
+  mixins: [traductionMixin],
   data: () => ({
-    // show: false, // Ne sert à rien ???
-    snackbar: {
+    dragover: false, // Reaction to the passage of the file above the drag & drop
+    dropTakeName: null, // Variable that retrieves the file name or the error message in case of no pdf
+    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
+    isAPdf: false, // Check if it is a pdf or not
+    divaltoFile: null, // PDF file
+    divaltoFileBlob: null, // pdf file converted to Blob
+    qrFileBlob: null, // Pdf file received from API
+    snackbar: { // API merge file receipt status message
       flag: false,
       text: null,
       color: null,
     },
-
+    // Form
     form: {
       dnom: "",
       dstreet: "",
       dnr: "",
       dnpa: "",
       dplace: "",
-      dcountry: "",
+      dcountry: "CH",
       amount: "",
       nrref: "",
       infosupp: "",
-      infobill: "",
+      // infobill: "",
     },
     formRules: {
       dnom: [
@@ -256,13 +324,13 @@ export default {
         v => !!v || 'Veuillez selectionner un pays',
       ],
       amount: [
-        v => !!v || "Le champ 'Montant est obligatoire.",
-        v => {
+        v => !!v || "Le champ 'Montant' est obligatoire.",
+       v => {
           if (v) return v.length <= 12 || "Le montant ne peut excéder 12 caractères.";
           else return true;
         }],
       nrref: [
-        v => !!v || "Le champ 'Numéro de référence est obligatoire.",
+        v => !!v || "Le champ 'Numéro de référence' est obligatoire.",
         v => {
           if (v) return v.length === 27 || "Doit contenir 27 caractères";
           else return true;
@@ -272,36 +340,37 @@ export default {
           if (v) return v.length <= 56 || 'Les informations supplémentaires ne peuvent excéder 56 caractères';
           else return true;
         }],
-      infobill: [
-        v => {
-          if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
-          else return true;
-        }],
+      // infobill: [
+      //   v => {
+      //     if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
+      //     else return true;
+      //   }],
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
     loadingPopUp: false,// Pop-up loading modal until receipt snackbar
-    isGettingCountriesList: false,
-    countriesList: [],
+    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
+    countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
-    maxWidthTooltip: 350
+    maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
+    rawPdfFile: false,
   }),
 
   async mounted() {
     try {
-      console.log('[Views][CsvView][mounted] An error has occurred when getting countries list')
+      console.log('[Views][FormQrView][mounted] Getting countries list')
       this.isGettingCountriesList = true
       this.countriesList = await ApiService.getListCountries()
     } catch (e) {
-      console.error('[Views][CsvView][mounted] An error has occurred when getting countries list', e)
+      console.error('[Views][FormQrView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
     } finally {
       this.isGettingCountriesList = false
     }
 
     /**
-     * See W_I_H_M_F row 369
+     * See N_M_F below
      */
     this.interval = setInterval(() => {
       if (this.countDown <= 1) {
@@ -310,13 +379,13 @@ export default {
       this.countDown -= 1
     }, 1000)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.interval)
   },
 
   watch: {
     /**
-     * active la modal tant que la valeur n'est pas égale.
+     * activates the modal until the value is equal.
      * @param {*} val
      * @author Xavier de Juan
      */
@@ -327,14 +396,78 @@ export default {
 
   methods: {
     /**
-     * Welcome In Hell Marco's Function
+     * Drag and drop function that retrieves file, file name and file type
+     * The file name is reused
+     * File type is used to certify whether it is a pdf or not
+     * @param {*} e 
+     * @author Xavier de Juan
      */
+    async onDrop(e) {
+      try{
+        this.rawPdfFile = false
+        this.dragover = false
+        this.dropTakeName = e.dataTransfer.files[0].name
+        this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
+        if (this.isAPdf) {
+          this.showLoadingPopUp()
 
+          this.rawPdfFile = e.dataTransfer.files[0]
+          this.cardStateColor = true
+
+          const response = await PdfService.readPdf(this.rawPdfFile)
+          this.form.dnom = response.name
+          this.form.dnpa = response.npa
+          this.form.dstreet = response.address
+          this.form.dnr = response.addressNumber
+          this.form.dplace = response.city
+          this.form.amount = response.totalAmount
+          this.form.nrref = response.referenceNumber
+          this.form.infosupp = response.infoSupp
+          this.hideLoadingPopUp()
+        } else if (!this.isAPdf) {
+          this.cardStateColor = false
+          this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
+        }
+      }catch (e) {
+        this.hideLoadingPopUp()
+        console.error(e) //todo handle error
+      }
+
+    },
+    /**
+     * Function that deletes the imported pdf file.
+     * @author Xavier de Juan
+     */
+   
+    /**
+     * Function that changes the pdf file (object to Blob format)
+     * @param {*} divaltoFile -
+     * @return Blob 
+     * @author Xavier de Juan -
+     */
+    async sendDivaltoPdf(divaltoFile) {
+      console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
+      try {
+        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
+        const response = await PdfService.unlockPdf(divaltoFile)
+        const pdf = await response.data.arrayBuffer()
+        const pdfBytes = await PdfService.callPdfLibrary(pdf)
+        this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
+      } catch (e) {
+        console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
+        throw new Error(e)
+      }
+    },
+    /**
+      * N_M_F
+      * 
+      * Not My Fault
+      */
     /**
      * Fonction qui met durant 15 secondes le bouton "confirmer" non cliquable.
-     * (Marco est le coupable de cette idée et non l'auteur de ces lignes qui est bien trop gentil
-     * et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
-     *
+     * (Une personne dont le nom restera secret, est coupable de cette idée et
+     *  non l'auteur de ces lignes qui est bien trop gentil
+     *  et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
      * @author Xavier de Juan
      */
     activCountDown() {
@@ -345,14 +478,15 @@ export default {
     },
 
     /**
-     * Function that call validate (see validate())
-     * Hide the "check" modal
-     * Show the loading pop-up
-     *
-     * @author Xavier de Juan
-     * @return void
+     *Function that call validate (see validate())
+     *Hide the "check" modal
+     *Show the loading pop-up
+     *@return void
+     *@author Marco Tribuzio
+     *@author Xavier de Juan
      */
     async confirm() {
+      console.error('[Views][FormQrView][sendCsvList] Send the form')
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
@@ -393,13 +527,17 @@ export default {
             },
           }
 
+          this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
+
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
-          const file = new Blob([response.data], {type: 'application/pdf'});
+          const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
+
+          const sendtomerge = await ApiService.mergeFiles(this.divaltoFileBlob, qrFileBlob)
 
           // process to auto download it
-          const fileURL = URL.createObjectURL(file);
+          const fileURL = URL.createObjectURL(sendtomerge);
           const link = document.createElement('a');
           let date = new Date();
           let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
@@ -412,7 +550,7 @@ export default {
         }
       } catch (e) {
         this.showSnackbarError();
-        console.error('[Views][CsvView][sendCsvList] An error has occurred when send the csv list', e)
+        console.error('[Views][FormQrView][sendCsvList] An error has occurred when send the form', e)
       } finally {
         this.dialog = false
         this.hideLoadingPopUp()
@@ -432,14 +570,22 @@ export default {
     validateForm() {
       return this.$refs.form.validate();
     },
-
     /**
      * Function that reset the form
      * @author Xavier de Juan
      * @return void
+     * 
      */
     reset() {
       this.$refs.form.reset();
+      this.divaltoFile = null
+      this.divaltoFileBlob = null
+      this.dropTakeName = null
+      this.isAPdf = false
+      this.cardStateColor = true
+      Vue.nextTick(() => {
+        this.form.dcountry = "CH"
+      });
     },
 
     /*
@@ -453,9 +599,15 @@ export default {
      */
     showDialog() {
       const isValid = this.$refs.form.validate();
-      if (isValid) {
+      if (this.isAPdf && isValid) {
         this.dialog = true;
-        this.activCountDown()
+        this.activCountDown();
+      } else if (!this.isAPdf && isValid) {
+        this.cardStateColor = false;
+      } else if (this.isAPdf && !isValid) {
+        this.cardStateColor = true;
+      } else if (!this.isAPdf && !isValid) {
+        this.cardStateColor = false;
       }
     },
 
@@ -534,7 +686,7 @@ export default {
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
-          // && (nombres 188(Virgule) && 222 (Apostrophe))
+      // && (nombres 188(Virgule) && 222 (Apostrophe))
       {
         e.preventDefault();
       } else {
@@ -548,5 +700,10 @@ export default {
 <style>
 .modalDialogStyle {
   font-size: x-large;
+}
+
+
+.background {
+  background-color: rgb(255, 255, 255);
 }
 </style>

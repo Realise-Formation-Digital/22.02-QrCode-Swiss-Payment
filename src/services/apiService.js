@@ -1,11 +1,12 @@
 import axios from "axios";
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL} from "@/libs/consts";
+import { BASE_URL, API_KEY, CSVLIST_OPTIONS, MARKDWN_URL } from "@/libs/consts";
 import MarkParse from "../libs/marked.js";
-// import MARKDWN_URL from "@/libs/urlMarked.js"
+import PdfService from "./pdfService.js";
 
 /**
  * @class
  * @classdesc - Service for csv page
+ * @author Marco Tribuzio
  */
 class ApiService {
 
@@ -35,8 +36,10 @@ class ApiService {
      *     "english": "string",
      *     "german": "string",
      *     "french": "string",
-     *     "italian": "string"
+     *     "italian": "string",
+     * 
      * }]>}
+     * @author Marco Tribuzio
      */
     static async getListCountries() {
         try {
@@ -57,6 +60,8 @@ class ApiService {
      * @async
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
+     * @author Marco Tribuzio
+     * @author Xavier de Juan
      */
     static async sendJsonList(csvList) {
         try {
@@ -125,6 +130,7 @@ class ApiService {
      * Sending Single Payment to the api
      * @param payload
      * @returns {Promise<*>}
+     * @author Marco Tribuzio
      */
     static async sendSinglePayment(payload) {
         try {
@@ -145,12 +151,15 @@ class ApiService {
             throw new Error(e)
         }
     }
-
+    /**
+     * Function that makes a request to the markdown library
+     * @returns promise
+     * @author Xavier de Juan
+     */
     static async axioRequ() {
         try {
-            console.log("Request Mark axios success")
+            console.log("[service][apiService][axioRequ] Request Mark axios")
             const getAxioRequ = await axios.get(MARKDWN_URL)
-            // if (getAxioRequ !== 200) throw Error("C'est nuuuul!!")
             console.log("getAxioRequ", getAxioRequ)
             return MarkParse.txtParse(getAxioRequ.data);
         } catch (e) {
@@ -163,21 +172,56 @@ class ApiService {
      * Get Two check digit
      * @param {String} referenceNumber - 27 digit reference number
      * @returns {Promise<String>}
+     * @author Marco Tribuzio
      */
     static async getTwoCheckDigit(referenceNumber) {
         try {
             console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params", referenceNumber)
             const response = await axios.post(BASE_URL + '/v2/creditor-reference/modulo97' + API_KEY, referenceNumber,
-              {
-                  headers: {
-                      'Content-Type': 'text/plain',
-                      'accept': 'text/plain'
-                  }
-              })
+                {
+                    headers: {
+                        'Content-Type': 'text/plain',
+                        'accept': 'text/plain'
+                    }
+                })
             if (response.status !== 200) throw Error('API Error')
             return response.data
         } catch (e) {
-            console.error("[Service][ApiService][getTwoCheckDigit] An error occurred when getting two check digit",e)
+            console.error("[Service][ApiService][getTwoCheckDigit] An error occurred when getting two check digit", e)
+            throw new Error(e)
+        }
+    }
+
+
+    /**
+     * Send to API for merge
+     * @param {object} divaltoFile - 
+     * @param {object} qrCodeCreateByApi
+     * @author Marco Tribuzio
+     * @author Xavier de Juan
+     */
+    static async mergeFiles(divaltoFile, qrCodeCreateByApi) {
+        try {
+            console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreateByApi)
+
+            const formData = new FormData()
+            const pdfLength = await PdfService.CallPdfLengthLib(divaltoFile)
+
+            formData.append('file', divaltoFile)
+            formData.append('file2', qrCodeCreateByApi)
+
+            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength , formData,
+                {
+                    responseType: "blob",
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'accept': 'application/pdf'
+                    }
+                })
+            if (response.status !== 200) throw Error('API merge Error')
+            return response.data
+        } catch (e) {
+            console.error("[Service][ApiService][mergeFiles] Echec de retour du pdf mergé (erreur 4xx)")
             throw new Error(e)
         }
     }

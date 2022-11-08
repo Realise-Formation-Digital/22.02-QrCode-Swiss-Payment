@@ -1,0 +1,62 @@
+{
+    "translation": {
+        "navbar": {
+            "boutonAccueil": "Página principal",
+            "boutonFacture": "Criar uma fatura"
+        },
+        "formqrcode": {
+            "description": "Descrição a vir",
+            "debiteur": "Devedor",
+            "nom": "Nome",
+            "rue": "Rua",
+            "numDeRue": "número da rua",
+            "codePostal": "Código postal",
+            "ville": "Cidade",
+            "pays": "País (Clique aqui para selecionar um país)",
+            "infoMontPaiement": "Informação do montante",
+            "montant": "Montante",
+            "numRef": "Número de referência (não deve conter espaços entre os números)",
+            "infoFacture": "Informações da fatura (opcional)",
+            "infoSupp": "Informações adicionais (opcional)",
+            "valider": "Validar",
+            "effacer": "Apagar"
+        },
+        "modale": {
+            "verifConfirm": "Página de verificação.",
+            "confirmer": "Confirmar",
+            "annuler": "Cancelar"
+        },
+        "toolTip": {
+            "nom": "Nome ou empresa do devedor final 70 caracteres no máximo. Sobrenome, nome (opcional, se disponível) ou nome da empresa.",
+            "rue": "Rua do devedor final/caixa postal Máximo de 70 caracteres permitidos. Não pode conter números de casas ou prédios.",
+            "numDeRue": "Número da casa do devedor final. 16 caracteres máximo permitido.",
+            "codePostal": "Código postal do devedor final Máximo de 16 caracteres permitidos. Sempre indique sem o código do país em mente.",
+            "ville": "Localização do devedor final. Máximo de 16 caracteres permitidos.",
+            "montant": "Valor do pagamento. O elemento deve ser especificado sem zeros à esquerda, incluindo o separador decimal e duas casas decimais. São permitidas no máximo 12 posições, incluindo o separador decimal. Apenas o ponto ('.') é permitido como separador decimal.",
+            "numRef": "Localização do devedor final. Máximo de 16 caracteres permitidos.uméro de référence de paiement structuré. -Remarque : La référence est soit une référence QR, soit une référence créancier (ISO 11649) Maximum 27 caractères alphanumériques. Doit être rempli si vous utilisez un QR-IBAN. Référence QR : 27 caractères numériques, calcul du chiffre de contrôle selon le modulo récursif 10 (27ème position de la référence) Creditor Reference (ISO 11649) : jusqu'à 25 caractères alphanumériques L'élément ne doit pas être renseigné pour le type de référence NO.",
+            "infoFacture": "As informações da estrutura da fatura contêm informações codificadas para registro automatizado de pagamentos. Os dados não são transmitidos com o pagamento. máximo de 140 caracteres.",
+            "infosupp": "As informações não estruturadas podem ser usadas para indicar o motivo do pagamento ou para informações textuais adicionais sobre pagamentos com referência estruturada. máximo de 56 caracteres."    
+        },
+        "alert": {   
+            "nom": "O nome é obrigatório.",
+            "rue": "A rua é obrigatório.",
+            "numDeRue": "O número da rua' é obrigatório.",
+            "codePostal": "O código postal' é obrigatório.",
+            "ville": "A cidade' é obrigatório.",
+            "pays": "é obrigatório selecionar um País .",
+            "montant": "O valor é obrigatório.",
+            "numRef": "O número de referência é obrigatório."
+        },
+        "lang": {
+            "english": "English",
+            "francais": "Français",
+            "italiano": "Italiano",
+            "deutch": "Deutch",
+            "espanol": "Español",
+            "portuguese": "Portuguese"
+        },
+        "homepage": {
+            "facture": "Criar uma fatura"
+        }
+    }
+}
