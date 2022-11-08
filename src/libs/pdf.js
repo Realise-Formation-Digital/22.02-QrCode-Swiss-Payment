@@ -15,12 +15,12 @@ class Pdf {
    * @author Xavier de Juan
    */
   static getPdfPages(pdfDoc) {
-    console.log("[libs][pdf][getLastPage] Getting pages with param", pdfDoc)
+    console.log("[libs][pdf][getPdfPages] Getting pages with param", pdfDoc)
     try {
       const pagesList = pdfDoc.getPages()
       return pagesList[pagesList.length - 1]
     } catch (e) {
-      console.error("[libs][pdf][getLastPage] Error when getting pages", e)
+      console.error("[libs][pdf][getPdfPages] Error when getting pages", e)
       throw new Error
     }
   }
@@ -36,7 +36,7 @@ class Pdf {
       const pagesList = pdfDoc.getPages()
       return pagesList.length
     } catch (e) {
-      console.error("[libs][pdf][getLastPage] Error when getting pages length", e)
+      console.error("[libs][pdf][getPdfLength] Error when getting pages length", e)
       throw new Error
     }
   }

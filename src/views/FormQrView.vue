@@ -8,7 +8,7 @@
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <v-btn @click.stop="removeDivaltoFile" icon>
+            <v-btn @click.stop="reset()" icon>
               <v-icon> mdi-close-circle </v-icon>
             </v-btn>
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
@@ -255,9 +255,8 @@
 import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
 import PdfService from '@/services/pdfService.js';
-// import { PDFDocument, rgb } from 'pdf-lib';
+import Vue from "vue";
 
-// Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
 
@@ -284,7 +283,7 @@ export default {
       dnr: "",
       dnpa: "",
       dplace: "",
-      dcountry: "",
+      dcountry: "CH",
       amount: "",
       nrref: "",
       infosupp: "",
@@ -326,7 +325,7 @@ export default {
       ],
       amount: [
         v => !!v || "Le champ 'Montant' est obligatoire.",
-        v => {
+       v => {
           if (v) return v.length <= 12 || "Le montant ne peut excéder 12 caractères.";
           else return true;
         }],
@@ -380,7 +379,7 @@ export default {
       this.countDown -= 1
     }, 1000)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.interval)
   },
 
@@ -403,31 +402,43 @@ export default {
      * @param {*} e 
      * @author Xavier de Juan
      */
-    onDrop(e) {
-      this.rawPdfFile = false
-      this.dragover = false
-      this.dropTakeName = e.dataTransfer.files[0].name
-      this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
-      if (this.isAPdf) {
-        this.rawPdfFile = e.dataTransfer.files[0]
-        this.cardStateColor = true
-      } else if (!this.isAPdf) {
-        this.removeDivaltoFile()
-        this.cardStateColor = false
-        this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
+    async onDrop(e) {
+      try{
+        this.rawPdfFile = false
+        this.dragover = false
+        this.dropTakeName = e.dataTransfer.files[0].name
+        this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
+        if (this.isAPdf) {
+          this.showLoadingPopUp()
+
+          this.rawPdfFile = e.dataTransfer.files[0]
+          this.cardStateColor = true
+
+          const response = await PdfService.readPdf(this.rawPdfFile)
+          this.form.dnom = response.name
+          this.form.dnpa = response.npa
+          this.form.dstreet = response.address
+          this.form.dnr = response.addressNumber
+          this.form.dplace = response.city
+          this.form.amount = response.totalAmount
+          this.form.nrref = response.referenceNumber
+          this.form.infosupp = response.infoSupp
+          this.hideLoadingPopUp()
+        } else if (!this.isAPdf) {
+          this.cardStateColor = false
+          this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
+        }
+      }catch (e) {
+        this.hideLoadingPopUp()
+        console.error(e) //todo handle error
       }
+
     },
     /**
      * Function that deletes the imported pdf file.
      * @author Xavier de Juan
      */
-    removeDivaltoFile() {
-      this.divaltoFile = null
-      this.divaltoFileBlob = null
-      this.dropTakeName = null
-      this.isAPdf = false
-    },
-
+   
     /**
      * Function that changes the pdf file (object to Blob format)
      * @param {*} divaltoFile -
@@ -437,9 +448,10 @@ export default {
     async sendDivaltoPdf(divaltoFile) {
       console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
       try {
-        const response = await ApiService.unlockPdf(divaltoFile)
+        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
+        const response = await PdfService.unlockPdf(divaltoFile)
         const pdf = await response.data.arrayBuffer()
-        const pdfBytes = await PdfService.callPdfLibrary(pdf)   
+        const pdfBytes = await PdfService.callPdfLibrary(pdf)
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
       } catch (e) {
         console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
@@ -517,7 +529,6 @@ export default {
 
           this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
 
-
           const response = await ApiService.sendSinglePayment(payload)
 
           // set the blog type to final pdf
@@ -536,7 +547,6 @@ export default {
           this.hideDialog()
           this.showSnackbarSuccess();
           this.reset();
-          this.removeDivaltoFile()
         }
       } catch (e) {
         this.showSnackbarError();
@@ -564,10 +574,18 @@ export default {
      * Function that reset the form
      * @author Xavier de Juan
      * @return void
+     * 
      */
     reset() {
       this.$refs.form.reset();
-      // this.cardStateColor = true
+      this.divaltoFile = null
+      this.divaltoFileBlob = null
+      this.dropTakeName = null
+      this.isAPdf = false
+      this.cardStateColor = true
+      Vue.nextTick(() => {
+        this.form.dcountry = "CH"
+      });
     },
 
     /*
