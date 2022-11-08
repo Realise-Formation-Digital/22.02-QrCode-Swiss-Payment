@@ -135,7 +135,10 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
+
+        <!-- Annulé pour le moment... en attente de confirmation pour effacer le code. -->
+
+        <!-- <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
           :label="traduis('formqrcode.infoFacture')">
           <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
@@ -147,7 +150,7 @@
                 caractères au maximum.</span>
             </v-tooltip>
           </template>
-        </v-textarea>
+        </v-textarea> -->
         <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
           :label="traduis('formqrcode.infoSupp')">
           <template v-slot:append>
@@ -191,7 +194,7 @@
                   <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
                   <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
                   <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
+                  <!-- <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p> -->
                   <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
                 </v-col>
                 <!-- <v-col cols="6">
@@ -285,7 +288,7 @@ export default {
       amount: "",
       nrref: "",
       infosupp: "",
-      infobill: "",
+      // infobill: "",
     },
     formRules: {
       dnom: [
@@ -338,11 +341,11 @@ export default {
           if (v) return v.length <= 56 || 'Les informations supplémentaires ne peuvent excéder 56 caractères';
           else return true;
         }],
-      infobill: [
-        v => {
-          if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
-          else return true;
-        }],
+      // infobill: [
+      //   v => {
+      //     if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
+      //     else return true;
+      //   }],
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
