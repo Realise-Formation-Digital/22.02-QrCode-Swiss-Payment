@@ -422,7 +422,6 @@ export default {
           this.form.infosupp = response.infoSupp
           this.hideLoadingPopUp()
         } else if (!this.isAPdf) {
-          this.removeDivaltoFile()
           this.cardStateColor = false
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
@@ -580,10 +579,10 @@ export default {
       this.divaltoFileBlob = null
       this.dropTakeName = null
       this.isAPdf = false
+      this.cardStateColor = true
       Vue.nextTick(() => {
         this.form.dcountry = "CH"
       });
-      // this.cardStateColor = true
     },
 
     /*
