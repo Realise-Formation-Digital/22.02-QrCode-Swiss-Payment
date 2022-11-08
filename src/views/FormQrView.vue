@@ -6,9 +6,8 @@
       <h1>Facture Divalto</h1>
       <v-hover>
       <template v-slot:default="{ hover }">
-        <v-sheet :class="`elevation-${hover ? 24 : 6}`"
-          class="mx-auto transition-swing" elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
-          <draggable >
+        <v-sheet :class="`elevation-${hover ? 24 : 16}`"
+          class="mx-auto transition-swing" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card :forceFallback="true" @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
@@ -16,20 +15,19 @@
               <v-icon> mdi-close-circle </v-icon>
             </v-btn>
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
-            <v-row class="d-flex flex-column" dense align="center" justify="center">
+            <v-col class="d-flex flex-column" align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
                 {{ isAPdf ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
               </p>
-            </v-row>
+            </v-col>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
-      </draggable>
       </v-sheet>
       </template>
     </v-hover> 
