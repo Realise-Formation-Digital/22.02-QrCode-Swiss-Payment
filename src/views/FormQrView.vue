@@ -376,7 +376,7 @@ export default {
       this.countDown -= 1
     }, 1000)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.interval)
   },
 
