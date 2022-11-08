@@ -8,7 +8,7 @@
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <v-btn @click.stop="removeDivaltoFile" icon>
+            <v-btn @click.stop="reset()" icon>
               <v-icon> mdi-close-circle </v-icon>
             </v-btn>
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
@@ -167,7 +167,7 @@
             this.traduis('formqrcode.valider')
         }}
         </v-btn>
-        <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="removeDivaltoFile()">{{
+        <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{
             this.traduis('formqrcode.effacer')
         }}</v-btn>
 
@@ -252,9 +252,8 @@
 import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
 import PdfService from '@/services/pdfService.js';
-// import { PDFDocument, rgb } from 'pdf-lib';
+import Vue from "vue";
 
-// Params used for amount.replace
 const regex = /,/gm;
 const subst = `.`;
 
@@ -437,14 +436,7 @@ export default {
      * Function that deletes the imported pdf file.
      * @author Xavier de Juan
      */
-    removeDivaltoFile() {
-      this.divaltoFile = null
-      this.divaltoFileBlob = null
-      this.dropTakeName = null
-      this.isAPdf = false
-      this.reset()
-    },
-
+   
     /**
      * Function that changes the pdf file (object to Blob format)
      * @param {*} divaltoFile -
@@ -553,7 +545,6 @@ export default {
           this.hideDialog()
           this.showSnackbarSuccess();
           this.reset();
-          this.removeDivaltoFile()
         }
       } catch (e) {
         this.showSnackbarError();
@@ -581,9 +572,17 @@ export default {
      * Function that reset the form
      * @author Xavier de Juan
      * @return void
+     * 
      */
     reset() {
       this.$refs.form.reset();
+      this.divaltoFile = null
+      this.divaltoFileBlob = null
+      this.dropTakeName = null
+      this.isAPdf = false
+      Vue.nextTick(() => {
+        this.form.dcountry = "CH"
+      });
       // this.cardStateColor = true
     },
 
