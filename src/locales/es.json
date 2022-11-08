@@ -44,7 +44,7 @@
             "codePostal": "El código postal es obligatorio.",
             "ville": "La ciudad es obligatoria.",
             "pays": "La selección del país es obligatoria",
-            "montant": "la cantidad es obligatoria.",
+            "montant": "La cantidad es obligatoria.",
             "numRef": "El número de referencia es obligatorio."
         },
         "lang": {

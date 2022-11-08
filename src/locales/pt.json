@@ -24,7 +24,7 @@
         "modale": {
             "verifConfirm": "Página de verificação.",
             "confirmer": "Confirmar",
-            "annuler": "cancelar"
+            "annuler": "Cancelar"
         },
         "toolTip": {
             "nom": "Nome ou empresa do devedor final 70 caracteres no máximo. Sobrenome, nome (opcional, se disponível) ou nome da empresa.",
