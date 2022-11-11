@@ -17,7 +17,7 @@
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
-                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
+                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -44,7 +44,10 @@
                   info
                 </v-icon>
               </template>
-              <span>Texte traduit automatiquement à integrer</span>
+              <span>Nom ou entreprise du bénéficiaire selon la désignation de compte.
+                Remarque: correspond toujours au titulaire du compte
+                70 caractères au maximum
+                prénom (optionnel, si disponible) et nom ou raison sociale.</span>
             </v-tooltip>
           </template>
         </v-text-field>
@@ -154,7 +157,7 @@
               <template v-slot:default="{ hover }">
                 <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" outlined large
                   @click="showDialog()">
-                  {{traduis('formqrcode.valider')}}
+                  {{ traduis('formqrcode.valider') }}
                 </v-btn>
               </template>
             </v-hover>
@@ -165,7 +168,7 @@
               <template v-slot:default="{ hover }">
                 <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
                   @click="reset()">
-                  {{traduis('formqrcode.effacer')}}
+                  {{ traduis('formqrcode.effacer') }}
                 </v-btn>
               </template>
             </v-hover>
@@ -174,26 +177,65 @@
       </v-form>
 
       <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" max-width="70%" persistent>
+      <v-dialog v-model="dialog" max-width="60%" persistent>
         <v-card>
-          <v-card-title>
+          <v-card-title justify-content="center">
             <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
           </v-card-title>
           <!-- Checkform in the modal -->
           <v-card-text>
             <v-row>
-              <v-col cols="6" class="modalDialogStyle">
-                <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
-                <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
+              <v-col cols="10" class="modalDialogStyle">
+                <v-row>
+                  <v-col cols="12">
+                    <p><strong><em>Facture Divalto</em></strong> : {{ dropTakeName }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b> : {{ form.dnom }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b> : {{ form.dstreet }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b> : {{ form.dnr }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b> : {{ form.dnpa }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b> : {{ form.dplace }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('modale.pays') }}</i></b> : {{ form.dcountry }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b> : {{ form.amount }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('modale.numRef') }}</i></b> : {{ form.nrref }}</p>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <p><b><i>{{ this.traduis('modale.infoSupp') }}</i></b> : {{ form.infosupp }}</p>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
           </v-card-text>
@@ -204,8 +246,8 @@
               <v-col align="right">
                 <v-hover>
                   <template v-slot:default="{ hover }">
-                    <v-btn :class="`elevation-${hover ? 5 : 3 }`" class="mx-10 pa-6 transition-swing" color="success" large outlined :loading="!!countDown"
-                      :disabled="!!countDown" @click="confirm()">
+                    <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" large outlined
+                      :loading="!!countDown" :disabled="!!countDown" @click="confirm()">
                       {{ traduis('modale.confirmer') }}
                       <template v-slot:loader>
                         <span>
@@ -222,7 +264,8 @@
               <v-col align="center">
                 <v-hover>
                   <template v-slot:default="{ hover }">
-                    <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large @click="hideDialog()">
+                    <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
+                      @click="hideDialog()">
                       {{ traduis('modale.annuler') }}
                     </v-btn>
                   </template>
