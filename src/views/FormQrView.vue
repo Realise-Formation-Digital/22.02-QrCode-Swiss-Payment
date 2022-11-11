@@ -1,20 +1,20 @@
-<!-- Form to send to payload to get back a PDF/Qr file -->
 <template class="background">
   <v-row class="background">
     <!-- Drag and drop -->
-    <v-col lg="4" md="4" sm="12" xs="12" class="sureleve">
+    <v-col></v-col>
+    <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet elevation="16" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <v-btn @click.stop="reset()" icon>
+            <!-- <v-btn align="left" @click.stop="reset()" icon>
               <v-icon> mdi-close-circle </v-icon>
-            </v-btn>
+            </v-btn> -->
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
-                  'mdi-cloud-check' : 'mdi-cloud-upload'
+              'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
                 {{ isAPdf ? 'Importation réussie' : 'Glissez-déposer ici la facture Divalto à importer (format.pdf)' }}
@@ -29,7 +29,7 @@
     </v-col>
     <v-col lg="1" md="1" class="sureleve milieu"></v-col>
     <!-- Form -->
-    <v-col lg="7" md="7" sm="12" xs="12">
+    <v-col lg="5" md="5" sm="12" xs="12">
       <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
         <!--Text fields form for the debtors -->
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
@@ -100,7 +100,6 @@
         <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
           :items="countriesList" item-text="french" item-value="code">
         </v-autocomplete>
-
         <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
         <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
           :label="traduis('formqrcode.montant')" v-on:keypress="nombreSeulement" required>
@@ -135,7 +134,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
-        <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
+        <!-- <v-textarea v-model="form.infobill" counter maxlength="140" :rules="formRules.infobill"
           :label="traduis('formqrcode.infoFacture')">
           <template v-slot:append>
             <v-tooltip top :max-width="maxWidthTooltip">
@@ -147,7 +146,7 @@
                 caractères au maximum.</span>
             </v-tooltip>
           </template>
-        </v-textarea>
+        </v-textarea> -->
         <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
           :label="traduis('formqrcode.infoSupp')">
           <template v-slot:append>
@@ -161,81 +160,91 @@
             </v-tooltip>
           </template>
         </v-text-field>
-
-        <!--Buttons calling functions for the form-->
-        <v-btn color="success" class="mr-10 mt-10" outlined x-large rounded elevation="10" @click="showDialog()">{{
-            this.traduis('formqrcode.valider')
-        }}
-        </v-btn>
-        <v-btn color="error" class="ml-10 mt-10" outlined x-large rounded elevation="10" @click="reset()">{{
-            this.traduis('formqrcode.effacer')
-        }}</v-btn>
-
-        <!--Modal to check and confirm the form -->
-        <v-dialog v-model="dialog" max-width="70%" persistent>
-          <v-card>
-            <v-card-title>
-              <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
-            </v-card-title>
-
-            <!-- Checkform in the modal -->
-            <v-card-text>
-              <v-row class="container">
-                <v-col cols="4" class="modalDialogStyle">
-                  <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
-                  <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
-                </v-col>
-                <!-- <v-col cols="6">
-                <p>{{  form.dnom  }}</p>
-                <p>{{  form.dstreet  }}</p>
-                <p>{{  form.dnr  }}</p>
-                <p>{{  form.dnpa  }}</p>
-                <p>{{  form.dplace  }}</p>
-                <p>{{  form.dcountry  }}</p>
-                <p>{{  form.amount  }}</p>
-                <p>{{  form.nrref  }}</p>
-                <p>{{  !!form.infobill ? form.infobill : "N/A"  }}</p>
-                <p>{{  !!form.infosupp ? form.infosupp : "N/A"  }}</p>
-              </v-col> -->
-              </v-row>
-            </v-card-text>
-            <!-- Confirm or return buttons calling the functions -->
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
-                :disabled="!!countDown" @click="confirm()">
-                {{ this.traduis('modale.confirmer') }}
-                <template v-slot:loader>
-                  <span>
-                    <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5" color="orange">
-                      {{ countDown }}
-                    </v-progress-circular>
-                  </span>
-                </template>
-              </v-btn>
-
-              <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
-                {{ this.traduis('modale.annuler') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <v-row>
+          <v-col align="center">
+            <!--Buttons calling functions for the form-->
+            <v-hover>
+              <template v-slot:default="{ hover }">
+                <v-btn :class="`elevation-${ hover ? 5 : 3}`" class="transition-swing" color="success" outlined large
+                  @click="showDialog()">
+                  <!-- {{this.traduis('formqrcode.valider')}} -->
+                  Valider
+                </v-btn>
+              </template>
+            </v-hover>
+          </v-col>
+          <!-- <v-col></v-col> -->
+          <v-col align="center">
+            <v-hover>
+              <template v-slot:default="{ hover }">
+                <v-btn :class="`elevation-${ hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
+                  @click="reset()">
+                  <!-- {{this.traduis('formqrcode.effacer')}} -->
+                  Effacer
+                </v-btn>
+              </template>
+            </v-hover>
+          </v-col>
+        </v-row>
       </v-form>
+
+      <!--Modal to check and confirm the form -->
+      <v-dialog v-model="dialog" max-width="70%" persistent>
+        <v-card>
+          <v-card-title>
+            <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
+          </v-card-title>
+          <!-- Checkform in the modal -->
+          <v-card-text>
+            <v-row class="container">
+              <v-col cols="4" class="modalDialogStyle">
+                <p><strong><em>Facture Divalto</em></strong>: {{ dropTakeName }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b>: {{ form.dnom }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b>: {{ form.dstreet }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b>: {{ form.dnr }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b>: {{ form.dnpa }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b>: {{ form.dplace }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.pays') }}</i></b>: {{ form.dcountry }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b>: {{ form.amount }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.numRef') }}</i></b>: {{ form.nrref }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.infoFacture') }}</i></b>: {{ form.infobill }}</p>
+                <p><b><i>{{ this.traduis('formqrcode.infoSupp') }}</i></b>: {{ form.infosupp }}</p>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <!-- Confirm or return buttons calling the functions -->
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-hover>
+              <template>
+                <v-btn color="success" class="mr-16" x-large rounded elevation="5" :loading="!!countDown"
+                  :disabled="!!countDown" @click="confirm()">
+                  {{ this.traduis('modale.confirmer') }}
+                  <template v-slot:loader>
+                    <span>
+                      <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
+                        color="orange">
+                        {{ countDown }}
+                      </v-progress-circular>
+                    </span>
+                  </template>
+                </v-btn>
+              </template>
+            </v-hover>
+            <v-hover>
+              <template>
+                <v-btn color="error" class="ml-10" x-large rounded elevation="5" text @click="hideDialog()">
+                  {{ this.traduis('modale.annuler') }}
+                </v-btn>
+              </template>
+            </v-hover>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
         {{ snackbar.text }}
       </v-snackbar>
-
       <!-- Pop-up until the QR code is received or an error -->
       <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
         <v-card color="primary" dark>
@@ -246,6 +255,7 @@
         </v-card>
       </v-dialog>
     </v-col>
+    <v-col></v-col>
   </v-row>
 </template>
 <script>
@@ -253,10 +263,8 @@ import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
 import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
-
 const regex = /,/gm;
 const subst = `.`;
-
 export default {
   name: "FormQr",
   mixins: [traductionMixin],
@@ -322,7 +330,7 @@ export default {
       ],
       amount: [
         v => !!v || "Le champ 'Montant' est obligatoire.",
-       v => {
+        v => {
           if (v) return v.length <= 12 || "Le montant ne peut excéder 12 caractères.";
           else return true;
         }],
@@ -353,7 +361,6 @@ export default {
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
     rawPdfFile: false,
   }),
-
   async mounted() {
     try {
       console.log('[Views][FormQrView][mounted] Getting countries list')
@@ -365,7 +372,6 @@ export default {
     } finally {
       this.isGettingCountriesList = false
     }
-
     /**
      * See N_M_F below
      */
@@ -379,7 +385,6 @@ export default {
   beforeUnmount() {
     clearInterval(this.interval)
   },
-
   watch: {
     /**
      * activates the modal until the value is equal.
@@ -390,7 +395,6 @@ export default {
       if (!val) return
     },
   },
-
   methods: {
     /**
      * Drag and drop function that retrieves file, file name and file type
@@ -400,7 +404,7 @@ export default {
      * @author Xavier de Juan
      */
     async onDrop(e) {
-      try{
+      try {
         this.rawPdfFile = false
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
@@ -425,17 +429,15 @@ export default {
           this.cardStateColor = false
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
-      }catch (e) {
+      } catch (e) {
         this.hideLoadingPopUp()
         console.error(e) //todo handle error
       }
-
     },
     /**
      * Function that deletes the imported pdf file.
      * @author Xavier de Juan
      */
-   
     /**
      * Function that changes the pdf file (object to Blob format)
      * @param {*} divaltoFile -

@@ -5,7 +5,7 @@ module.exports = defineConfig({
   ],
   pwa: {
     name: 'QR-code',
-    themeColor: '#4DBA87',
+    themeColor: '#000000',
     msTileColor: '#000000',
     appleMobileWebAppCapable: 'no',
     appleMobileWebAppStatusBarStyle: 'default',

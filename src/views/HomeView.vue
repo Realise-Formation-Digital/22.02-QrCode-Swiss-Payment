@@ -1,37 +1,45 @@
 <template>
-  <div class="container">
-  <div class="pt-16 mt-16" >
-      <v-col class="d-flex justify-center align-content-center">
-        <div class="d-flex align-content-center flex-wrap" style="min-height:700px;">
-          <!--Buttons in the home page. -->
+  <v-row align="center" justify="center">
+    <v-col></v-col>
 
-          <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
-          <!-- <v-btn class="ma-10" outlined color="indigo" to="csv" x-large rounded elevation="10">
-            <v-icon>mdi-file-delimited-outline</v-icon>
-            Importer une facture
-          </v-btn> -->
-
-          <v-btn outlined color="indigo" to="form-qr" x-large rounded elevation="10">
+    <!--Buttons in the home page. -->
+    <v-col>
+      <v-hover>
+        <template v-slot:default="{ hover }">
+          <v-btn :class="`elevation-${hover ? 5 : 3}`" class="mx-auto pa-6 transition-swing" outlined color="primary"
+            to="form-qr" x-large elevation="10">
             <v-icon left>mdi-qrcode</v-icon>
-           {{ this.traduis('homepage.facture')}}
+            <!-- {{ this.traduis('homepage.facture') }} ATTENTION TRADUCTION NE FONCTIONNE PAS POUR LE MOMENT!!!
+            (FAIS DISPARAITRE LE BOUTON)-->
+              Créer une facture
           </v-btn>
+        </template>
+      </v-hover>
+    </v-col>
 
-          <v-btn outlined color="indigo" to="xml" x-large rounded elevation="10">
+    <v-col>
+      <v-hover>
+        <template v-slot:default="{ hover }">
+          <v-btn :class="`elevation-${hover ? 5 : 3}`" class="mx-auto pa-6 transition-swing" outlined color="primary"
+            to="xml" x-large>
             <v-icon left>mdi-xml</v-icon>
             Convertir pour Divalto
           </v-btn>
-        </div>
-      </v-col>
-    </div>
-  </div>
+        </template>
+      </v-hover>
+    </v-col>
+    <v-col></v-col>
+  </v-row>
 </template>
-
 <script>
 import { traductionMixin } from "@/mixins/traductionMixin.js"
-
-
 export default {
   name: 'HomeView',
   mixins: [traductionMixin],
+  data: () => ({
+    justify: [
+      'space-around',
+    ],
+  }),
 }
 </script>
