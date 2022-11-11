@@ -635,13 +635,16 @@ export default {
       if (this.isAPdf && isValid) {
         this.dialog = true;
         this.activCountDown();
-      } else if (!this.isAPdf && isValid) {
-        this.cardStateColor = false;
-      } else if (this.isAPdf && !isValid) {
-        this.cardStateColor = true;
-      } else if (!this.isAPdf && !isValid) {
-        this.cardStateColor = false;
+      } else if (!this.isAPdf || isValid) {
+        this.cardStateColor = false
       }
+      // } else if (!this.isAPdf && isValid) {
+      //   this.cardStateColor = false;
+      // } else if (this.isAPdf && !isValid) {
+      //   this.cardStateColor = true;
+      // } else if (!this.isAPdf && !isValid) {
+      //   this.cardStateColor = false;
+      // }
     },
 
     /**

@@ -31,7 +31,7 @@
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" outlined large
-                :disabled="!rawfile" @click="fixXMLDivalto()">Convertir</v-btn>
+                @click="validFileXml()">Convertir</v-btn>
             </template>
           </v-hover>
         </v-col>
@@ -98,7 +98,20 @@ export default {
         console.error(e) //todo handle error
       }
     },
+    validFileXml() {
+      if (this.rawFile) {
+        this.cardStateColor = true
+        this.fixXMLDivalto()
+      } else {
+        this.cardStateColor = false
+      }
+    },
     saveFile(rawFile) {
+      if (this.rawFile) {
+        this.cardStateColor = true
+      } else {
+        this.cardStateColor = false
+      }
       this.rawFile = rawFile
     },
     /**
