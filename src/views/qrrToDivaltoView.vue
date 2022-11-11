@@ -12,7 +12,9 @@
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
-                {{ isXML ? 'Importation réussie' : 'Glissez-déposez le fichier transmis par la poste à importer. (fichier XML)' }}
+                {{ isXML ? 'Importation réussie' :
+                    'Glissez-déposez le fichier transmis par la poste à importer. (fichier XML)'
+                }}
               </p>
             </v-row>
           </v-card-text>
@@ -26,17 +28,17 @@
       </v-row>
       <v-row>
         <v-col align="center">
-        <v-hover>
-          <template v-slot:default="{ hover }">
-            <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="primary"
-              :disabled="!rawFile" outlined large @click="fixXMLDivalto()">Convertir</v-btn>
-          </template>
-        </v-hover>
+          <v-hover>
+            <template v-slot:default="{ hover }">
+              <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" outlined large
+                :disabled="!rawfile" @click="fixXMLDivalto()">Convertir</v-btn>
+            </template>
+          </v-hover>
         </v-col>
         <v-col align="center">
           <v-hover>
             <template v-slot:default="{ hover }">
-              <v-btn :class="`elevation-${ hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
+              <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
                 @click="clearComponent()">
                 Annuler
               </v-btn>
@@ -162,8 +164,8 @@ export default {
       this.snackbarSuccess = false
     },
     clearComponent() {
-      this.rawFile = null,
-        this.dropTakeName = null
+      this.rawFile = null
+      this.dropTakeName = null
       this.isXML = false
       this.cardStateColor = true
     }

@@ -6,8 +6,8 @@
     <v-col align="center">
       <v-hover>
         <template v-slot:default="{ hover }">
-          <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" outlined color="primary"
-            to="form-qr" x-large elevation="10">
+          <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" outlined color="primary" to="form-qr"
+            x-large elevation="10">
             <v-icon left>mdi-qrcode</v-icon>
             {{ traduis('homepage.facture') }}
           </v-btn>
@@ -18,8 +18,8 @@
     <v-col align="center">
       <v-hover>
         <template v-slot:default="{ hover }">
-          <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" outlined color="primary"
-            to="xml" x-large>
+          <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" outlined color="primary" to="xml"
+            x-large>
             <v-icon left>mdi-xml</v-icon>
             Convertir pour Divalto
           </v-btn>

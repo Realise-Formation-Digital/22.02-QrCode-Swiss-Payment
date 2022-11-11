@@ -1,4 +1,4 @@
-import {PDFDocument, rgb} from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 
 
 /**
@@ -40,7 +40,7 @@ class Pdf {
       throw new Error
     }
   }
-  
+
   /**
    * Function that draws a white square instead of the BVR
    * @param {*} page
@@ -51,7 +51,7 @@ class Pdf {
   static drawRectangle(page) {
     console.log("[libs][pdf][drawRectangle] rectangle drawed with param")
     try {
-      const {width} = page.getSize()
+      const { width } = page.getSize()
       page.drawRectangle({
         x: 0,
         y: 0,

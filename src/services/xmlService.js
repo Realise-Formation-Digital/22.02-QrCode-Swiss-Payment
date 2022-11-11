@@ -17,9 +17,9 @@ import {
  */
 class XmlService {
 
-    static async fixXMLDivalto (xmlFile){
+    static async fixXMLDivalto(xmlFile) {
         try {
-            console.log('[XmlService][fixXMLDivalto] Fixing xml coming from user input with params', xmlFile )
+            console.log('[XmlService][fixXMLDivalto] Fixing xml coming from user input with params', xmlFile)
             //first parse the field coming from input
             const xmlRawDoc = await XmlLibrary.getXMLDoc(xmlFile)
 
@@ -48,7 +48,7 @@ class XmlService {
             }
 
             return xmlRawDoc
-        }catch (e) {
+        } catch (e) {
             console.error('[XmlService][fixXMLDivalto] An error occurred when fixing xml coming from user input', e)
             throw new Error('[XmlService][fixXMLDivalto] An error occurred when fixing xml coming from user input')
         }
@@ -56,4 +56,4 @@ class XmlService {
 
 }
 
-export  default XmlService
+export default XmlService

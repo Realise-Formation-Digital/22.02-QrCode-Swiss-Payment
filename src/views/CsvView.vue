@@ -21,12 +21,12 @@
 
       <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
-        {{  textE  }}
+        {{ textE }}
       </v-snackbar>
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
-        {{  textS  }}
+        {{ textS }}
       </v-snackbar>
     </v-col>
   </v-row>

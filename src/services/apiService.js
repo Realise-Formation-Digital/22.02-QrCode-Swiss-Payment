@@ -210,7 +210,7 @@ class ApiService {
             formData.append('file', divaltoFile)
             formData.append('file2', qrCodeCreateByApi)
 
-            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength , formData,
+            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength, formData,
                 {
                     responseType: "blob",
                     headers: {
