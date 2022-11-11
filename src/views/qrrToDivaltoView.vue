@@ -6,9 +6,6 @@
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <v-btn align="left" @click.stop="clearComponent()" icon>
-              <v-icon> mdi-close-circle </v-icon>
-            </v-btn>
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isXML ? 'green' : 'grey'">{{ isXML ?
@@ -28,14 +25,24 @@
         <v-col></v-col>
       </v-row>
       <v-row>
+        <v-col align="center">
         <v-hover>
           <template v-slot:default="{ hover }">
-            <!-- <v-card-actions class="justify-center"> -->
-            <v-btn :class="`elevation-${hover ? 5 : 3}`" class="mx-auto pa-6 transition-swing" color="primary"
-              :disabled="!rawFile" outlined x-large @click="fixXMLDivalto()">Convertir</v-btn>
-            <!-- </v-card-actions> -->
+            <v-btn :class="`elevation-${hover ? 5 : 3}`" class="mx-10 pa-6 transition-swing" color="primary"
+              :disabled="!rawFile" outlined large @click="fixXMLDivalto()">Convertir</v-btn>
           </template>
         </v-hover>
+        </v-col>
+        <v-col align="center">
+          <v-hover>
+            <template v-slot:default="{ hover }">
+              <v-btn :class="`elevation-${ hover ? 5 : 3}`" class="mx-10 pa-6 transition-swing" color="error" outlined large
+                @click="clearComponent()">
+                Annuler
+              </v-btn>
+            </template>
+          </v-hover>
+        </v-col>
       </v-row>
       <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
