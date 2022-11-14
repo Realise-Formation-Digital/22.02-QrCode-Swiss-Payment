@@ -57,14 +57,14 @@ class PdfService {
 
     static async CallPdfLengthLib(pdfBlob) {
         console.log("[Service][PdfService][CallPdfLengthLib] Call the library to get the pdfBlob length", pdfBlob)
-        try{
+        try {
             const pdfArrayBuffer = await pdfBlob.arrayBuffer()
             const pdfLoaded = await Pdf.pdfLoad(pdfArrayBuffer)
             console.log('ciao ', pdfLoaded)
             return Pdf.getPdfLength(pdfLoaded)
-        } catch(e) {
+        } catch (e) {
             console.error("[Service][PdfService][CallPdfLengthLib] An error has occurred when trying to get the pdf length")
-            throw new Error(e)  
+            throw new Error(e)
         }
     }
 

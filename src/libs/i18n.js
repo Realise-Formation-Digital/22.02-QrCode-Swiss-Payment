@@ -33,7 +33,7 @@ class Traductor {
      * @author Xavier de Juan
      * @returns 
      */
-    static async changeLanguage(lng) {  
+    static async changeLanguage(lng) {
         await i18next.changeLanguage(lng);
         return lng
     }

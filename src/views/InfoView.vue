@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <div v-html="txtHtml"/>
+      <div v-html="txtHtml" />
     </v-col>
   </v-row>
 </template>

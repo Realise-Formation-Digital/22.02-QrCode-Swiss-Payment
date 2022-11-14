@@ -3,16 +3,13 @@
     <v-card class="flex" flat tile>
       <v-card-title class="realiseTheme">
         <strong class="subheading">Version {{version}}</strong>
-
         <v-spacer></v-spacer>
-
         <v-btn class="mx-4" dark icon @click="openSiteRealise()">
           <v-icon size="200%">
             mdi-web
           </v-icon>
         </v-btn>
       </v-card-title>
-
       <v-card-text class="py-2 white--text text-center">
         Made with
         <v-icon size="100%">
@@ -24,9 +21,7 @@
     </v-card>
   </v-footer>
 </template>
-
 <script>
-
 export default {
   name: "Footer-bar",
   data: () => ({
@@ -46,13 +41,11 @@ export default {
   }
 }
 </script>
-
 <style>
 .realiseTheme {
   background-image: linear-gradient(90deg, #003da5, #41b6e6, #97d700);
-  height: 4em;
+  height: 3em;
 }
-
 .subheading {
   font-size: 100%;
 }
