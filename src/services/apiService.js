@@ -129,6 +129,7 @@ class ApiService {
     /**
      * Sending Single Payment to the api
      * @param payload
+     * @deprecated
      * @returns {Promise<*>}
      * @author Marco Tribuzio
      */
