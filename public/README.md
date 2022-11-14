@@ -6,7 +6,8 @@
 ## Ajouté
  - Retrait du bloquage du PDF pour la lecture
  - Lecture PDF et auto-remplissage du formulaire
- - Ajout PWA 
+ - Ajout PWA
+ - Ajout commentaires dans le changelog
 ## Modifié
  - Amélioration de l'U/I et de l'U/X
 
@@ -19,7 +20,7 @@
  - Merge pdf Divalto et pdf- QR
  - I18Next (Bug)
 ## Modifié
-- Optimisation des commentaires de code
+- Optimisation des commentaires dans le code
 - --
 # [Version 1.0.2] - 19.09.2022
 ## Fixé
