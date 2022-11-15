@@ -5,6 +5,7 @@ import CsvView from '../views/CsvView.vue';
 import FormQrView from "@/views/FormQrView.vue";
 import InfoView from '@/views/InfoView.vue'
 import XMLParser from '@/views/qrrToDivaltoView.vue'
+import SnackBar from '@/components/SnackBar.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +34,11 @@ const routes = [
     path: '/xml',
     name: '/xml-View',
     component: XMLParser
+  },
+  {
+    path: '/snackbar',
+    name: '/Snack-Bar',
+    component: SnackBar
   },
 ]
 

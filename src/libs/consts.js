@@ -13,6 +13,11 @@ const XML_ISR_REFERENCE = 'ISR Reference'
 const XML_DIVALTO_ACCOUNT = '010458810'
 const XML_IBAN = process.env.VUE_APP_CREDITOR_INFORMATION_IBAN
 
+const SUCCESSCODE = {
+    QRCODEDOWNLOADED: 'xavier',
+    PDFUPLOADED: 'marco'
+}
+
 export {
     BASE_URL,
     API_KEY,
@@ -25,5 +30,6 @@ export {
     XML_PRTRY,
     XML_NTRY_REF,
     XML_CREDITOR_ACCOUNT,
-    XML_ULTIMATE_DEBTOR
+    XML_ULTIMATE_DEBTOR,
+    SUCCESSCODE
 }
