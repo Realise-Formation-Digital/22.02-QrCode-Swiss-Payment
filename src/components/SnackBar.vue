@@ -4,7 +4,8 @@
     </v-snackbar>
 </template>
 <script>
-import { SUCCESSCODE } from '../libs/consts'
+import { SUCCESSCODE } from '../libs/consts.js'
+import { ERRORCODE } from '../libs/consts.js'
 
 export default {
     name: 'Snack-Bar',
@@ -37,44 +38,60 @@ export default {
     * @author Xavier de Juan
     * @return boolean
     */
-        showSnackbarError() {
-            this.snackbar.text = "Une erreur est survenue lors du téléchargement du code QR"
-            this.snackbar.color = "error"
-            this.snackbar.flag = true
-        },
+        // showSnackbarError() {
+        //     this.snackbar.text = "Une erreur est survenue lors du téléchargement du code QR"
+        //     this.snackbar.color = "error"
+        //     this.snackbar.flag = true
+        // },
         /**
          * Function that hide the snackbar
          * @author Xavier de Juan
          * @return boolean
          */
-        hideSnackBar() {
-            this.snackbar.flag = false
-            this.snackbar.text = null
-            this.snackbar.color = null
-        },
+        // hideSnackBar() {
+        //     this.snackbar.flag = false
+        //     this.snackbar.text = null
+        //     this.snackbar.color = null
+        // },
         /**
          * Function that show the snackbar when QR code is received
          * @author Xavier de Juan
          * @return boolean
          */
-        showSnackbarSuccess() {
-            console.log("CALLED")
-            this.snackbar.text = "Code QR téléchargé avec succès."
-            this.snackbar.color = "success"
-            this.snackbar.flag = true
-        },
+        // showSnackbarSuccess() {
+        //     console.log("CALLED")
+        //     this.snackbar.text = "Code QR téléchargé avec succès."
+        //     this.snackbar.color = "success"
+        //     this.snackbar.flag = true
+        // },
 
         handleSuccess(codeSuccess) {
-            console.log("CodeSuccess", SUCCESSCODE.QRCODEDOWNLOADED)
+            console.log("CodeSuccess", SUCCESSCODE)
             this.snackbar.color = "success"
 
             switch (codeSuccess) {
                 case SUCCESSCODE.QRCODEDOWNLOADED: {
-                    this.snackbar.text = "Code QR téléchargé avec succès."
+                    this.snackbar.text = "Code QR téléchargé avec succès"
                     break
                 }
                 case SUCCESSCODE.PDFUPLOADED: {
                     this.snackbar.text = "Uploaded Done! :)"
+                    break
+                }
+            }
+            this.snackbar.flag = true
+        },
+        handleError(codeError) {
+            console.log("codeError", ERRORCODE)
+            this.snackbar.color = "alert"
+
+            switch (codeError) {
+                case ERRORCODE.ERRORQRCODEDOWNLOAD: {
+                    this.snack.text = "Echec du télechargement du code QR"
+                    break
+                }
+                case ERRORCODE.ERRORPDFUPLOAD: {
+                    this.snackbar.text = "Echec lors de l'upload"
                     break
                 }
             }

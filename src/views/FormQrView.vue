@@ -283,9 +283,6 @@
       </v-dialog>
       <!-- Pop-up when the QR code is received -->
       <SnackBar ref="snackbar" />
-      <!-- <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
-        {{ snackbar.text }}
-      </v-snackbar> -->
       <!-- Pop-up until the QR code is received or an error -->
       <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
         <v-card color="primary" dark>
@@ -307,6 +304,8 @@ import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
 import SnackBar from '../components/SnackBar.vue'
 import { SUCCESSCODE } from "@/libs/consts";
+import { ERRORCODE } from "@/libs/consts";
+
 
 const regex = /,/gm;
 const subst = `.`;
@@ -405,7 +404,7 @@ export default {
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
-    rawPdfFile: false,
+    rawPdfFile: null,
   }),
   async mounted() {
     try {
@@ -451,7 +450,7 @@ export default {
      */
     async onDrop(e) {
       try {
-        this.rawPdfFile = false
+        this.rawPdfFile = {}
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
         this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
@@ -588,7 +587,7 @@ export default {
           this.$refs.snackbar.handleSuccess(SUCCESSCODE.QRCODEDOWNLOADED);
         }
       } catch (e) {
-        this.$refs.snackbar.showSnackbarError();
+        this.$refs.snackbar.handleError(ERRORCODE.ERRORQRCODEDOWNLOAD);
         console.error('[Views][FormQrView][sendCsvList] An error has occurred when send the form', e)
       } finally {
         this.dialog = false

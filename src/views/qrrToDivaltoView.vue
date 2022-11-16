@@ -46,32 +46,31 @@
           </v-hover>
         </v-col>
       </v-row>
-      <!-- error pop-up if the QR code is not received -->
-      <v-snackbar v-model="snackbarError" color="red accent-2">
-        {{ textE }}
-      </v-snackbar>
-      <!-- Pop-up when the QR code is received -->
-      <v-snackbar v-model="snackbarSuccess" color="success">
-        {{ textS }}
-      </v-snackbar>
     </v-col>
+    <SnackBar ref="snackbar" />
     <v-col cols="3"></v-col>
   </v-row>
 </template>
 <script>
 import XmlService from "@/services/xmlService";
+import SnackBar from '../components/SnackBar.vue'
+import { SUCCESSCODE } from "@/libs/consts";
+import { ERRORCODE } from "@/libs/consts";
+
 export default {
   name: "xml-View",
+  components: { SnackBar },
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
     dropTakeName: null, // Variable that retrieves the file name or the error message in case of no pdf
     cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
     isXML: false, // To check if it is an xml file
     loading: false,
-    snackbarError: false,
-    textE: "Echec de réception du code QR.",
-    snackbarSuccess: false,
-    textS: "Réception du code QR confirmée.",
+    snackbar: { // API merge file receipt status message
+      flag: false,
+      text: null,
+      color: null,
+    },
     rawFile: null
   }),
   methods: {
@@ -135,47 +134,14 @@ export default {
         link.download = fileName + "_CONVERTI" + ".xml";
         link.click();
         this.clearComponent()
+        this.$refs.snackbar.handleSuccess(SUCCESSCODE.PDFUPLOADED)
       } catch (e) {
         console.error('[Component][fixXMLDivalto] Fixing xml divalto with params', e)
+        this.$refs.snackbar.handleSuccess(ERRORCODE.ERRORPDFUPLOAD)
         // todo handle error
       }
     },
-    /**
-     * Function that show the snackbar when QR code is not received
-     *
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    showSnackbarError() {
-      this.snackbarError = true
-    },
-    /**
-     * Function that hide the snackbar
-     *
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    hideSnackBarError() {
-      this.snackbarError = false
-    },
-    /**
-     * Function that show the snackbar when QR code is received
-     *
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    showSnackbarSuccess() {
-      this.snackbarSuccess = true
-    },
-    /**
-     * Function that hide the snackbar
-     *
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    hideSnackbarSuccess() {
-      this.snackbarSuccess = false
-    },
+
     clearComponent() {
       this.rawFile = null
       this.dropTakeName = null
