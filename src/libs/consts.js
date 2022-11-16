@@ -12,11 +12,11 @@ const XML_DIVALTO_ACCOUNT = '010458810'
 const XML_IBAN = process.env.VUE_APP_CREDITOR_INFORMATION_IBAN
 const SUCCESSCODE = Object.freeze({
     QRCODEDOWNLOADED: 'qrCodeDwnld',
-    PDFUPLOADED: 'pdfUpload'
+    XMLCONVERTED: 'conversionXml'
 })
 const ERRORCODE = Object.freeze({
     ERRORQRCODEDOWNLOAD: 'qrCodedwnldError',
-    ERRORPDFUPLOAD: 'pdfUploadError'
+    ERRORCONVERT: 'conversionError'
 })
 export {
     BASE_URL,

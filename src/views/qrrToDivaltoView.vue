@@ -134,10 +134,10 @@ export default {
         link.download = fileName + "_CONVERTI" + ".xml";
         link.click();
         this.clearComponent()
-        this.$refs.snackbar.handleSuccess(SUCCESSCODE.PDFUPLOADED)
+        this.$refs.snackbar.handleSuccess(SUCCESSCODE.XMLCONVERTED)
       } catch (e) {
         console.error('[Component][fixXMLDivalto] Fixing xml divalto with params', e)
-        this.$refs.snackbar.handleSuccess(ERRORCODE.ERRORPDFUPLOAD)
+        this.$refs.snackbar.handleSuccess(ERRORCODE.ERRORCONVERT)
         // todo handle error
       }
     },

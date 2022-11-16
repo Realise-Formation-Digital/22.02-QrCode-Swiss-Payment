@@ -1,5 +1,5 @@
 <template>
-    <v-snackbar v-model="snackbar.flag" ref="snackbar" :color="snackbar.color" :right="true" :top="true">
+    <v-snackbar v-model="snackbar.flag" ref="snackbar" :color="snackbar.color" :center="true" :top="true">
         {{ snackbar.text }}
     </v-snackbar>
 </template>
@@ -12,59 +12,18 @@ export default {
     data: () => ({
         snackbar: {
             flag: false,
-            color: null,
-            text: null
+            color: "",
+            text: ""
         }
     }),
-    props: {
-        // flag: Boolean,
-        // text: String,
-        // color: Boolean,
-
-        // flag: { type: Boolean, default: false, require: true },
-        // text: { type: String, default: null, require: true },
-        // color: { type: Boolean, default: null, require: true },
-    },
-    // data: () => ({
-    //     snackbar: { // API merge file receipt status message
-    //         flag: false,
-    //         text: null,
-    //         color: null,
-    //     },
-    // }),
     methods: {
         /**
-    * Function that show the snackbar when QR code is not received
-    * @author Xavier de Juan
-    * @return boolean
-    */
-        // showSnackbarError() {
-        //     this.snackbar.text = "Une erreur est survenue lors du téléchargement du code QR"
-        //     this.snackbar.color = "error"
-        //     this.snackbar.flag = true
-        // },
-        /**
-         * Function that hide the snackbar
-         * @author Xavier de Juan
-         * @return boolean
+         * Boolean changing the message of the snackbar depending on the file that calls it.
+         * @param {*} codeSuccess
+         * @return - boolean
+         * @author - Marco Tribuzio
+         * @author - Xavier de Juan
          */
-        // hideSnackBar() {
-        //     this.snackbar.flag = false
-        //     this.snackbar.text = null
-        //     this.snackbar.color = null
-        // },
-        /**
-         * Function that show the snackbar when QR code is received
-         * @author Xavier de Juan
-         * @return boolean
-         */
-        // showSnackbarSuccess() {
-        //     console.log("CALLED")
-        //     this.snackbar.text = "Code QR téléchargé avec succès."
-        //     this.snackbar.color = "success"
-        //     this.snackbar.flag = true
-        // },
-
         handleSuccess(codeSuccess) {
             console.log("CodeSuccess", SUCCESSCODE)
             this.snackbar.color = "success"
@@ -74,13 +33,20 @@ export default {
                     this.snackbar.text = "Code QR téléchargé avec succès"
                     break
                 }
-                case SUCCESSCODE.PDFUPLOADED: {
-                    this.snackbar.text = "Uploaded Done! :)"
+                case SUCCESSCODE.XMLCONVERTED: {
+                    this.snackbar.text = "Conversion effectuée avec succès"
                     break
                 }
             }
             this.snackbar.flag = true
         },
+        /**
+         * Boolean changing the message of the snackbar depending on the file that calls it.
+         * @param {*} codeError
+         * @return - boolean
+         * @author - Marco Tribuzio
+         * @author - Xavier de Juan
+         */
         handleError(codeError) {
             console.log("codeError", ERRORCODE)
             this.snackbar.color = "alert"
@@ -90,8 +56,8 @@ export default {
                     this.snack.text = "Echec du télechargement du code QR"
                     break
                 }
-                case ERRORCODE.ERRORPDFUPLOAD: {
-                    this.snackbar.text = "Echec lors de l'upload"
+                case ERRORCODE.ERRORCONVERT: {
+                    this.snackbar.text = "Echec lors de la conversion"
                     break
                 }
             }
