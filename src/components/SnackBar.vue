@@ -1,5 +1,5 @@
 <template>
-    <v-snackbar v-model="snackbar.flag" ref="snackbar" :color="snackbar.color" :center="true" :top="true">
+    <v-snackbar v-model="snackbar.flag" ref="snackbar" :color="snackbar.color" center="true" :top="true">
         {{ snackbar.text }}
     </v-snackbar>
 </template>
@@ -13,7 +13,7 @@ export default {
         snackbar: {
             flag: false,
             color: "",
-            text: ""
+            text: "",
         }
     }),
     methods: {
@@ -27,7 +27,6 @@ export default {
         handleSuccess(codeSuccess) {
             console.log("CodeSuccess", SUCCESSCODE)
             this.snackbar.color = "success"
-
             switch (codeSuccess) {
                 case SUCCESSCODE.QRCODEDOWNLOADED: {
                     this.snackbar.text = "Code QR téléchargé avec succès"
@@ -49,11 +48,10 @@ export default {
          */
         handleError(codeError) {
             console.log("codeError", ERRORCODE)
-            this.snackbar.color = "alert"
-
+            this.snackbar.color = "red lighten-1"
             switch (codeError) {
                 case ERRORCODE.ERRORQRCODEDOWNLOAD: {
-                    this.snack.text = "Echec du télechargement du code QR"
+                    this.snackbar.text = "Echec du télechargement du code QR"
                     break
                 }
                 case ERRORCODE.ERRORCONVERT: {

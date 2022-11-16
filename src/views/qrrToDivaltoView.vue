@@ -54,24 +54,23 @@
 <script>
 import XmlService from "@/services/xmlService";
 import SnackBar from '../components/SnackBar.vue'
-import { SUCCESSCODE } from "@/libs/consts";
-import { ERRORCODE } from "@/libs/consts";
-
+import { SUCCESSCODE } from "@/libs/consts.js";
+import { ERRORCODE } from "@/libs/consts.js";
 export default {
   name: "xml-View",
   components: { SnackBar },
   data: () => ({
-    dragover: false, // Reaction to the passage of the file above the drag & drop
-    dropTakeName: null, // Variable that retrieves the file name or the error message in case of no pdf
+    dragover: false, // Boolean reaction to the passage of the file above the drag & drop
+    dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
     cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
     isXML: false, // To check if it is an xml file
     loading: false,
     snackbar: { // API merge file receipt status message
       flag: false,
-      text: null,
-      color: null,
+      text: "",
+      color: ""
     },
-    rawFile: null
+    rawFile: {}
   }),
   methods: {
     /**
@@ -82,7 +81,7 @@ export default {
      */
     async onDrop(e) {
       try {
-        this.rawFile = null
+        this.rawFile = {}
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
         this.isXML = e.dataTransfer.files[0].type === "text/xml"
@@ -141,10 +140,9 @@ export default {
         // todo handle error
       }
     },
-
     clearComponent() {
-      this.rawFile = null
-      this.dropTakeName = null
+      this.rawFile = {}
+      this.dropTakeName = ""
       this.isXML = false
       this.cardStateColor = true
     }

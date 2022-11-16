@@ -294,7 +294,6 @@
       </v-dialog>
     </v-col>
     <v-col></v-col>
-
   </v-row>
 </template>
 <script>
@@ -305,8 +304,6 @@ import Vue from "vue";
 import SnackBar from '../components/SnackBar.vue'
 import { SUCCESSCODE } from "@/libs/consts";
 import { ERRORCODE } from "@/libs/consts";
-
-
 const regex = /,/gm;
 const subst = `.`;
 export default {
@@ -315,16 +312,16 @@ export default {
   components: { SnackBar },
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
-    dropTakeName: null, // Variable that retrieves the file name or the error message in case of no pdf
-    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
+    dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
+    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
     divaltoFile: null, // PDF file
     divaltoFileBlob: null, // pdf file converted to Blob
     qrFileBlob: null, // Pdf file received from API
     snackbar: { // API merge file receipt status message
       flag: false,
-      text: null,
-      color: null,
+      text: "",
+      color: ""
     },
     // Form
     form: {
@@ -398,13 +395,13 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    loadingPopUp: false,// Pop-up loading modal until receipt snackbar
-    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
+    loadingPopUp: false,// Boolean pop-up loading modal until receipt snackbar
+    isGettingCountriesList: [], // Liste des pays dans le dropDown du formulaire
     countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
-    rawPdfFile: null,
+    rawPdfFile: {},
   }),
   async mounted() {
     try {
@@ -614,9 +611,9 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      this.divaltoFile = null
-      this.divaltoFileBlob = null
-      this.dropTakeName = null
+      this.divaltoFile = {}
+      this.divaltoFileBlob = {}
+      this.dropTakeName = ""
       this.isAPdf = false
       this.cardStateColor = true
       Vue.nextTick(() => {
