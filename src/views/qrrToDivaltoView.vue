@@ -55,7 +55,7 @@
 import XmlService from "@/services/xmlService";
 import SnackBar from '../components/SnackBar.vue'
 import { SUCCESSCODE } from "@/libs/consts.js";
-import { ERRORCODE } from "@/libs/consts.js";
+// import { ERRORCODE } from "@/libs/consts.js";
 export default {
   name: "xml-View",
   components: { SnackBar },
@@ -70,7 +70,7 @@ export default {
       text: "",
       color: ""
     },
-    rawFile: {}
+    rawFile: null
   }),
   methods: {
     /**
@@ -81,7 +81,7 @@ export default {
      */
     async onDrop(e) {
       try {
-        this.rawFile = {}
+        this.rawFile = null
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
         this.isXML = e.dataTransfer.files[0].type === "text/xml"
@@ -136,12 +136,12 @@ export default {
         this.$refs.snackbar.handleSuccess(SUCCESSCODE.XMLCONVERTED)
       } catch (e) {
         console.error('[Component][fixXMLDivalto] Fixing xml divalto with params', e)
-        this.$refs.snackbar.handleSuccess(ERRORCODE.ERRORCONVERT)
+        // this.$refs.snackbar.handleError(ERRORCODE.ERRORCONVERT)
         // todo handle error
       }
     },
     clearComponent() {
-      this.rawFile = {}
+      this.rawFile = null
       this.dropTakeName = ""
       this.isXML = false
       this.cardStateColor = true

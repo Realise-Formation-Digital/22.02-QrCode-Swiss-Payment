@@ -48,7 +48,7 @@ export default {
          */
         handleError(codeError) {
             console.log("codeError", ERRORCODE)
-            this.snackbar.color = "red lighten-1"
+            this.snackbar.color = "error"
             switch (codeError) {
                 case ERRORCODE.ERRORQRCODEDOWNLOAD: {
                     this.snackbar.text = "Echec du télechargement du code QR"
