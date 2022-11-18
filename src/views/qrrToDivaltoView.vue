@@ -81,7 +81,7 @@ export default {
      */
     async onDrop(e) {
       try {
-        this.rawFile = null
+        this.rawFile = null// Doit être en null pour fonctionner correctement
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
         this.isXML = e.dataTransfer.files[0].type === "text/xml"
