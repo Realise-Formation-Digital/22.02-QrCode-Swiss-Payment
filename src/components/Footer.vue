@@ -15,10 +15,29 @@
         <v-icon size="100%">
           mdi-heart
         </v-icon>
-        by <strong @click="openMarcoLinkedin()">Marco Tribuzio</strong>, <strong>Bachir
-          Aouad</strong> and <strong @click="openXavierLinkedin()">Xavier de Juan</strong> - {{ new
-      Date().getFullYear()
-          }}
+        by
+        <v-tooltip :max-width="maxWidthTooltip" top>
+          <template v-slot:activator="{ on, attrs }">
+            <strong v-bind="attrs" v-on="on" @click="openMarcoLinkedin()">Marco Tribuzio</strong>
+          </template>
+          <span>Lien Linkedin</span>
+        </v-tooltip>
+        ,
+        <v-tooltip :max-width="maxWidthTooltip" top>
+          <template v-slot:activator="{ on, attrs }">
+            <strong v-bind="attrs" v-on="on">Bachir Aouad</strong>
+          </template>
+          <span>Pas de compte Linkedin</span>
+        </v-tooltip>
+        and
+        <v-tooltip :max-width="maxWidthTooltip" top>
+          <template v-slot:activator="{ on, attrs }">
+            <strong v-bind="attrs" v-on="on" @click="openXavierLinkedin()">Xavier de Juan</strong>
+          </template>
+          <span>Lien Linkedin</span>
+        </v-tooltip>
+        - {{ new Date().getFullYear()
+        }}
       </v-card-text>
     </v-card>
   </v-footer>
@@ -27,6 +46,7 @@
 export default {
   name: "Footer-bar",
   data: () => ({
+    maxWidthTooltip: 300,
     footerColor: process.env.VUE_APP_FOOTER_COLOR,
     version: process.env.VUE_APP_VERSION
   }),
