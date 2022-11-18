@@ -324,7 +324,6 @@ export default {
       amount: "",
       nrref: "",
       infosupp: "",
-      infobill: "",
     },
     formRules: {
       dnom: [
@@ -377,16 +376,11 @@ export default {
           if (v) return v.length <= 56 || 'Les informations supplémentaires ne peuvent excéder 56 caractères';
           else return true;
         }],
-      infobill: [
-        v => {
-          if (v) return v.length <= 140 || 'Les informations supplémentaires ne peuvent excéder 140 caractères';
-          else return true;
-        }],
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
     // loadingPopUp: false,// Boolean pop-up loading modal until receipt snackbar
-    isGettingCountriesList: [], // Liste des pays dans le dropDown du formulaire
+    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
     countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
@@ -601,8 +595,8 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      this.divaltoFile = {}
-      this.divaltoFileBlob = {}
+      this.divaltoFile = null
+      this.divaltoFileBlob = null
       this.dropTakeName = ""
       this.isAPdf = false
       this.cardStateColor = true
