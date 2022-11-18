@@ -2,7 +2,7 @@
   <v-footer dark padless>
     <v-card class="flex" flat tile>
       <v-card-title class="realiseTheme">
-        <strong class="subheading">Version {{version}}</strong>
+        <strong class="subheading">Version {{ version }}</strong>
         <v-spacer></v-spacer>
         <v-btn class="mx-4" dark icon @click="openSiteRealise()">
           <v-icon size="200%">
@@ -15,8 +15,10 @@
         <v-icon size="100%">
           mdi-heart
         </v-icon>
-        by<strong> Marco Tribuzio, <strong>Bachir Aouad</strong></strong> and <strong>Xavier de Juan</strong> - {{ new
-        Date().getFullYear() }}
+        by <strong @click="openMarcoLinkedin()">Marco Tribuzio</strong>, <strong>Bachir
+          Aouad</strong> and <strong @click="openXavierLinkedin()">Xavier de Juan</strong> - {{ new
+      Date().getFullYear()
+          }}
       </v-card-text>
     </v-card>
   </v-footer>
@@ -37,6 +39,15 @@ export default {
      */
     openSiteRealise() {
       window.open(process.env.VUE_APP_FOOTER_ICONS, '_blank')
+    },
+    openMarcoLinkedin() {
+      window.open('https://www.linkedin.com/in/marcotribuz/')
+    },
+    openBachirLinkedin() {
+      window.open('')
+    },
+    openXavierLinkedin() {
+      window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
     }
   }
 }
@@ -46,6 +57,7 @@ export default {
   background-image: linear-gradient(90deg, #003da5, #41b6e6, #97d700);
   height: 3em;
 }
+
 .subheading {
   font-size: 100%;
 }
