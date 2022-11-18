@@ -8,9 +8,6 @@
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <!-- <v-btn align="left" @click.stop="reset()" icon>
-              <v-icon> mdi-close-circle </v-icon>
-            </v-btn> -->
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
@@ -34,7 +31,6 @@
         <!--Text fields form for the debtors -->
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
         <!-- todo set rules with one in the api -->
-
         <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
           :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
@@ -162,7 +158,6 @@
               </template>
             </v-hover>
           </v-col>
-          <!-- <v-col></v-col> -->
           <v-col align="center">
             <v-hover>
               <template v-slot:default="{ hover }">
@@ -284,15 +279,6 @@
       <!-- Pop-up when the QR code is received -->
       <LoadingPopUpVue ref="loadingPopUp" />
       <SnackBar ref="snackbar" />
-      <!-- Pop-up until the QR code is received or an error -->
-      <!-- <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
-        <v-card color="primary" dark> -->
-      <!-- <v-card-text>
-            Veuillez patienter, en attente de réception
-            <v-progress-linear class="mb-0" color="white" indeterminate></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog> -->
     </v-col>
     <v-col></v-col>
   </v-row>
