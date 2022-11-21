@@ -577,9 +577,8 @@ export default {
     },
     /**
      * Function that reset the form
-     * @author Xavier de Juan
      * @return void
-     * 
+     * @author Xavier de Juan
      */
     reset() {
       this.$refs.form.reset();
@@ -611,8 +610,8 @@ export default {
     },
     /**
      * Function that hide the modal "check" form
+     * @return {Boolean}
      * @author Xavier de Juan
-     * @return boolean/number
      */
     hideDialog() {
       this.dialog = false;
@@ -620,14 +619,12 @@ export default {
     },
     /**
      * Function that permit numbers and dot only "champ: Montant"
+     * @return {String}
      * @author Xavier de Juan
-     * @return numbers/dot
      */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
-      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
-      // && (nombres 188(Virgule) && 222 (Apostrophe)) (Le garder pour plus tard...)
-      {
+      if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46) {
         e.preventDefault();
       } else {
         return true;
