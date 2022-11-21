@@ -1,5 +1,6 @@
 <template>
     <v-row>
+            <!-- Pop-up until the QR code is received or an error -->
         <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
             <v-card color="primary" dark>
                 <v-card-text>
@@ -11,9 +12,6 @@
     </v-row>
 </template>
 <script>
-// import { SHOWLOADPOPUP } from '../libs/consts.js'
-// import { HIDELOADPOPUP } from '../libs/consts.js'
-
 export default {
     name: "loading-PopUp",
     data: () => ({
@@ -30,10 +28,10 @@ export default {
         },
     },
     methods: {
-        handleLoadPopUpShow() {
+        showLoadingPopUp() {
             this.loadingPopUp = true
         },
-        handleLoadPopUpHide() {
+        hideLoadingPopUp() {
             this.loadingPopUp = false
         }
     },
