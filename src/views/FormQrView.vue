@@ -175,7 +175,6 @@
           </v-col>
         </v-row>
       </v-form>
-
       <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" max-width="60%" persistent>
         <v-card>
@@ -283,18 +282,8 @@
         </v-card>
       </v-dialog>
       <!-- Pop-up when the QR code is received -->
-      <v-snackbar v-model="snackbar.flag" :color="snackbar.color" :right="true" :top="true">
-        {{ snackbar.text }}
-      </v-snackbar>
-      <!-- Pop-up until the QR code is received or an error -->
-      <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
-        <v-card color="primary" dark>
-          <v-card-text>
-            Veuillez patienter, en attente de réception
-            <v-progress-linear class="mb-0" color="white" indeterminate></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
+      <LoadingPopUpVue ref="loadingPopUp" />
+      <SnackBar ref="snackbar" />
     </v-col>
     <v-col></v-col>
   </v-row>
@@ -304,23 +293,28 @@ import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
 import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
+import LoadingPopUpVue from "../components/LoadingPopUp.vue";
+import SnackBar from '../components/SnackBar.vue';
+import { SUCCESSCODE } from "@/libs/consts";
+import { ERRORCODE } from "@/libs/consts";
 const regex = /,/gm;
 const subst = `.`;
 export default {
   name: "FormQr",
   mixins: [traductionMixin],
+  components: { LoadingPopUpVue, SnackBar },
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
-    dropTakeName: null, // Variable that retrieves the file name or the error message in case of no pdf
-    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
+    dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
+    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
     divaltoFile: null, // PDF file
     divaltoFileBlob: null, // pdf file converted to Blob
     qrFileBlob: null, // Pdf file received from API
     snackbar: { // API merge file receipt status message
       flag: false,
-      text: null,
-      color: null,
+      text: "",
+      color: ""
     },
     // Form
     form: {
@@ -394,13 +388,12 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    loadingPopUp: false,// Pop-up loading modal until receipt snackbar
-    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
+    isGettingCountriesList: [], // Liste des pays dans le dropDown du formulaire
     countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
-    rawPdfFile: false,
+    rawPdfFile: {},
   }),
   async mounted() {
     try {
@@ -446,16 +439,13 @@ export default {
      */
     async onDrop(e) {
       try {
-        this.rawPdfFile = false
+        this.rawPdfFile = {}
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
         this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
         if (this.isAPdf) {
-          this.showLoadingPopUp()
-
           this.rawPdfFile = e.dataTransfer.files[0]
           this.cardStateColor = true
-
           const response = await PdfService.readPdf(this.rawPdfFile)
           this.form.dnom = response.name
           this.form.dnpa = response.npa
@@ -465,13 +455,11 @@ export default {
           this.form.amount = response.totalAmount
           this.form.nrref = response.referenceNumber
           this.form.infosupp = response.infoSupp
-          this.hideLoadingPopUp()
         } else if (!this.isAPdf) {
           this.cardStateColor = false
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
       } catch (e) {
-        this.hideLoadingPopUp()
         console.error(e) //todo handle error
       }
     },
@@ -516,7 +504,6 @@ export default {
     inactivCountDown() {
       this.countDown = 0
     },
-
     /**
      *Function that call validate (see validate())
      *Hide the "check" modal
@@ -530,7 +517,7 @@ export default {
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
-          this.showLoadingPopUp()
+          this.$refs.loadingPopUp.showLoadingPopUp()
 
           const payload = {
             "creditorInformation": {
@@ -566,16 +553,12 @@ export default {
               }
             },
           }
-
           this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
-
           const response = await ApiService.sendSinglePayment(payload)
-
+          console.log("Response", response)
           // set the blog type to final pdf
           const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
-
           const sendtomerge = await ApiService.mergeFiles(this.divaltoFileBlob, qrFileBlob)
-
           // process to auto download it
           const fileURL = URL.createObjectURL(sendtomerge);
           const link = document.createElement('a');
@@ -585,22 +568,20 @@ export default {
           link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
           link.click();
           this.hideDialog()
-          this.showSnackbarSuccess();
           this.reset();
+          this.$refs.snackbar.handleSuccess(SUCCESSCODE.QRCODEDOWNLOADED);
         }
       } catch (e) {
-        this.showSnackbarError();
+        this.$refs.snackbar.handleError(ERRORCODE.ERRORQRCODEDOWNLOAD);
         console.error('[Views][FormQrView][sendCsvList] An error has occurred when send the form', e)
       } finally {
         this.dialog = false
-        this.hideLoadingPopUp()
+        this.$refs.loadingPopUp.hideLoadingPopUp()
       }
     },
-
     /*
      * FORM
      */
-
     /**
      * Function that check required fields form if valid
      * Send the payload to the API
@@ -618,20 +599,18 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      this.divaltoFile = null
-      this.divaltoFileBlob = null
-      this.dropTakeName = null
+      this.divaltoFile = {}
+      this.divaltoFileBlob = {}
+      this.dropTakeName = ""
       this.isAPdf = false
       this.cardStateColor = true
       Vue.nextTick(() => {
         this.form.dcountry = "CH"
       });
     },
-
     /*
      * DIALOG
      */
-
     /**
      * Function that show the modal "check" form
      * @author Xavier de Juan
@@ -645,15 +624,7 @@ export default {
       } else if (!this.isAPdf || !isValid) {
         this.cardStateColor = false
       }
-      // } else if (!this.isAPdf && isValid) {
-      //   this.cardStateColor = false;
-      // } else if (this.isAPdf && !isValid) {
-      //   this.cardStateColor = true;
-      // } else if (!this.isAPdf && !isValid) {
-      //   this.cardStateColor = false;
-      // }
     },
-
     /**
      * Function that hide the modal "check" form
      * @author Xavier de Juan
@@ -663,11 +634,9 @@ export default {
       this.dialog = false;
       this.inactivCountDown()
     },
-
     /**
      * LOADING POP-UP
      */
-
     /**
      * Function that show the loading pop-up during API's await
      * @author Xavier de Juan
@@ -675,7 +644,6 @@ export default {
     showLoadingPopUp() {
       this.loadingPopUp = true
     },
-
     /**
      * Function that hide the loading pop-up
      * @author Xavier de Juan
@@ -683,44 +651,6 @@ export default {
     hideLoadingPopUp() {
       this.loadingPopUp = false
     },
-
-    /*
-     * SNACKBAR
-     */
-
-    /**
-     * Function that show the snackbar when QR code is not received
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    showSnackbarError() {
-      this.snackbar.text = "Une erreur est survenue lors du téléchargement du code QR"
-      this.snackbar.color = "error"
-      this.snackbar.flag = true
-    },
-
-    /**
-     * Function that hide the snackbar
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    hideSnackBar() {
-      this.snackbar.flag = false
-      this.snackbar.text = null
-      this.snackbar.color = null
-    },
-
-    /**
-     * Function that show the snackbar when QR code is received
-     * @author Xavier de Juan
-     * @return boolean
-     */
-    showSnackbarSuccess() {
-      this.snackbar.text = "Code QR téléchargé avec succès."
-      this.snackbar.color = "success"
-      this.snackbar.flag = true
-    },
-
     /**
      * Function that permit numbers and dot only "champ: Montant"
      * @author Xavier de Juan
@@ -739,7 +669,6 @@ export default {
   },
 };
 </script>
-
 <style>
 .modalDialogStyle {
   font-size: x-large;

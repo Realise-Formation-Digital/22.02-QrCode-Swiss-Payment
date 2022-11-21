@@ -60,6 +60,7 @@ class ApiService {
      * @async
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
+     * @deprecated
      * @author Marco Tribuzio
      * @author Xavier de Juan
      */
@@ -129,7 +130,6 @@ class ApiService {
     /**
      * Sending Single Payment to the api
      * @param payload
-     * @deprecated
      * @returns {Promise<*>}
      * @author Marco Tribuzio
      */
