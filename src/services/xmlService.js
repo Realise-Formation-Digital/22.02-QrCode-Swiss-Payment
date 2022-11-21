@@ -22,7 +22,6 @@ class XmlService {
             // second step remove useless tag
             // remove ultimateDebtorAccount
             const ultimaDebtorTagList = xmlRawDoc.getElementsByTagName(XML_ULTIMATE_DEBTOR)
-
             for (let itemUltimateDebtorTag of Array.from(ultimaDebtorTagList)) {
                 itemUltimateDebtorTag.parentNode.removeChild(itemUltimateDebtorTag)
             }
