@@ -376,7 +376,12 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
+    isGettingCountriesList: null, // Liste des pays dans le dropDown du formulaire
+    countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
+    interval: {}, // Interval timing for countDown
+    countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
+    rawPdfFile: null
   }),
   async mounted() {
     try {
@@ -422,7 +427,7 @@ export default {
      */
     async onDrop(e) {
       try {
-        this.rawPdfFile = {}
+        this.rawPdfFile = null
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
         this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
