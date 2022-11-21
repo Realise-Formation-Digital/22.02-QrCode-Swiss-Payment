@@ -5,11 +5,10 @@ import es from '@/locales/es.json';
 import fr from "@/locales/fr.json";
 import it from "@/locales/it.json";
 import pt from "@/locales/pt.json";
-
 /**
  * Fonction d'initiation de l'instance i18next
- * @author Xavier de Juan
  * @return void
+ * @author Xavier de Juan
  */
 class Traductor {
     static async initTraductor() {
@@ -30,14 +29,13 @@ class Traductor {
     /**
      * Fonction pour le changement de langue
      * @param {*} lng 
+     * @returns {promise}
      * @author Xavier de Juan
-     * @returns 
      */
     static async changeLanguage(lng) {
         await i18next.changeLanguage(lng);
         return lng
     }
-
     static traduction(key) {
         return i18next.t(key)
     }

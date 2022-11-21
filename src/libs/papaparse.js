@@ -4,7 +4,6 @@ import Papa from 'papaparse'
  * @classdesc - Wrapper of library papaparse
  */
 class ParseCsv {
-
     config = {
         download: true,
         header: true,

@@ -6,7 +6,6 @@ import FormQrView from "@/views/FormQrView.vue";
 import InfoView from '@/views/InfoView.vue'
 import XMLParser from '@/views/qrrToDivaltoView.vue'
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',

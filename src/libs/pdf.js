@@ -6,7 +6,6 @@ import { PDFDocument, rgb } from 'pdf-lib';
  * @classdesc - Wrappers of library pdf unlocked
  */
 class Pdf {
-
   /**
    * Function that takes pages and returns the last page
    * @param {*} pdfDoc - the document that has been loaded
@@ -40,7 +39,6 @@ class Pdf {
       throw new Error
     }
   }
-
   /**
    * Function that draws a white square instead of the BVR
    * @param {*} page

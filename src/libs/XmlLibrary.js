@@ -2,7 +2,6 @@ class XmlLibrary {
     static getPrTry() {
 
     }
-
     static getXMLDoc(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -15,13 +14,11 @@ class XmlLibrary {
             reader.onerror = error => reject(error);
         });
     }
-
     static setPrTry(xmlDoc) {
         const test = xmlDoc.getElementsByTagName("CdOrPrtry")
         console.log('ciao', test[0].childNodes[1].childNodes[0].nodeValue)
         console.log('test', xmlDoc)
     }
-
     static rmvTag(xmlDoc) {
         console.log("xmlDoc", xmlDoc)
         let xmlToRmv = xmlDoc.getElementsByTagName("UltmtDbtr")[0]
@@ -34,7 +31,6 @@ class XmlLibrary {
             }
         }
     }
-
     static rplcTag(xmlDoc) {
         const xmlToRplc = xmlDoc.getElementsByTagName("Prtry")
         console.log("xlmRplc", xmlToRplc)
