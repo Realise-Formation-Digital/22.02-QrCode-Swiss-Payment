@@ -10,12 +10,6 @@ const XML_NTRY_REF = 'NtryRef'
 const XML_ISR_REFERENCE = 'ISR Reference'
 const XML_DIVALTO_ACCOUNT = '010458810'
 const XML_IBAN = process.env.VUE_APP_CREDITOR_INFORMATION_IBAN
-// const SHOWLOADPOPUP = Object.freeze({
-//     SHOWLOADING: 'showLoadingPopUp',
-// })
-// const HIDELOADPOPUP = Object.freeze({
-//     HIDELOADING: 'hideLoadingPopUp',
-// })
 const SUCCESSCODE = Object.freeze({
     QRCODEDOWNLOADED: 'qrCodeDwnld',
     XMLCONVERTED: 'conversionXml'
@@ -37,8 +31,6 @@ export {
     XML_NTRY_REF,
     XML_CREDITOR_ACCOUNT,
     XML_ULTIMATE_DEBTOR,
-    // SHOWLOADPOPUP,
-    // HIDELOADPOPUP,
     SUCCESSCODE,
     ERRORCODE
 }
