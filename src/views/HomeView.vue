@@ -1,7 +1,6 @@
 <template>
   <v-row align="center" justify="center">
     <v-col></v-col>
-
     <!--Buttons in the home page. -->
     <v-col align="center">
       <v-hover>
@@ -14,7 +13,6 @@
         </template>
       </v-hover>
     </v-col>
-
     <v-col align="center">
       <v-hover>
         <template v-slot:default="{ hover }">

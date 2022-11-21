@@ -2,16 +2,16 @@
   <v-row>
     <v-col cols="3"></v-col>
     <v-col>
-      <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet elevation="3" outlined :color="dragNDropXmlErrorColor ? 'red' : 'black'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
+            <p :class="dragNDropXmlErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isXML ? 'green' : 'grey'">{{ isXML ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
-              <p :class="cardStateColor ? 'black--text' : 'red--text'">
+              <p :class="dragNDropXmlErrorColor ? 'red--text' : 'black--text'">
                 {{ isXML ? 'Importation réussie' :
                     'Glissez-déposez le fichier transmis par la poste à importer. (fichier XML)'
                 }}
@@ -53,16 +53,16 @@
 </template>
 <script>
 import XmlService from "@/services/xmlService";
-import SnackBar from '../components/SnackBar.vue'
+import SnackBar from '../components/SnackBar.vue';
 import { SUCCESSCODE } from "@/libs/consts.js";
-// import { ERRORCODE } from "@/libs/consts.js";
+import { ERRORCODE } from "@/libs/consts.js";
 export default {
   name: "xml-View",
   components: { SnackBar },
   data: () => ({
     dragover: false, // Boolean reaction to the passage of the file above the drag & drop
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
-    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop
+    dragNDropXmlErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop
     isXML: false, // To check if it is an xml file
     loading: false,
     snackbar: { // API merge file receipt status message
@@ -87,9 +87,9 @@ export default {
         this.isXML = e.dataTransfer.files[0].type === "text/xml"
         if (this.isXML) {
           this.rawFile = e.dataTransfer.files[0]
-          this.cardStateColor = true
+          this.dragNDropXmlErrorColor = false
         } else if (!this.isXML) {
-          this.cardStateColor = false
+          this.dragNDropXmlErrorColor = true
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .xml"
         }
       } catch (e) {
@@ -98,17 +98,17 @@ export default {
     },
     validFileXml() {
       if (this.rawFile) {
-        this.cardStateColor = true
+        this.dragNDropXmlErrorColor = false
         this.fixXMLDivalto()
       } else {
-        this.cardStateColor = false
+        this.dragNDropXmlErrorColor = true
       }
     },
     saveFile(rawFile) {
       if (this.rawFile) {
-        this.cardStateColor = true
+        this.dragNDropXmlErrorColor = false
       } else {
-        this.cardStateColor = false
+        this.dragNDropXmlErrorColor = true
       }
       this.rawFile = rawFile
     },
@@ -135,14 +135,18 @@ export default {
         this.$refs.snackbar.handleSuccess(SUCCESSCODE.XMLCONVERTED)
       } catch (e) {
         console.error('[Component][fixXMLDivalto] Fixing xml divalto with params', e)
+        this.$refs.snackbar.handleError(ERRORCODE.ERRORCONVERT)
         // todo handle error
       }
     },
+    /**
+     * Reset the drag n drop zone
+     */
     clearComponent() {
       this.rawFile = null
       this.dropTakeName = ""
       this.isXML = false
-      this.cardStateColor = true
+      this.dragNDropXmlErrorColor = false
     }
   },
 }

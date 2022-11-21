@@ -6,7 +6,6 @@ import axios from "axios";
  * @classdesc
  */
 class PdfService {
-
     /**
      * Function that calls the functions in the pdf class in the library
      * @param {*} file 
@@ -25,7 +24,6 @@ class PdfService {
             throw new Error
         }
     }
-
     /**
      * Function that sends the pdf to a nodejs server to unlock the metadata
      * @param {*} pdf
@@ -54,26 +52,33 @@ class PdfService {
             throw new Error(e)
         }
     }
-
+    /**
+     * Function that takes the length of the pdf
+     * @param {*} pdfBlob
+     * @returns {Promise<Object>}
+     * @author - Xavier de Juan
+     */
     static async CallPdfLengthLib(pdfBlob) {
         console.log("[Service][PdfService][CallPdfLengthLib] Call the library to get the pdfBlob length", pdfBlob)
         try {
             const pdfArrayBuffer = await pdfBlob.arrayBuffer()
             const pdfLoaded = await Pdf.pdfLoad(pdfArrayBuffer)
-            console.log('ciao ', pdfLoaded)
             return Pdf.getPdfLength(pdfLoaded)
         } catch (e) {
             console.error("[Service][PdfService][CallPdfLengthLib] An error has occurred when trying to get the pdf length")
             throw new Error(e)
         }
     }
-
+    /**
+     * Function that reads the pdf
+     * @param {*} pdf 
+     * @returns {Promise<Object>}
+     */
     static async readPdf(pdf) {
         try {
             console.log("[Service][PdfService][readPdf] Reading pdf with params", pdf)
             const pdfToRead = new FormData()
             pdfToRead.append('pdf', pdf)
-
             const response = await axios.post(process.env.VUE_APP_PDFREAD_URL, pdfToRead, {
                 responseType: "application/json",
                 headers: {
@@ -81,8 +86,7 @@ class PdfService {
                     'accept': 'application/pdf',
                     'Accept-Language': 'fr'
                 }
-            }
-            )
+            })
             if (response.status !== 200) throw Error('API merge Error')
             return response.data
         } catch (e) {

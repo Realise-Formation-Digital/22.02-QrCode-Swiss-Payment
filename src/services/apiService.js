@@ -168,7 +168,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
     /**
      * Get Two check digit
      * @param {String} referenceNumber - 27 digit reference number
@@ -198,6 +197,7 @@ class ApiService {
      * Send to API for merge
      * @param {object} divaltoFile - 
      * @param {object} qrCodeCreateByApi
+     * @return {Promise<Object>}
      * @author Marco Tribuzio
      * @author Xavier de Juan
      */

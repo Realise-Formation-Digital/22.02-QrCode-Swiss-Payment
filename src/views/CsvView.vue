@@ -69,12 +69,10 @@ export default {
 
   methods: {
     /**
-     *
      * Function that check value and return the loading pop-up
-     *
-     * @author Xavier de Juan
-     * @params {object[]????} - convert
-     * @return promise<object>
+     * @param {*} convert
+     * @return {Promise<Object>}
+     * @deprecated
      */
     async papaparse(convert) {
       let conversion = await ParseCsv.csvToJson(convert)

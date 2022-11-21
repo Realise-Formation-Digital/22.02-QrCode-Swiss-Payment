@@ -2,6 +2,7 @@ import Papa from 'papaparse'
 /**
  * @class
  * @classdesc - Wrapper of library papaparse
+ * @deprecated
  */
 class ParseCsv {
     config = {
@@ -19,7 +20,7 @@ class ParseCsv {
                 }
             })
         })
-    }
+    }s
 }
 
 export default ParseCsv

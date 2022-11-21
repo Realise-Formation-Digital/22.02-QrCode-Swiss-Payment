@@ -4,16 +4,16 @@
     <v-col></v-col>
     <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet elevation="3" outlined :color="dragNDropPdfErrorColor ? 'red' : 'black'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
+            <p :class="dragNDropPdfErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
-              <p :class="cardStateColor ? 'black--text' : 'red--text'">
+              <p :class="dragNDropPdfErrorColor ? 'red--text' : 'black--text'">
                 {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
@@ -300,7 +300,7 @@ export default {
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
-    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
+    dragNDropPdfErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
     divaltoFile: null, // PDF file
     divaltoFileBlob: null, // pdf file converted to Blob
@@ -433,7 +433,7 @@ export default {
         this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
         if (this.isAPdf) {
           this.rawPdfFile = e.dataTransfer.files[0]
-          this.cardStateColor = true
+          this.dragNDropPdfErrorColor = false
           const response = await PdfService.readPdf(this.rawPdfFile)
           this.form.dnom = response.name
           this.form.dnpa = response.npa
@@ -444,17 +444,13 @@ export default {
           this.form.nrref = response.referenceNumber
           this.form.infosupp = response.infoSupp
         } else if (!this.isAPdf) {
-          this.cardStateColor = false
+          this.dragNDropPdfErrorColor = true
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
       } catch (e) {
         console.error(e) //todo handle error
       }
     },
-    /**
-     * Function that deletes the imported pdf file.
-     * @author Xavier de Juan
-     */
     /**
      * Function that changes the pdf file (object to Blob format)
      * @param {*} divaltoFile -
@@ -591,7 +587,7 @@ export default {
       this.divaltoFileBlob = null
       this.dropTakeName = ""
       this.isAPdf = false
-      this.cardStateColor = true
+      this.dragNDropPdfErrorColor = false
       Vue.nextTick(() => {
         this.form.dcountry = "CH"
       });
@@ -610,7 +606,7 @@ export default {
         this.dialog = true;
         this.activCountDown();
       } else if (!this.isAPdf || !isValid) {
-        this.cardStateColor = false
+        this.dragNDropPdfErrorColor = true
       }
     },
     /**

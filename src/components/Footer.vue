@@ -27,7 +27,7 @@
           <template v-slot:activator="{ on, attrs }">
             <strong v-bind="attrs" v-on="on">Bachir Aouad</strong>
           </template>
-          <span>Pas de compte Linkedin</span>
+          <span>Ne possède pas de compte Linkedin</span>
         </v-tooltip>
         and
         <v-tooltip :max-width="maxWidthTooltip" top>
@@ -60,12 +60,19 @@ export default {
     openSiteRealise() {
       window.open(process.env.VUE_APP_FOOTER_ICONS, '_blank')
     },
+    /**
+    * Link to Marco's Linkedin
+    * @return void
+    * @author Xavier de Juan
+    */
     openMarcoLinkedin() {
       window.open('https://www.linkedin.com/in/marcotribuz/')
     },
-    openBachirLinkedin() {
-      window.open('')
-    },
+    /**
+   * Link to Xavier's Linkedin
+   * @return void
+   * @author Xavier de Juan
+   */
     openXavierLinkedin() {
       window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
     }

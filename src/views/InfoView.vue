@@ -7,16 +7,19 @@
 </template>
 <script>
 import ApiService from "@/services/apiService.js"
-
 export default {
   name: "Info-View",
   data: () => ({
     txtHtml: null
   }),
-
+  /**
+   * Function that calls a query in Markdown
+   * @return {Promise<String>}
+   * @author Xavier de Juan
+   */
   async mounted() {
     try {
-      console.log("reussi Sercvice request markdown")
+      console.log("Success Service request markdown")
       this.txtHtml = await ApiService.axioRequ()
     } catch (e) {
       throw new Error(e)

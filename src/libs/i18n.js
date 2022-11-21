@@ -6,7 +6,7 @@ import fr from "@/locales/fr.json";
 import it from "@/locales/it.json";
 import pt from "@/locales/pt.json";
 /**
- * Fonction d'initiation de l'instance i18next
+ * i18next instance initiation function
  * @return void
  * @author Xavier de Juan
  */
@@ -27,7 +27,7 @@ class Traductor {
         })
     }
     /**
-     * Fonction pour le changement de langue
+     * Function for language change
      * @param {*} lng 
      * @returns {promise}
      * @author Xavier de Juan
@@ -36,6 +36,12 @@ class Traductor {
         await i18next.changeLanguage(lng);
         return lng
     }
+    /**
+     * Traduction function
+     * @param {*} key 
+     * @returns - void
+     * @author Xavier de Juan
+     */
     static traduction(key) {
         return i18next.t(key)
     }

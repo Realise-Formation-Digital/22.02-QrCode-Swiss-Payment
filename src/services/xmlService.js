@@ -13,7 +13,6 @@ import {
  * @class
  * @classdesc Service for XML Files
  * @author Marco Tribuzio
- * @author Xavier De Juan
  */
 class XmlService {
 
