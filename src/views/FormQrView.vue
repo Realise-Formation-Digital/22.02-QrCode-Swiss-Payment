@@ -179,9 +179,16 @@
       <!--Modal to check and confirm the form -->
       <v-dialog v-model="dialog" max-width="60%" persistent>
         <v-card>
-          <v-card-title justify-content="center">
-            <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
-          </v-card-title>
+          <v-row>
+            <v-col>
+              <v-card-title id="verifConfirmModale">
+                <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
+              </v-card-title>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col></v-col>
+          </v-row>
           <!-- Checkform in the modal -->
           <v-card-text>
             <v-row>
@@ -738,6 +745,10 @@ export default {
   font-size: x-large;
 }
 
+#verifConfirmModale {
+  justify-content: center;
+  text-decoration: underline;
+}
 
 .background {
   background-color: rgb(255, 255, 255);

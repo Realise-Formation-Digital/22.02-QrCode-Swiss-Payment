@@ -1,5 +1,27 @@
 # Journal des modifications
 - --
+# [Version 1.2.0] - 14.11.2022
+## Fixé
+ - Bug du fichier Readme non accessible sur le serveur
+## Ajouté
+ - Retrait du bloquage du PDF pour la lecture
+ - Lecture PDF et auto-remplissage du formulaire
+ - Ajout PWA
+ - Ajout commentaires dans le changelog
+## Modifié
+ - Amélioration de l'U/I et de l'U/X
+
+ - --
+# [Version 1.0.3] - 07.10.2022
+## Fixé
+ - Bug qui empêchait l'importation de fichiers XML dans divalto
+## Ajouté
+ - Page pour la conversion du fichier transmis
+ - Merge pdf Divalto et pdf- QR
+ - I18Next (Bug)
+## Modifié
+- Optimisation des commentaires dans le code
+- --
 # [Version 1.0.2] - 19.09.2022
 ## Fixé
 - champ "Rue" suppression des règles de typage d'écritures qui empêchaient les accents et les nombres.
