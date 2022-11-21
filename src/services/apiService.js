@@ -9,7 +9,6 @@ import PdfService from "./pdfService.js";
  * @author Marco Tribuzio
  */
 class ApiService {
-
     /**
      * Checking if the iban is correct
      * @async
@@ -27,7 +26,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
     /**
      * Get the list of the countries
      * @async
@@ -52,9 +50,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
-
-
     /**
      * Service to send the list to the api, and receive the pdf list to download
      * @async
@@ -126,7 +121,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
     /**
      * Sending Single Payment to the api
      * @param payload
@@ -191,8 +185,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
-
     /**
      * Send to API for merge
      * @param {object} divaltoFile - 
