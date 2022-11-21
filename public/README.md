@@ -9,7 +9,7 @@
  - Ajout PWA
  - Ajout commentaires dans le changelog
 ## Modifié
- - Amélioration de l'U/I et de l'U/X
+ - Amélioration de l'UI et de l'UX
 
  - --
 # [Version 1.0.3] - 07.10.2022

@@ -623,23 +623,6 @@ export default {
       this.inactivCountDown()
     },
     /**
-     * LOADING POP-UP
-     */
-    /**
-     * Function that show the loading pop-up during API's await
-     * @author Xavier de Juan
-     */
-    showLoadingPopUp() {
-      this.loadingPopUp = true
-    },
-    /**
-     * Function that hide the loading pop-up
-     * @author Xavier de Juan
-     */
-    hideLoadingPopUp() {
-      this.loadingPopUp = false
-    },
-    /**
      * Function that permit numbers and dot only "champ: Montant"
      * @author Xavier de Juan
      * @return numbers/dot
@@ -647,7 +630,7 @@ export default {
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
       if ((nombres > 31 && (nombres < 48 || nombres > 57)) && nombres !== 46)
-      // && (nombres 188(Virgule) && 222 (Apostrophe))
+      // && (nombres 188(Virgule) && 222 (Apostrophe)) (Le garder pour plus tard...)
       {
         e.preventDefault();
       } else {
