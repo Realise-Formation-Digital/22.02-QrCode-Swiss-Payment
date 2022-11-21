@@ -9,13 +9,12 @@ module.exports = defineConfig({
     msTileColor: '#000000',
     appleMobileWebAppCapable: 'no',
     appleMobileWebAppStatusBarStyle: 'default',
-
     // configure the workbox plugin
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
+    workboxPluginMode: 'GenerateSW',
+    /*workboxOptions: {
       // swSrc is required in InjectManifest mode.
-      swSrc: 'src/registerServiceWorker.js',
+      swSrc: './src/registerServiceWorker.js',
       // ...other Workbox options...
-    }
+    }*/
   }
 })
