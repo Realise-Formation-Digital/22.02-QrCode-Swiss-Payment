@@ -1,131 +1,131 @@
 <template class="background">
-  <v-row class="background">
-    <!-- Drag and drop -->
-    <v-col></v-col>
-    <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
-      <h1>Facture Divalto</h1>
-      <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
-        <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
-          :class="{ 'grey lighten-2': dragover }">
-          <v-card-text>
-            <!-- <v-btn align="left" @click.stop="reset()" icon>
-              <v-icon> mdi-close-circle </v-icon>
-            </v-btn> -->
-            <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
-            <v-row class="d-flex flex-column" dense align="center" justify="center">
-              <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
-                  'mdi-cloud-check' : 'mdi-cloud-upload'
-              }}</v-icon>
-              <p :class="cardStateColor ? 'black--text' : 'red--text'">
-                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
-              </p>
-            </v-row>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-sheet>
-    </v-col>
-    <v-col lg="1" md="1" class="sureleve milieu"></v-col>
-    <!-- Form -->
-    <v-col lg="5" md="5" sm="12" xs="12">
-      <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
-        <!--Text fields form for the debtors -->
-        <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
-        <!-- todo set rules with one in the api -->
+    <v-row class="background">
+      <!-- Drag and drop -->
+      <v-col></v-col>
+      <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
+        <h1>Facture Divalto</h1>
+        <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+          <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+                  :class="{ 'grey lighten-2': dragover }">
+            <v-card-text>
+              <!-- <v-btn align="left" @click.stop="reset()" icon>
+                <v-icon> mdi-close-circle </v-icon>
+              </v-btn> -->
+              <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
+              <v-row class="d-flex flex-column" dense align="center" justify="center">
+                <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
+                    'mdi-cloud-check' : 'mdi-cloud-upload'
+                  }}</v-icon>
+                <p :class="cardStateColor ? 'black--text' : 'red--text'">
+                  {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
+                </p>
+              </v-row>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-sheet>
+      </v-col>
+      <v-col lg="1" md="1" class="sureleve milieu"></v-col>
+      <!-- Form -->
+      <v-col lg="5" md="5" sm="12" xs="12">
+        <v-form class="formulaire container" ref="form" v-model="valid" lazy-validation>
+          <!--Text fields form for the debtors -->
+          <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
+          <!-- todo set rules with one in the api -->
 
-        <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
-          :label="traduis('formqrcode.nom')" required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" dark v-bind="attrs" v-on="on">
-                  info
-                </v-icon>
-              </template>
-              <span>Nom ou entreprise du bénéficiaire selon la désignation de compte.
+          <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
+                        :label="traduis('formqrcode.nom')" required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" dark v-bind="attrs" v-on="on">
+                    info
+                  </v-icon>
+                </template>
+                <span>Nom ou entreprise du bénéficiaire selon la désignation de compte.
                 Remarque: correspond toujours au titulaire du compte
                 70 caractères au maximum
                 prénom (optionnel, si disponible) et nom ou raison sociale.</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet"
-          :label="traduis('formqrcode.rue')" required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Rue/Case postale du débiteur final
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-text-field v-model="form.dstreet" counter maxlength="70" :rules="formRules.dstreet"
+                        :label="traduis('formqrcode.rue')" required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Rue/Case postale du débiteur final
                 70 caractères au maximum admis.
                 Ne peut pas contenir un numéro de maison ou de bâtiment.</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr"
-          :label="traduis('formqrcode.numDeRue')" append-icon="info" required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Numéro de maison du débiteur final.
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-text-field v-model="form.dnr" counter maxlength="16" :rules="formRules.dnr"
+                        :label="traduis('formqrcode.numDeRue')" append-icon="info" required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Numéro de maison du débiteur final.
                 16 caractères au maximum admis</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa"
-          :label="traduis('formqrcode.codePostal')" required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Code postal du débiteur final 16 caractères au maximum admis.
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-text-field v-model="form.dnpa" counter maxlength="16" :rules="formRules.dnpa"
+                        :label="traduis('formqrcode.codePostal')" required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Code postal du débiteur final 16 caractères au maximum admis.
                 Toujours à indiquer sans code de pays de tête</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace"
-          :label="traduis('formqrcode.ville')" required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Lieu du débiteur final.
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-text-field v-model="form.dplace" counter maxlength="16" :rules="formRules.dplace"
+                        :label="traduis('formqrcode.ville')" required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Lieu du débiteur final.
                 16 caractères au maximum admis</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
-          :items="countriesList" item-text="french" item-value="code">
-        </v-autocomplete>
-        <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
-        <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
-          :label="traduis('formqrcode.montant')" v-on:keypress="nombreSeulement" required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Montant du paiement.
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
+                          :items="countriesList" item-text="french" item-value="code">
+          </v-autocomplete>
+          <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
+          <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
+                        :label="traduis('formqrcode.montant')" v-on:keypress="nombreSeulement" required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Montant du paiement.
                 L'élément est à indiquer sans zéros de tête, y compris séparateur décimal, et deux décimales.
                 12 positions au maximum admises, y compris séparateur décimal. Seul le point («.») est admis
                 comme séparateur décimal.</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-text-field v-model="form.nrref" counter :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
-          required>
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Numéro de référence
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-text-field v-model="form.nrref" counter :rules="formRules.nrref" :label="traduis('formqrcode.numRef')"
+                        required>
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Numéro de référence
                 Référence de paiement structurée
                 Remarque: La référence est soit une référence QR, soit une Creditor Reference (ISO 11649)
                 27 caractères alphanumériques au maximum.
@@ -134,159 +134,158 @@
                 position de la référence).
                 Creditor Reference (ISO 11649): jusqu'à 25 caractères alphanumériques.
                 L'élément ne doit pas être rempli pour le type de référence NON.</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
-          :label="traduis('formqrcode.infoSupp')">
-          <template v-slot:append>
-            <v-tooltip :max-width="maxWidthTooltip" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
-              </template>
-              <span>Les informations instructurées peuvent être utilisées pour l'indication d'un motif de paiement ou
+              </v-tooltip>
+            </template>
+          </v-text-field>
+          <v-text-field v-model="form.infosupp" counter maxlength="56" :rules="formRules.infosupp"
+                        :label="traduis('formqrcode.infoSupp')">
+            <template v-slot:append>
+              <v-tooltip :max-width="maxWidthTooltip" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon color="primary" v-bind="attrs" v-on="on">info</v-icon>
+                </template>
+                <span>Les informations instructurées peuvent être utilisées pour l'indication d'un motif de paiement ou
                 pour des informations textuelles complémentaires au sujet de paiements avec référence structurée. 56
                 caractères au maximum</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
-        <v-row>
-          <v-col align="center">
-            <!--Buttons calling functions for the form-->
-            <v-hover>
-              <template v-slot:default="{ hover }">
-                <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" outlined large
-                  @click="showDialog()">
-                  {{ traduis('formqrcode.valider') }}
-                </v-btn>
-              </template>
-            </v-hover>
-          </v-col>
-          <!-- <v-col></v-col> -->
-          <v-col align="center">
-            <v-hover>
-              <template v-slot:default="{ hover }">
-                <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
-                  @click="reset()">
-                  {{ traduis('formqrcode.effacer') }}
-                </v-btn>
-              </template>
-            </v-hover>
-          </v-col>
-        </v-row>
-      </v-form>
-      <!--Modal to check and confirm the form -->
-      <v-dialog v-model="dialog" max-width="60%" persistent>
-        <v-card>
+              </v-tooltip>
+            </template>
+          </v-text-field>
           <v-row>
-            <v-col>
-              <v-card-title id="verifConfirmModale">
-                <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
-              </v-card-title>
+            <v-col align="center">
+              <!--Buttons calling functions for the form-->
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" outlined large
+                         @click="showDialog()">
+                    {{ traduis('formqrcode.valider') }}
+                  </v-btn>
+                </template>
+              </v-hover>
+            </v-col>
+            <!-- <v-col></v-col> -->
+            <v-col align="center">
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
+                         @click="reset()">
+                    {{ traduis('formqrcode.effacer') }}
+                  </v-btn>
+                </template>
+              </v-hover>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col></v-col>
-          </v-row>
-          <!-- Checkform in the modal -->
-          <v-card-text>
+        </v-form>
+        <!--Modal to check and confirm the form -->
+        <v-dialog v-model="dialog" max-width="60%" persistent>
+          <v-card>
             <v-row>
-              <v-col cols="10" class="modalDialogStyle">
-                <v-row>
-                  <v-col cols="12">
-                    <p><strong><em>Facture Divalto</em></strong> : {{ dropTakeName }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b> : {{ form.dnom }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b> : {{ form.dstreet }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b> : {{ form.dnr }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b> : {{ form.dnpa }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b> : {{ form.dplace }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('modale.pays') }}</i></b> : {{ form.dcountry }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b> : {{ form.amount }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('modale.numRef') }}</i></b> : {{ form.nrref }}</p>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <p><b><i>{{ this.traduis('modale.infoSupp') }}</i></b> : {{ form.infosupp }}</p>
-                  </v-col>
-                </v-row>
+              <v-col>
+                <v-card-title id="verifConfirmModale">
+                  <h1>{{ this.traduis('modale.verifConfirm') }}</h1>
+                </v-card-title>
               </v-col>
             </v-row>
-          </v-card-text>
-          <!-- Confirm or return buttons calling the functions -->
-          <v-card-actions>
-            <v-spacer></v-spacer>
             <v-row>
-              <v-col align="right">
-                <v-hover>
-                  <template v-slot:default="{ hover }">
-                    <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" large outlined
-                      :loading="!!countDown" :disabled="!!countDown" @click="confirm()">
-                      {{ traduis('modale.confirmer') }}
-                      <template v-slot:loader>
+              <v-col></v-col>
+            </v-row>
+            <!-- Checkform in the modal -->
+            <v-card-text>
+              <v-row>
+                <v-col cols="10" class="modalDialogStyle">
+                  <v-row>
+                    <v-col cols="12">
+                      <p><strong><em>Facture Divalto</em></strong> : {{ dropTakeName }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('formqrcode.nom') }}</i></b> : {{ form.dnom }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('formqrcode.rue') }}</i></b> : {{ form.dstreet }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('formqrcode.numDeRue') }}</i></b> : {{ form.dnr }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('formqrcode.codePostal') }}</i></b> : {{ form.dnpa }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('formqrcode.ville') }}</i></b> : {{ form.dplace }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('modale.pays') }}</i></b> : {{ form.dcountry }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('formqrcode.montant') }}</i></b> : {{ form.amount }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('modale.numRef') }}</i></b> : {{ form.nrref }}</p>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <p><b><i>{{ this.traduis('modale.infoSupp') }}</i></b> : {{ form.infosupp }}</p>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <!-- Confirm or return buttons calling the functions -->
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-row>
+                <v-col align="right">
+                  <v-hover>
+                    <template v-slot:default="{ hover }">
+                      <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="success" large outlined
+                             :loading="!!countDown" :disabled="!!countDown" @click="confirm()">
+                        {{ traduis('modale.confirmer') }}
+                        <template v-slot:loader>
                         <span>
                           <v-progress-circular :indeterminate="true" :size="40" :value="countDown" :width="5"
-                            color="orange">
+                                               color="orange">
                             {{ countDown }}
                           </v-progress-circular>
                         </span>
-                      </template>
-                    </v-btn>
-                  </template>
-                </v-hover>
-              </v-col>
-              <v-col align="center">
-                <v-hover>
-                  <template v-slot:default="{ hover }">
-                    <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
-                      @click="hideDialog()">
-                      {{ traduis('modale.annuler') }}
-                    </v-btn>
-                  </template>
-                </v-hover>
-              </v-col>
-            </v-row>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <!-- Pop-up when the QR code is received -->
+                        </template>
+                      </v-btn>
+                    </template>
+                  </v-hover>
+                </v-col>
+                <v-col align="center">
+                  <v-hover>
+                    <template v-slot:default="{ hover }">
+                      <v-btn :class="`elevation-${hover ? 5 : 3}`" class="transition-swing" color="error" outlined large
+                             @click="hideDialog()">
+                        {{ traduis('modale.annuler') }}
+                      </v-btn>
+                    </template>
+                  </v-hover>
+                </v-col>
+              </v-row>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+      <v-col></v-col>
       <LoadingPopUpVue ref="loadingPopUp" />
       <SnackBar ref="snackbar" />
-    </v-col>
-    <v-col></v-col>
-  </v-row>
+    </v-row>
 </template>
 <script>
 import ApiService from "@/services/apiService.js";
