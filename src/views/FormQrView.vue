@@ -284,15 +284,6 @@
       <!-- Pop-up when the QR code is received -->
       <LoadingPopUpVue ref="loadingPopUp" />
       <SnackBar ref="snackbar" />
-      <!-- Pop-up until the QR code is received or an error -->
-      <!-- <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
-        <v-card color="primary" dark> -->
-      <!-- <v-card-text>
-            Veuillez patienter, en attente de réception
-            <v-progress-linear class="mb-0" color="white" indeterminate></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog> -->
     </v-col>
     <v-col></v-col>
   </v-row>
@@ -303,8 +294,6 @@ import { traductionMixin } from "@/mixins/traductionMixin.js";
 import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
 import LoadingPopUpVue from "../components/LoadingPopUp.vue";
-// import SHOWLOADPOPUP from '../components/LoadingPopUp.vue';
-// import HIDELOADPOPUP from '../components/LoadingPopUp.vue';
 import SnackBar from '../components/SnackBar.vue';
 import { SUCCESSCODE } from "@/libs/consts";
 import { ERRORCODE } from "@/libs/consts";
@@ -399,7 +388,6 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    // loadingPopUp: false,// Boolean pop-up loading modal until receipt snackbar
     isGettingCountriesList: [], // Liste des pays dans le dropDown du formulaire
     countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
@@ -451,7 +439,6 @@ export default {
      */
     async onDrop(e) {
       try {
-        // this.$refs.loadingPopUp.handleLoadPopUpShow()
         this.rawPdfFile = {}
         this.dragover = false
         this.dropTakeName = e.dataTransfer.files[0].name
@@ -468,13 +455,11 @@ export default {
           this.form.amount = response.totalAmount
           this.form.nrref = response.referenceNumber
           this.form.infosupp = response.infoSupp
-          // this.$refs.loadingPopUp.handleLoadPopUpHide()
         } else if (!this.isAPdf) {
           this.cardStateColor = false
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
       } catch (e) {
-        // this.$refs.loadingPopUp.handleLoadPopUpHide()
         console.error(e) //todo handle error
       }
     },
@@ -519,7 +504,6 @@ export default {
     inactivCountDown() {
       this.countDown = 0
     },
-
     /**
      *Function that call validate (see validate())
      *Hide the "check" modal
@@ -533,7 +517,7 @@ export default {
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
-          this.$refs.loadingPopUp.handleLoadPopUpShow()
+          this.$refs.loadingPopUp.showLoadingPopUp()
 
           const payload = {
             "creditorInformation": {
@@ -592,7 +576,7 @@ export default {
         console.error('[Views][FormQrView][sendCsvList] An error has occurred when send the form', e)
       } finally {
         this.dialog = false
-        this.$refs.loadingPopUp.handleLoadPopUpHide()
+        this.$refs.loadingPopUp.hideLoadingPopUp()
       }
     },
     /*
@@ -685,7 +669,6 @@ export default {
   },
 };
 </script>
-
 <style>
 .modalDialogStyle {
   font-size: x-large;

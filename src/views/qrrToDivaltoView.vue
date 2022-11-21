@@ -114,10 +114,9 @@ export default {
     },
     /**
      * Function that check value and return the loading pop-up
-     *
-     * @author Xavier de Juan
-     * @params {object[]????} - convert
+     * @params {promise} - convert
      * @return promise<object>
+     * @author Xavier de Juan
      */
     async fixXMLDivalto() {
       try {
@@ -136,7 +135,6 @@ export default {
         this.$refs.snackbar.handleSuccess(SUCCESSCODE.XMLCONVERTED)
       } catch (e) {
         console.error('[Component][fixXMLDivalto] Fixing xml divalto with params', e)
-        // this.$refs.snackbar.handleError(ERRORCODE.ERRORCONVERT)
         // todo handle error
       }
     },
