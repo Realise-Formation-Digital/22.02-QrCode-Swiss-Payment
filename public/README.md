@@ -1,4 +1,5 @@
 # Journal des modifications
+
 - --
 # [Version 1.2.0] - 14.11.2022
 ## Fixé
