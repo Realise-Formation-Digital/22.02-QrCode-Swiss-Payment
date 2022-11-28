@@ -100,6 +100,7 @@
             </v-tooltip>
           </template>
         </v-text-field>
+        <!-- :items="getreadPdf" -->
         <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
           :items="countriesListGetter" item-text="french" item-value="code">
         </v-autocomplete>
@@ -306,6 +307,15 @@ export default {
   computed: {
     countriesListGetter() {
       return this.$store.getters['storeApiQr/getCountriesList']
+    },
+    readPdfGetter() {
+      return this.$store.getters['storePdf/getreadPdf']
+    },
+    unlockPdfGetter() {
+      return this.$store.getters['storePdf/unlockPdf']
+    },
+    callPdfLibraryGetter() {
+      return this.$store.getters['storePdf/callPdfLibrary']
     }
   },
   data: () => ({
@@ -451,7 +461,12 @@ export default {
         if (this.isAPdf) {
           this.rawPdfFile = e.dataTransfer.files[0]
           this.cardStateColor = true
-          const response = await PdfService.readPdf(this.rawPdfFile)
+
+          console.log('STOooREADPDF', await this.$store.dispatch('storePdf/readPdf'))
+
+          console.log('rawPdfFile', this.rawPdfFile)
+          // const response = await PdfService.readPdf(this.rawPdfFile)
+          await this.$store.dispatch('storePdf/readPdf')
           this.form.dnom = response.name
           this.form.dnpa = response.npa
           this.form.dstreet = response.address
@@ -483,7 +498,10 @@ export default {
       try {
         console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
         const response = await PdfService.unlockPdf(divaltoFile)
+        console.log('YOOOOOOOOOO', this.$store.dispatch('storePdf/unlockPdf'))
+        await this.$store.dispatch('storePdf/unlockPdf')
         const pdf = await response.data.arrayBuffer()
+        await this.$store.dispatch('storePdf/callPdfLibrary')
         const pdfBytes = await PdfService.callPdfLibrary(pdf)
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
       } catch (e) {

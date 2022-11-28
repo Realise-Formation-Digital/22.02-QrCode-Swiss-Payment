@@ -2,7 +2,7 @@ import axios from 'axios'
 import MarkParse from '../libs/marked.js'
 import { MARKDWN_URL } from '../libs/consts.js'
 
-const mdStore = {
+const storeMarkDown = {
     namespaced: true,
     state: {
         markDown: null
@@ -12,27 +12,20 @@ const mdStore = {
     },
     mutations: {
         markDown(state, payload) {
-            console.log('MUTATIOOOON')
             state.markDown = payload.text
         }
     },
     actions: {
         async markDown(state) {
             try {
-                console.log('ACTIOOOON')
                 const response = await axios.get(MARKDWN_URL)
-                if (response.status !== 200) console.log('ERRRRRORRRR')
-                console.log('UUUUURRRRLLLLL', response)
-                // const markDwnPayload = MarkParse.txtParse(response.data)
+                if (response.status !== 200) console.log('Error')
                 state.commit('markDown', { text: MarkParse.txtParse(response.data) })
             } catch (e) {
                 console.error()
             }
         }
     },
-    modules: {
-
-    }
 }
 
-export default mdStore
+export default storeMarkDown
