@@ -289,9 +289,9 @@
   </v-row>
 </template>
 <script>
-import ApiService from "@/services/apiService.js";
+// import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
-import PdfService from '@/services/pdfService.js';
+// import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
 import LoadingPopUpVue from "../components/LoadingPopUp.vue";
 import SnackBar from '../components/SnackBar.vue';
@@ -308,15 +308,6 @@ export default {
     countriesListGetter() {
       return this.$store.getters['storeApiQr/getCountriesList']
     },
-    readPdfGetter() {
-      return this.$store.getters['storePdf/getreadPdf']
-    },
-    unlockPdfGetter() {
-      return this.$store.getters['storePdf/unlockPdf']
-    },
-    callPdfLibraryGetter() {
-      return this.$store.getters['storePdf/callPdfLibrary']
-    }
   },
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
@@ -445,6 +436,24 @@ export default {
     },
   },
   methods: {
+    readPdfGetter() {
+      return this.$store.getters['storePdf/getreadPdf']
+    },
+    unlockPdfGetter() {
+      return this.$store.getters['storePdf/getUnlockPdf']
+    },
+    callPdfLibraryGetter() {
+      return this.$store.getters['storePdf/getCallPdfLibrary']
+    },
+    sendSinglePaymentGetter() {
+      return this.$store.getters['storeApiQr/getSendSinglePayment']
+    },
+    callPdfLengthLibGetter() {
+      return this.$store.getters['storePdf/getCallPdfLengthLib']
+    },
+    sendMergedFilesGetter() {
+      return this.$store.getters['storeApiQr/getSendMergedFiles']
+    },
     /**
      * Drag and drop function that retrieves file, file name and file type
      * The file name is reused
@@ -461,20 +470,8 @@ export default {
         if (this.isAPdf) {
           this.rawPdfFile = e.dataTransfer.files[0]
           this.cardStateColor = true
-
-          console.log('STOooREADPDF', await this.$store.dispatch('storePdf/readPdf'))
-
-          console.log('rawPdfFile', this.rawPdfFile)
-          // const response = await PdfService.readPdf(this.rawPdfFile)
-          await this.$store.dispatch('storePdf/readPdf')
-          this.form.dnom = response.name
-          this.form.dnpa = response.npa
-          this.form.dstreet = response.address
-          this.form.dnr = response.addressNumber
-          this.form.dplace = response.city
-          this.form.amount = response.totalAmount
-          this.form.nrref = response.referenceNumber
-          this.form.infosupp = response.infoSupp
+          await this.$store.dispatch('storePdf/readPdf', this.rawPdfFile);
+          this.BuildForm();
         } else if (!this.isAPdf) {
           this.cardStateColor = false
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
@@ -484,9 +481,19 @@ export default {
       }
     },
     /**
-     * Function that deletes the imported pdf file.
-     * @author Xavier de Juan
+     * Function that build form after onDrop
      */
+    async BuildForm() {
+      const response = await this.readPdfGetter();
+      this.form.dnom = response.name
+      this.form.dnpa = response.npa
+      this.form.dstreet = response.address
+      this.form.dnr = response.addressNumber
+      this.form.dplace = response.city
+      this.form.amount = response.totalAmount
+      this.form.nrref = response.referenceNumber
+      this.form.infosupp = response.infoSupp
+    },
     /**
      * Function that changes the pdf file (object to Blob format)
      * @param {*} divaltoFile -
@@ -496,13 +503,11 @@ export default {
     async sendDivaltoPdf(divaltoFile) {
       console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
       try {
-        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
-        const response = await PdfService.unlockPdf(divaltoFile)
-        console.log('YOOOOOOOOOO', this.$store.dispatch('storePdf/unlockPdf'))
-        await this.$store.dispatch('storePdf/unlockPdf')
+        await this.$store.dispatch('storePdf/unlockPdf', divaltoFile)
+        const response = await this.unlockPdfGetter()
         const pdf = await response.data.arrayBuffer()
-        await this.$store.dispatch('storePdf/callPdfLibrary')
-        const pdfBytes = await PdfService.callPdfLibrary(pdf)
+        await this.$store.dispatch('storePdf/callPdfLibrary', pdf)
+        const pdfBytes = await this.callPdfLibraryGetter()
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
       } catch (e) {
         console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
@@ -536,7 +541,7 @@ export default {
      *@author Xavier de Juan
      */
     async confirm() {
-      console.error('[Views][FormQrView][sendCsvList] Send the form')
+      console.log('[Views][FormQrView][sendCsvList] Send the form')
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
@@ -577,13 +582,21 @@ export default {
             },
           }
           this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
-          const response = await ApiService.sendSinglePayment(payload)
-          console.log("Response", response)
+          await this.$store.dispatch('storeApiQr/sendSinglePayment', payload)
+          const response = await this.sendSinglePaymentGetter()
           // set the blog type to final pdf
           const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
-          const sendtomerge = await ApiService.mergeFiles(this.divaltoFileBlob, qrFileBlob)
+          await this.$store.dispatch('storePdf/callPdfLengthLib', this.divaltoFileBlob)
+          const divaltoFileBlobLength = await this.callPdfLengthLibGetter()
+          const threeFiles = {
+            pdfLength: divaltoFileBlobLength,
+            divaltoFile: this.divaltoFileBlob,
+            qrCodeCreatedByApi: qrFileBlob
+          }
+          await this.$store.dispatch('storeApiQr/sendMergedFiles', threeFiles)
+          const sendToMerge = await this.sendMergedFilesGetter()
           // process to auto download it
-          const fileURL = URL.createObjectURL(sendtomerge);
+          const fileURL = URL.createObjectURL(sendToMerge);
           const link = document.createElement('a');
           let date = new Date();
           let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());

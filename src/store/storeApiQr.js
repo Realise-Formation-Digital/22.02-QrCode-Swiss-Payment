@@ -1,18 +1,19 @@
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS, } from '../libs/consts.js'
+import { BASE_URL, API_KEY, CSVLIST_OPTIONS, } from '../libs/consts.js';
 import axios from "axios";
-// import PdfService from '../services/pdfService.js'
 
 const storeApiQr = {
   namespaced: true,
   state: {
     countriesList: [],
     sendSinglePayment: null,
-    twoCheckDigit: null
+    twoCheckDigit: null,
+    sendMergedFiles: null,
   },
   getters: {
     getCountriesList: (state) => state.countriesList,
     getSendSinglePayment: (state) => state.sendSinglePayment,
-    getTwoCheckDigit: (state) => state.twoCheckDigit
+    getTwoCheckDigit: (state) => state.twoCheckDigit,
+    getSendMergedFiles: (state) => state.sendMergedFiles
   },
   mutations: {
     /**
@@ -29,6 +30,9 @@ const storeApiQr = {
     twoCheckDigit(state, payload) {
       state.twoCheckDigit = payload.referenceNumber
     },
+    sendMergedFiles(state, payload) {
+      state.sendMergedFiles = payload.responseMerge
+    }
   },
   actions: {
     /**
@@ -44,7 +48,7 @@ const storeApiQr = {
         console.error(e)
       }
     },
-    async sendSinglePayment(state) {
+    async sendSinglePayment({ commit }, state) {
       try {
         const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, state,
           {
@@ -57,13 +61,14 @@ const storeApiQr = {
           },
         )
         if (response.status !== 200) throw Error('API Error')
-        return response
+        commit('sendSinglePayment', { response: response })
+        // return response
       } catch (e) {
         console.error('[Service][CsvService][sendJsonList] An error has occurred when sending the list to the api', e)
         throw new Error(e)
       }
     },
-    async twoCheckDigit(state) {
+    async twoCheckDigit({ commit }, state) {
       try {
         console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params (state = referenceNumber", state)
         const response = await axios.post(BASE_URL + '/v2/creditor-reference/modulo97' + API_KEY, state,
@@ -74,37 +79,34 @@ const storeApiQr = {
             }
           })
         if (response.status !== 200) throw Error('API Error')
-        state.commit('twoCheckDigit', { referenceNumber: response.data })
+        commit('twoCheckDigit', { referenceNumber: response.data })
       } catch (e) {
         console.error("[Service][ApiService][getTwoCheckDigit] An error occurred when getting two check digit", e)
         throw new Error(e)
       }
     },
-    // async mergeFiles(divaltoFile, qrCodeCreateByApi) {
-    //   try {
-    //     console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params (state = divaltoFile, qrCodeCreateByApi)", divaltoFile, qrCodeCreateByApi)
-
-    //     const formData = new FormData()
-    //     const pdfLength = await PdfService.CallPdfLengthLib(divaltoFile)
-
-    //     formData.append('file', divaltoFile)
-    //     formData.append('file2', qrCodeCreateByApi)
-
-    //     const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength, formData,
-    //       {
-    //         responseType: "blob",
-    //         headers: {
-    //           'Content-Type': 'multipart/form-data',
-    //           'accept': 'application/pdf'
-    //         }
-    //       })
-    //     if (response.status !== 200) throw Error('API merge Error')
-    //     state.commit('bhhouuuhouuu', { response: response.data })
-    //   } catch (e) {
-    //     console.error("[Service][ApiService][mergeFiles] Echec de retour du pdf mergé (erreur 4xx)")
-    //     throw new Error(e)
-    //   }
-    // }
+    async sendMergedFiles({ commit }, state) {
+      try {
+        console.log("[Store][storeApiQr][sendMergedFiles] Send Divalto pdf files + QR pdf with params (state = pdfDivaltoLength, divaltoFile, qrCodeCreatedByApi)", state)
+        const { pdfLength, divaltoFile, qrCodeCreatedByApi } = state
+        const formData = new FormData()
+        formData.append('file', divaltoFile)
+        formData.append('file2', qrCodeCreatedByApi)
+        const responseMerge = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength, formData,
+          {
+            responseType: "blob",
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'accept': 'application/pdf'
+            }
+          })
+        if (responseMerge.status !== 200) throw Error('API merge Error')
+        commit('sendMergedFiles', { responseMerge: responseMerge.data })
+      } catch (e) {
+        console.error("[Store][storeApiQr][sendMergedFiles] Echec de retour du pdf mergé (erreur 4xx)")
+        throw new Error(e)
+      }
+    },
   }
 }
 

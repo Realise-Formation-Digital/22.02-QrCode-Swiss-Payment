@@ -201,15 +201,15 @@ class ApiService {
      * @author Marco Tribuzio
      * @author Xavier de Juan
      */
-    static async mergeFiles(divaltoFile, qrCodeCreateByApi) {
+    static async mergeFiles(divaltoFile, qrCodeCreatedByApi) {
         try {
-            console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreateByApi)
+            console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreatedByApi)
 
             const formData = new FormData()
             const pdfLength = await PdfService.CallPdfLengthLib(divaltoFile)
 
             formData.append('file', divaltoFile)
-            formData.append('file2', qrCodeCreateByApi)
+            formData.append('file2', qrCodeCreatedByApi)
 
             const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength, formData,
                 {
@@ -220,6 +220,12 @@ class ApiService {
                     }
                 })
             if (response.status !== 200) throw Error('API merge Error')
+            console.log('pdfLength', pdfLength)
+            console.log('divaltoFile', divaltoFile)
+            console.log('qrCodeCreatedByApi', qrCodeCreatedByApi)
+            console.log('formData', formData)
+            console.log('formDataType', typeof formData)
+            console.log('response', response)
             return response.data
         } catch (e) {
             console.error("[Service][ApiService][mergeFiles] Echec de retour du pdf mergé (erreur 4xx)")

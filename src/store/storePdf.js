@@ -18,7 +18,7 @@ const storePdf = {
     },
     mutations: {
         readPdf(state, payload) {
-                state.readPdf = payload.pdf
+            state.readPdf = payload.pdf
         },
         unlockPdf(state, payload) {
             state.unlockPdf = payload.pdf
@@ -27,13 +27,13 @@ const storePdf = {
             state.callPdfLibrary = payload.pdf
         },
         callPdfLengthLib(state, payload) {
-            state.callPdfLengthLib = payload.pdfLoaded
+            state.callPdfLengthLib = payload.pdfDivaltoBlobLength
         }
     },
     actions: {
-        async readPdf(state) {
+        async readPdf({ commit }, state) {
             try {
-                console.log("[Service][PdfService][readPdf] Reading pdf with params", state)
+                console.log("[Store][storePdf][readPdf] Reading pdf with params", state)
                 const pdfToRead = new FormData()
                 pdfToRead.append('pdf', state)
 
@@ -46,15 +46,15 @@ const storePdf = {
                     }
                 })
                 if (response.status !== 200) throw Error('API merge Error')
-                state.commit('', { pdf: response })
+                commit('readPdf', { pdf: response.data })
             } catch (e) {
-                console.error("[Service][PdfService][readPdf] An error has occurred when trying to unlock pdf")
+                console.error("[store][storePdf][readPdf] An error has occurred when trying to read pdf")
                 throw new Error(e)
             }
         },
-        async unlockPdf(state) {
+        async unlockPdf({ commit }, state) {
             try {
-                console.log("[Service][PdfService][mergeFiles] Unlock pdf", state)
+                console.log("[store][storePdf][unlockPdf] Unlock pdf", state)
                 const pdfToUnlock = new FormData()
                 pdfToUnlock.append('pdf', state)
 
@@ -65,36 +65,36 @@ const storePdf = {
                         'accept': 'application/pdf',
                         'Accept-Language': 'fr'
                     }
-                }
-                )
-                if (response.status !== 200) throw Error('API merge Error')
-                state.commit('unlockPdf', { pdf: response })
+                })
+                if (response.status !== 200) throw Error('API unlock Error')
+                commit('unlockPdf', { pdf: response })
                 return response
             } catch (e) {
-                console.error("[Service][PdfService][mergeFiles] An error has occurred when trying to unlock pdf")
+                console.error("[store][storePdf][unlockPdf] An error has occurred when trying to unlock pdf")
                 throw new Error(e)
             }
         },
-        async callPdfLibrary(state) {
+        async callPdfLibrary({ commit }, state) {
             try {
                 const pdfFile = await Pdf.pdfLoad(state)
                 const pages = Pdf.getPdfPages(pdfFile)
                 Pdf.drawRectangle(pages)
-                state.commit('callPdfLibrary', { pdf: await Pdf.savePdf(pdfFile) })
+                const savedPdf = await Pdf.savePdf(pdfFile)
+                commit('callPdfLibrary', { pdf: savedPdf })
             } catch (e) {
-                console.error("[service][pdfService][callPdfLibrary] Error loading and saving pdf", e)
+                console.error("[store][storePdf][callPdfLibrary] Error loading and saving pdf", e)
                 throw new Error
             }
         },
-        async callPdfLengthLib(state) {
-            console.log("[Service][PdfService][CallPdfLengthLib] Call the library to get the state(pdfBlob) length", state)
+        async callPdfLengthLib({ commit }, state) {
+            console.log("[store][storePdf][CallPdfLengthLib] Call the library to get the pdf Divalto blob length", state)
             try {
                 const pdfArrayBuffer = await state.arrayBuffer()
                 const pdfLoaded = await Pdf.pdfLoad(pdfArrayBuffer)
-                console.log('ciao ', pdfLoaded)
-                state.commit('callPdfLengthLib', { pdfLoaded: Pdf.getPdfLength(pdfLoaded) })
+                const pdfLength = await Pdf.getPdfLength(pdfLoaded)
+                commit('callPdfLengthLib', { pdfDivaltoBlobLength: pdfLength })
             } catch (e) {
-                console.error("[Service][PdfService][CallPdfLengthLib] An error has occurred when trying to get the pdf length")
+                console.error("[store][storePdf][CallPdfLengthLib] An error has occurred when trying to get the pdf length")
                 throw new Error(e)
             }
         },
