@@ -4,19 +4,16 @@
     <v-col></v-col>
     <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet elevation="3" outlined :color="cardErrorColor ? 'red' : 'black'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <!-- <v-btn align="left" @click.stop="reset()" icon>
-                <v-icon> mdi-close-circle </v-icon>
-              </v-btn> -->
-            <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
+            <p :class="cardErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
-              <p :class="cardStateColor ? 'black--text' : 'red--text'">
+              <p :class="cardErrorColor ? 'red--text' : 'black--text'">
                 {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
@@ -298,8 +295,8 @@ import SnackBar from '../components/SnackBar.vue';
 import { SUCCESSCODE } from "@/libs/consts";
 import { ERRORCODE } from "@/libs/consts";
 
-const regex = /,/gm;
-const subst = `.`;
+// const regex = /,/gm;
+// const subst = `.`;
 export default {
   name: "FormQr",
   mixins: [traductionMixin],
@@ -312,7 +309,7 @@ export default {
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
-    cardStateColor: true, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
+    cardErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
     divaltoFile: null, // PDF file
     divaltoFileBlob: null, // pdf file converted to Blob
@@ -448,12 +445,18 @@ export default {
     sendSinglePaymentGetter() {
       return this.$store.getters['storeApiQr/getSendSinglePayment']
     },
+    blobQrPdfGetter() {
+      return this.$store.getters['storeApiQr/getBlobQrPdf']
+    },
+    blobDivaltoPdfGetter() {
+      return this.$store.getters['storeApiQr/getBlobDivaltoPdf']
+    },
     callPdfLengthLibGetter() {
       return this.$store.getters['storePdf/getCallPdfLengthLib']
     },
     sendMergedFilesGetter() {
       return this.$store.getters['storeApiQr/getSendMergedFiles']
-    },
+    },    
     /**
      * Drag and drop function that retrieves file, file name and file type
      * The file name is reused
@@ -469,11 +472,11 @@ export default {
         this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
         if (this.isAPdf) {
           this.rawPdfFile = e.dataTransfer.files[0]
-          this.cardStateColor = true
+          this.cardErrorColor = false
           await this.$store.dispatch('storePdf/readPdf', this.rawPdfFile);
           this.BuildForm();
         } else if (!this.isAPdf) {
-          this.cardStateColor = false
+          this.cardErrorColor = true
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
       } catch (e) {
@@ -482,6 +485,8 @@ export default {
     },
     /**
      * Function that build form after onDrop
+     * @return {promise}
+     * @author xavier de Juan
      */
     async BuildForm() {
       const response = await this.readPdfGetter();
@@ -504,9 +509,6 @@ export default {
       console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
       try {
         await this.$store.dispatch('storePdf/unlockPdf', divaltoFile)
-        const response = await this.unlockPdfGetter()
-        const pdf = await response.data.arrayBuffer()
-        await this.$store.dispatch('storePdf/callPdfLibrary', pdf)
         const pdfBytes = await this.callPdfLibraryGetter()
         this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
       } catch (e) {
@@ -547,53 +549,55 @@ export default {
         if (isValidForm) {
           this.$refs.loadingPopUp.showLoadingPopUp()
 
-          const payload = {
-            "creditorInformation": {
-              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
-              "creditor": {
-                "addressType": "STRUCTURED",
-                "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
-                "streetName": process.env.VUE_APP_CREDITOR_INFORMATION_STREETNAME,
-                "houseNumber": process.env.VUE_APP_CREDITOR_INFORMATION_HOUSENUMBER,
-                "postalCode": process.env.VUE_APP_CREDITOR_INFORMATION_POSTALCODE,
-                "city": process.env.VUE_APP_CREDITOR_INFORMATION_CITY,
-                "country": process.env.VUE_APP_CREDITOR_INFORMATION_COUNTRY
-              }
-            },
-            "paymentAmountInformation": {
-              "amount": parseFloat(this.form.amount.replace(regex, subst)),
-              "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY
-            },
-            "ultimateDebtor": {
-              "addressType": "STRUCTURED",
-              "name": this.form.dnom,
-              "streetName": this.form.dstreet,
-              "houseNumber": this.form.dnr,
-              "postalCode": this.form.dnpa,
-              "city": this.form.dplace,
-              "country": this.form.dcountry
-            },
-            "paymentReference": {
-              "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
-              "additionalInformation": {
-                "unstructuredMessage": this.form.infosupp
-              }
-            },
-          }
-          this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
-          await this.$store.dispatch('storeApiQr/sendSinglePayment', payload)
-          const response = await this.sendSinglePaymentGetter()
+          // const payload = {
+          //   "creditorInformation": {
+          //     "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
+          //     "creditor": {
+          //       "addressType": "STRUCTURED",
+          //       "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
+          //       "streetName": process.env.VUE_APP_CREDITOR_INFORMATION_STREETNAME,
+          //       "houseNumber": process.env.VUE_APP_CREDITOR_INFORMATION_HOUSENUMBER,
+          //       "postalCode": process.env.VUE_APP_CREDITOR_INFORMATION_POSTALCODE,
+          //       "city": process.env.VUE_APP_CREDITOR_INFORMATION_CITY,
+          //       "country": process.env.VUE_APP_CREDITOR_INFORMATION_COUNTRY
+          //     }
+          //   },
+          //   "paymentAmountInformation": {
+          //     "amount": parseFloat(this.form.amount.replace(regex, subst)),
+          //     "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY
+          //   },
+          //   "ultimateDebtor": {
+          //     "addressType": "STRUCTURED",
+          //     "name": this.form.dnom,
+          //     "streetName": this.form.dstreet,
+          //     "houseNumber": this.form.dnr,
+          //     "postalCode": this.form.dnpa,
+          //     "city": this.form.dplace,
+          //     "country": this.form.dcountry
+          //   },
+          //   "paymentReference": {
+          //     "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
+          //     "reference": this.form.nrref,
+          //     "additionalInformation": {
+          //       "unstructuredMessage": this.form.infosupp
+          //     }
+          //   },
+          // }
+          await this.$store.dispatch('storePdf/unlockPdf', this.rawPdfFile)
+          // await this.$store.dispatch('storeApiQr/sendSinglePayment', payload)
+          // const response = await this.sendSinglePaymentGetter()
           // set the blog type to final pdf
-          const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
-          await this.$store.dispatch('storePdf/callPdfLengthLib', this.divaltoFileBlob)
+          // const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
+          // await this.$store.dispatch('storePdf/callPdfLengthLib', this.divaltoFileBlob)
           const divaltoFileBlobLength = await this.callPdfLengthLibGetter()
-          const threeFiles = {
+          this.divaltoFileBlob = await this.blobDivaltoPdfGetter()
+          const qrFileBlob = await this.blobQrPdfGetter()
+          const filesToMerge = {
             pdfLength: divaltoFileBlobLength,
-            divaltoFile: this.divaltoFileBlob,
-            qrCodeCreatedByApi: qrFileBlob
+            divaltoFileBlob: this.divaltoFileBlob,
+            qrCodeCreatedByApi: qrFileBlob,
           }
-          await this.$store.dispatch('storeApiQr/sendMergedFiles', threeFiles)
+          await this.$store.dispatch('storeApiQr/sendMergedFiles', filesToMerge)
           const sendToMerge = await this.sendMergedFilesGetter()
           // process to auto download it
           const fileURL = URL.createObjectURL(sendToMerge);
@@ -635,11 +639,11 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      this.divaltoFile = {}
-      this.divaltoFileBlob = {}
+      // this.divaltoFile = {}
+      // this.divaltoFileBlob = {}
       this.dropTakeName = ""
       this.isAPdf = false
-      this.cardStateColor = true
+      this.cardErrorColor = false
       Vue.nextTick(() => {
         this.form.dcountry = "CH"
       });
@@ -657,9 +661,13 @@ export default {
       if (this.isAPdf && isValid) {
         this.dialog = true;
         this.activCountDown();
-      } else if (!this.isAPdf || !isValid) {
-        this.cardStateColor = false
-      }
+      } else if (this.isAPdf && !isValid) {
+        this.cardErrorColor = false
+      } else if (!this.isAPdf && !isValid) {
+        this.cardErrorColor = true
+      } else if (!this.isAPdf && isValid) {
+        this.cardErrorColor = true
+      } 
     },
     /**
      * Function that hide the modal "check" form
