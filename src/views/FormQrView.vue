@@ -395,6 +395,11 @@ export default {
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
     rawPdfFile: {},
   }),
+  /**
+   * Function that get the countries list
+   * @returns {promise}
+   * @author Marco Tribuzio
+   */
   async mounted() {
     try {
       console.log('[Views][FormQrView][mounted] Getting countries list')
@@ -515,10 +520,9 @@ export default {
       this.countDown = 0
     },
     /**
-     *Function that call validate (see validate())
-     *Hide the "check" modal
-     *Show the loading pop-up
-     *@return void
+     *Function that once form is validate send and receive object and file to the store managent
+     *and download the pdf file in the computer
+     *@returns {downloaded file}
      *@author Marco Tribuzio
      *@author Xavier de Juan
      */

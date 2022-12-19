@@ -6,11 +6,11 @@ const storePdf = {
     namespaced: true,
     state: {
         readPdf: null, //it will be an object
-        unlockPdf: null,
-        pdfArrayBuffer: null,
-        callPdfLibrary: null,
-        callPdfLengthLib: null,
-        blobDivaltoPdf: null
+        unlockPdf: null, //it will be an object
+        pdfArrayBuffer: null, // it will be a fixed-length raw binary data buffer.
+        callPdfLibrary: null, // load, modify and save file
+        callPdfLengthLib: null, // give the file length
+        blobDivaltoPdf: null // it will be a blob object
     },
     getters: {
         getReadPdf: (state) => state.readPdf,
@@ -37,12 +37,17 @@ const storePdf = {
             state.blobDivaltoPdf = payload
         }
     },
+    /**
+     * Function that send and receive the file to the back-end
+     * @returns {object - promise}
+     * @author Xavier de Juan
+     */
     actions: {
-        async readPdf({ commit }, state) {
+        async readPdf({ commit }, payload) {
             try {
-                console.log("[store][storePdf][readPdf] Reading pdf with params", state)
+                console.log("[store][storePdf][readPdf] Reading pdf with params", payload)
                 const pdfToRead = new FormData()
-                pdfToRead.append('pdf', state)
+                pdfToRead.append('pdf', payload)
                 const response = await axios.post(process.env.VUE_APP_PDFREAD_URL, pdfToRead, {
                     responseType: "application/json",
                     headers: {
@@ -58,7 +63,16 @@ const storePdf = {
                 throw new Error(e)
             }
         },
-        async unlockPdf({ commit, dispatch }, payload) {
+        /**
+         * Function that take the form object and the file
+         * send and receive the file to the back-end an object to be unlock
+         * send the form to the apiQr state management
+         * @param {*} param0 
+         * @param {*} payload 
+         * @returns {object - promise}
+         * @author Xavier de Juan
+         */
+        async unlockPdf({ dispatch }, payload) {
             try {
                 console.log("[store][storePdf][unlockPdf] Unlock pdf", payload)
                 const { rawPdf } = payload
@@ -74,17 +88,24 @@ const storePdf = {
                 })
                 if (response.status !== 200) throw Error('API unlock Error')
                 await dispatch(STORE_ACTIONS_INT.PDFARRAYBUFFER, response)
-                commit(STOREMUTATIONS.UNLOCKPDF, { formToApi: payload })
-                await dispatch(STORE_ACTIONS_EXT.APIPAYLOAD, payload, {root: true})
+                // commit(STOREMUTATIONS.UNLOCKPDF, { formToApi: payload })
+                await dispatch(STORE_ACTIONS_EXT.APIPAYLOAD, payload, { root: true })
             } catch (e) {
                 console.error("[store][storePdf][unlockPdf] An error has occurred when trying to unlock pdf")
                 throw new Error(e)
             }
         },
-        async pdfArrayBuffer({ dispatch }, state) {
+        /**
+         * Function that change the object in arrayBuffer 
+         * @param {*} param0 
+         * @param {*} payload 
+         * @returns {ArrayBuffer - promise}
+         * @author Xavier de Juan
+         */
+        async pdfArrayBuffer({ dispatch }, payload) {
             try {
-                console.log("[store][storePdf][pdfArrayBuffer] ArrayBuffer", state)
-                const pdf = await state.data.arrayBuffer()
+                console.log("[store][storePdf][pdfArrayBuffer] ArrayBuffer", payload)
+                const pdf = await payload.data.arrayBuffer()
                 await dispatch(STORE_ACTIONS_INT.CALLPDFLIBRARY, pdf)
                 // if (pdf.status !== 200) throw Error('arrayBuffer error')
             } catch (e) {
@@ -92,9 +113,16 @@ const storePdf = {
                 throw new Error
             }
         },
-        async callPdfLibrary({ dispatch }, state) {
+        /**
+         * Function that draw a rectangle on the bottom of the last page
+         * @param {*} param0 
+         * @param {*} payload 
+         * @returns {Promise}
+         * @author Xavier de Juan
+         */
+        async callPdfLibrary({ dispatch }, payload) {
             try {
-                const pdfFile = await Pdf.pdfLoad(state)
+                const pdfFile = await Pdf.pdfLoad(payload)
                 const pages = Pdf.getPdfPages(pdfFile)
                 Pdf.drawRectangle(pages)
                 const savedPdf = await Pdf.savePdf(pdfFile)
@@ -104,10 +132,17 @@ const storePdf = {
                 throw new Error
             }
         },
-        async blobDivaltoPdf({ dispatch, commit }, state) {
+        /**
+         * Function that change the object in blob object and send it to callPdfLengthLib function
+         * @param {*} param0 
+         * @param {*} payload 
+         * @returns {blob}
+         * @author xavier de Juan
+         */
+        async blobDivaltoPdf({ dispatch, commit }, payload) {
             try {
-                console.log('[store][storePdf][blobDivaltoPdf] Convert the raw Divalto pdf to blob', state)
-                const divaltoFileBlob = new Blob([state], { type: "application/pdf" });
+                console.log('[store][storePdf][blobDivaltoPdf] Convert the raw Divalto pdf to blob', payload)
+                const divaltoFileBlob = new Blob([payload], { type: "application/pdf" });
                 commit(STOREMUTATIONS.BLOBDIVALTOPDF, divaltoFileBlob)
                 await dispatch(STORE_ACTIONS_INT.CALLPDFLENGTHLIB, divaltoFileBlob)
             } catch (e) {
@@ -115,10 +150,17 @@ const storePdf = {
                 throw new Error
             }
         },
-        async callPdfLengthLib({ commit }, state) {
-            console.log("[store][storePdf][CallPdfLengthLib] Call the library to get the pdf Divalto blob length", state)
+        /**
+         * Function that take the object length
+         * @param {*} param0 
+         * @param {*} payload
+         * @return {number - promise}
+         * @author Xavier de Juan 
+         */
+        async callPdfLengthLib({ commit }, payload) {
+            console.log("[store][storePdf][CallPdfLengthLib] Call the library to get the pdf Divalto blob length", payload)
             try {
-                const pdfArrayBuffer = await state.arrayBuffer()
+                const pdfArrayBuffer = await payload.arrayBuffer()
                 const pdfLoaded = await Pdf.pdfLoad(pdfArrayBuffer)
                 const pdfLength = await Pdf.getPdfLength(pdfLoaded)
                 commit(STOREMUTATIONS.CALLPDFLENGTHLIB, { pdfDivaltoBlobLength: pdfLength })

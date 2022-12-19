@@ -20,11 +20,6 @@ const storeApiQr = {
     getSendMergedFiles: (state) => state.sendMergedFiles
   },
   mutations: {
-    /**
-     * 
-     * @param {*} state 
-     * @param {*} payload 
-     */
     countriesList(state, payload) {
       state.countriesList = payload.countries
     },
@@ -51,8 +46,10 @@ const storeApiQr = {
   },
   actions: {
     /**
-     * 
+     * Function that get the countries list
      * @param {*} state 
+     * @returns {promise}
+     * @author Xavier de Juan
      */
     async countriesList(state) {
       try {
@@ -64,6 +61,14 @@ const storeApiQr = {
         console.error(e)
       }
     },
+    /**
+     * Function that take the form for the payload and it to the singlePayement function
+     *  
+     * @param {*} param0 
+     * @param {*} payload
+     * @returns {void}
+     * @author xavier de Juan
+     */
     async apiPayload({ dispatch, commit }, payload) {
       try {
         console.log('[store][storeApiQr][apiPayload] Take the list for the payload', payload)
@@ -109,15 +114,22 @@ const storeApiQr = {
           },
         }
         await dispatch(STORE_ACTIONS_INT.SENDSINGLEPAYMENT, payloadAPI)
-        commit(STOREMUTATIONS.APIPAYLOAD, {payloadToApi: payloadAPI })
+        commit(STOREMUTATIONS.APIPAYLOAD, { payloadToApi: payloadAPI })
       } catch (e) {
         console.error('[store][storeApiQr][apiPayload] Failed while taking the list for the payload', e)
         throw new Error
       }
     },
-    async sendSinglePayment({ dispatch }, state) {
+    /**
+     * Function that send, receive the form to the API and send it to the blobQrPdf function
+     * @param {*} param0 
+     * @param {*} payload 
+     * @returns {blob - promise}
+     * @author Xavier de Juan
+     */
+    async sendSinglePayment({ dispatch }, payload) {
       try {
-        const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, state,
+        const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, payload,
           {
             responseType: "blob",
             headers: {
@@ -134,10 +146,17 @@ const storeApiQr = {
         throw new Error(e)
       }
     },
-    async blobQrPdf({ dispatch }, state) {
+    /**
+     * Function that change the object in blob object
+     * @param {*} param0 
+     * @param {*} payload 
+     * @returns {blob}
+     * @author Xavier de Juan
+     */
+    async blobQrPdf({ dispatch }, payload) {
       try {
-        console.log('[store][storeApiQr][blobQrPdf] Convert the Qr pdf to blob', state)
-        const qrFileBlob = new Blob([state], { type: 'application/pdf' });
+        console.log('[store][storeApiQr][blobQrPdf] Convert the Qr pdf to blob', payload)
+        const qrFileBlob = new Blob([payload], { type: 'application/pdf' });
         await dispatch(STORE_ACTIONS_INT.SENDMERGEDFILES, qrFileBlob)
       } catch (e) {
         console.error('[store][storeApiQr][blobQrPdf] Failed to convert the Qr pdf to blob', e)
@@ -147,12 +166,12 @@ const storeApiQr = {
     /**
      * Deprecated
      * @param {*} param0 
-     * @param {*} state 
+     * @param {*} payload 
      */
-    async twoCheckDigit({ commit }, state) {
+    async twoCheckDigit({ commit }, payload) {
       try {
-        console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params (state = referenceNumber", state)
-        const response = await axios.post(BASE_URL + '/v2/creditor-reference/modulo97' + API_KEY, state,
+        console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params (payload = referenceNumber", payload)
+        const response = await axios.post(BASE_URL + '/v2/creditor-reference/modulo97' + API_KEY, payload,
           {
             headers: {
               'Content-Type': 'text/plain',
@@ -166,6 +185,13 @@ const storeApiQr = {
         throw new Error(e)
       }
     },
+    /**
+     * Function that get from blobDivaltoPdf mutation and deconstruct the object to send to the API
+     * @param {*} param0 
+     * @param {*} payload 
+     * @returns {blob - promise}
+     * @author Xavier de Juan
+     */
     async sendMergedFiles({ commit, rootGetters }, payload) {
       console.log("[Store][storeApiQr][sendMergedFiles] Send Divalto pdf files + QR pdf with params (payload = pdfDivaltoLength, divaltoFile, qrCodeCreatedByApi)", payload)
       try {
