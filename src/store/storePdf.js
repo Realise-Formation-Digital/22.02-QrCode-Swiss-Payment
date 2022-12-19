@@ -40,7 +40,7 @@ const storePdf = {
     /**
      * Function that send and receive the file to the back-end
      * @returns {object - promise}
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     actions: {
         async readPdf({ commit }, payload) {
@@ -70,7 +70,7 @@ const storePdf = {
          * @param {*} param0 
          * @param {*} payload 
          * @returns {object - promise}
-         * @author Xavier de Juan
+         * @author - Xavier de Juan
          */
         async unlockPdf({ dispatch }, payload) {
             try {
@@ -100,7 +100,7 @@ const storePdf = {
          * @param {*} param0 
          * @param {*} payload 
          * @returns {ArrayBuffer - promise}
-         * @author Xavier de Juan
+         * @author - Xavier de Juan
          */
         async pdfArrayBuffer({ dispatch }, payload) {
             try {
@@ -118,7 +118,7 @@ const storePdf = {
          * @param {*} param0 
          * @param {*} payload 
          * @returns {Promise}
-         * @author Xavier de Juan
+         * @author - Xavier de Juan
          */
         async callPdfLibrary({ dispatch }, payload) {
             try {
@@ -137,7 +137,7 @@ const storePdf = {
          * @param {*} param0 
          * @param {*} payload 
          * @returns {blob}
-         * @author xavier de Juan
+         * @author - Xavier de Juan
          */
         async blobDivaltoPdf({ dispatch, commit }, payload) {
             try {
@@ -155,7 +155,7 @@ const storePdf = {
          * @param {*} param0 
          * @param {*} payload
          * @return {number - promise}
-         * @author Xavier de Juan 
+         * @author - Xavier de Juan 
          */
         async callPdfLengthLib({ commit }, payload) {
             console.log("[store][storePdf][CallPdfLengthLib] Call the library to get the pdf Divalto blob length", payload)

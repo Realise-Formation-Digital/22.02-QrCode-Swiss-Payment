@@ -49,7 +49,7 @@ const storeApiQr = {
      * Function that get the countries list
      * @param {*} state 
      * @returns {promise}
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     async countriesList(state) {
       try {
@@ -67,7 +67,7 @@ const storeApiQr = {
      * @param {*} param0 
      * @param {*} payload
      * @returns {void}
-     * @author xavier de Juan
+     * @author - Xavier de Juan
      */
     async apiPayload({ dispatch, commit }, payload) {
       try {
@@ -125,7 +125,7 @@ const storeApiQr = {
      * @param {*} param0 
      * @param {*} payload 
      * @returns {blob - promise}
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     async sendSinglePayment({ dispatch }, payload) {
       try {
@@ -151,7 +151,7 @@ const storeApiQr = {
      * @param {*} param0 
      * @param {*} payload 
      * @returns {blob}
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     async blobQrPdf({ dispatch }, payload) {
       try {
@@ -190,7 +190,7 @@ const storeApiQr = {
      * @param {*} param0 
      * @param {*} payload 
      * @returns {blob - promise}
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     async sendMergedFiles({ commit, rootGetters }, payload) {
       console.log("[Store][storeApiQr][sendMergedFiles] Send Divalto pdf files + QR pdf with params (payload = pdfDivaltoLength, divaltoFile, qrCodeCreatedByApi)", payload)

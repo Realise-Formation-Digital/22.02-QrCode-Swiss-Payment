@@ -398,7 +398,7 @@ export default {
   /**
    * Function that get the countries list
    * @returns {promise}
-   * @author Marco Tribuzio
+   * @author - Marco Tribuzio
    */
   async mounted() {
     try {
@@ -428,7 +428,7 @@ export default {
     /**
      * activates the modal until the value is equal.
      * @param {*} val
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     loadingPopUp(val) {
       if (!val) return
@@ -464,7 +464,7 @@ export default {
      * The file name is reused
      * File type is used to certify whether it is a pdf or not
      * @param {*} e 
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     async onDrop(e) {
       try {
@@ -488,7 +488,7 @@ export default {
     /**
      * Function that build form after onDrop
      * @return {promise}
-     * @author xavier de Juan
+     * @author - Xavier de Juan
      */
     async BuildForm() {
       const response = await this.readPdfGetter();
@@ -524,7 +524,7 @@ export default {
      *and download the pdf file in the computer
      *@returns {downloaded file}
      *@author Marco Tribuzio
-     *@author Xavier de Juan
+     *@author - Xavier de Juan
      */
     async confirm() {
       console.log('[Views][FormQrView][sendCsvList] Send the form')
@@ -564,16 +564,16 @@ export default {
     /**
      * Function that check required fields form if valid
      * Send the payload to the API
+     * @returns string
      * @author Bachir Aouad
-     * @return string
      */
     validateForm() {
       return this.$refs.form.validate();
     },
     /**
      * Function that reset the form
-     * @author Xavier de Juan
-     * @return void
+     * @returns {void}
+     * @author - Xavier de Juan
      * 
      */
     reset() {
@@ -590,8 +590,8 @@ export default {
      */
     /**
      * Function that show the modal "check" form
-     * @author Xavier de Juan
-     * @return boolean/numbers
+     * @returns {boolean}
+     * @author - Xavier de Juan
      */
     showDialog() {
       const isValid = this.$refs.form.validate();
@@ -608,8 +608,9 @@ export default {
     },
     /**
      * Function that hide the modal "check" form
-     * @author Xavier de Juan
-     * @return boolean/number
+     * @returns {boolean}
+     * @author - Xavier de Juan
+     
      */
     hideDialog() {
       this.dialog = false;
@@ -620,22 +621,24 @@ export default {
      */
     /**
      * Function that show the loading pop-up during API's await
-     * @author Xavier de Juan
+     * @returns {boolean}
+     * @author - Xavier de Juan
      */
     showLoadingPopUp() {
       this.loadingPopUp = true
     },
     /**
      * Function that hide the loading pop-up
-     * @author Xavier de Juan
+     * @returns {boolean}
+     * @author - Xavier de Juan
      */
     hideLoadingPopUp() {
       this.loadingPopUp = false
     },
     /**
      * Function that permit numbers and dot only "champ: Montant"
-     * @author Xavier de Juan
-     * @return numbers/dot
+     * @returns {numbers/dot}
+     * @author - Xavier de Juan
      */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;
