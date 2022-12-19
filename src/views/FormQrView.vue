@@ -511,7 +511,7 @@ export default {
      * (Une personne dont le nom restera secret, est coupable de cette idée et
      *  non l'auteur de ces lignes qui est bien trop gentil
      *  et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     activCountDown() {
       this.countDown = process.env.VUE_APP_FORMQR_COUNT_CONFIRM_BUTTON
@@ -523,7 +523,7 @@ export default {
      *Function that once form is validate send and receive object and file to the store managent
      *and download the pdf file in the computer
      *@returns {downloaded file}
-     *@author Marco Tribuzio
+     *@author - Marco Tribuzio
      *@author - Xavier de Juan
      */
     async confirm() {
