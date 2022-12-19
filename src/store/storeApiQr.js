@@ -1,4 +1,4 @@
-import { BASE_URL, API_KEY, CSVLIST_OPTIONS, } from '../libs/consts.js';
+import { BASE_URL, API_KEY, CSVLIST_OPTIONS, STORE_ACTIONS_INT, STOREMUTATIONS, } from '../libs/consts.js';
 import axios from "axios";
 
 const storeApiQr = {
@@ -9,14 +9,14 @@ const storeApiQr = {
     sendSinglePayment: null,
     blobQrPdf: null,
     twoCheckDigit: null,
-    sendMergedFiles: null,
+    sendMergedFiles: null
   },
   getters: {
     getCountriesList: (state) => state.countriesList,
     getApiPayload: (state) => state.apiPayload,
     getSendSinglePayment: (state) => state.sendSinglePayment,
     getBlobQrPdf: (state) => state.blobQrPdf,
-    getTwoCheckDigit: (state) => state.twoCheckDigit,
+    getTwoCheckDigit: (state) => state.twoCheckDigit, // Deprecated
     getSendMergedFiles: (state) => state.sendMergedFiles
   },
   mutations: {
@@ -29,7 +29,7 @@ const storeApiQr = {
       state.countriesList = payload.countries
     },
     apiPayload(state, payload) {
-      state.apiPayload = payload.mappingPayload
+      state.apiPayload = payload.payloadToApi
     },
     sendSinglePayment(state, payload) {
       state.sendSinglePayment = payload.response
@@ -37,11 +37,16 @@ const storeApiQr = {
     blobQrPdf(state, payload) {
       state.blobQrPdf = payload.qrFileBlob
     },
+    /**
+     * Deprecated
+     * @param {*} state 
+     * @param {*} payload 
+     */
     twoCheckDigit(state, payload) {
       state.twoCheckDigit = payload.referenceNumber
     },
     sendMergedFiles(state, payload) {
-      state.sendMergedFiles = payload.responseMerge
+      state.sendMergedFiles = payload
     }
   },
   actions: {
@@ -53,15 +58,22 @@ const storeApiQr = {
       try {
         const response = await axios.get(BASE_URL + '/v2/country' + API_KEY)
         if (response.status !== 200) console.log('error')
-        state.commit('countriesList', { countries: response.data })
+        state.commit(STOREMUTATIONS.COUNTRIESLIST, { countries: response.data })
+
       } catch (e) {
         console.error(e)
       }
     },
-    async apiPayload({ dispatch }) {
+    async apiPayload({ dispatch, commit }, payload) {
       try {
-        console.log('[store][storeApiQr][apiPayload] Take the list for the payload')
-        const payload = {
+        console.log('[store][storeApiQr][apiPayload] Take the list for the payload', payload)
+        // const formPayload = rootGetters['storePdf/getUnlockPdf']
+        const { formToApi } = payload
+        // const { formToApi } = formPayload
+        const regex = /,/gm;
+        const subst = `.`;
+
+        const payloadAPI = {
           "creditorInformation": {
             "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
             "creditor": {
@@ -75,33 +87,35 @@ const storeApiQr = {
             }
           },
           "paymentAmountInformation": {
-            "amount": parseFloat(this.form.amount.replace(/,/, /./)),
+            "amount": parseFloat(formToApi.amount.replace(regex, subst)),
+
             "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY
           },
           "ultimateDebtor": {
             "addressType": "STRUCTURED",
-            "name": this.form.dnom,
-            "streetName": this.form.dstreet,
-            "houseNumber": this.form.dnr,
-            "postalCode": this.form.dnpa,
-            "city": this.form.dplace,
-            "country": this.form.dcountry
+            "name": formToApi.dnom,
+            "streetName": formToApi.dstreet,
+            "houseNumber": formToApi.dnr,
+            "postalCode": formToApi.dnpa,
+            "city": formToApi.dplace,
+            "country": formToApi.dcountry
           },
           "paymentReference": {
             "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-            "reference": this.form.nrref,
+            "reference": formToApi.nrref,
             "additionalInformation": {
-              "unstructuredMessage": this.form.infosupp
+              "unstructuredMessage": formToApi.infosupp
             }
           },
         }
-        await dispatch('sendSinglePayment', { mappingPayload: payload })
+        await dispatch(STORE_ACTIONS_INT.SENDSINGLEPAYMENT, payloadAPI)
+        commit(STOREMUTATIONS.APIPAYLOAD, {payloadToApi: payloadAPI })
       } catch (e) {
         console.error('[store][storeApiQr][apiPayload] Failed while taking the list for the payload', e)
         throw new Error
       }
     },
-    async sendSinglePayment({ commit }, state) {
+    async sendSinglePayment({ dispatch }, state) {
       try {
         const response = await axios.post(BASE_URL + '/v2/payment-part-receipt' + API_KEY + '&' + CSVLIST_OPTIONS, state,
           {
@@ -114,22 +128,27 @@ const storeApiQr = {
           },
         )
         if (response.status !== 200) throw Error('API Error')
-        commit('sendSinglePayment', { response: response })
+        await dispatch(STORE_ACTIONS_INT.BLOBQRPDF, response.data)
       } catch (e) {
         console.error('[Service][CsvService][sendJsonList] An error has occurred when sending the list to the api', e)
         throw new Error(e)
       }
     },
-    async blobQrPdf({ commit }, state) {
+    async blobQrPdf({ dispatch }, state) {
       try {
         console.log('[store][storeApiQr][blobQrPdf] Convert the Qr pdf to blob', state)
-        const qrFileBlob = new Blob([state.data], { type: 'application/pdf' });
-        commit('blobQrPdf', {qrFileBlob: qrFileBlob})
+        const qrFileBlob = new Blob([state], { type: 'application/pdf' });
+        await dispatch(STORE_ACTIONS_INT.SENDMERGEDFILES, qrFileBlob)
       } catch (e) {
         console.error('[store][storeApiQr][blobQrPdf] Failed to convert the Qr pdf to blob', e)
         throw new Error
       }
     },
+    /**
+     * Deprecated
+     * @param {*} param0 
+     * @param {*} state 
+     */
     async twoCheckDigit({ commit }, state) {
       try {
         console.log("[Service][ApiService][getTwoCheckDigit] Getting two check digit with params (state = referenceNumber", state)
@@ -147,13 +166,14 @@ const storeApiQr = {
         throw new Error(e)
       }
     },
-    async sendMergedFiles({ commit }, state) {
+    async sendMergedFiles({ commit, rootGetters }, payload) {
+      console.log("[Store][storeApiQr][sendMergedFiles] Send Divalto pdf files + QR pdf with params (payload = pdfDivaltoLength, divaltoFile, qrCodeCreatedByApi)", payload)
       try {
-        console.log("[Store][storeApiQr][sendMergedFiles] Send Divalto pdf files + QR pdf with params (state = pdfDivaltoLength, divaltoFile, qrCodeCreatedByApi)", state)
-        const { pdfLength, divaltoFileBlob, qrCodeCreatedByApi } = state
+        const pdfLength = rootGetters["storePdf/getCallPdfLengthLib"]
+        const blob1 = rootGetters["storePdf/getBlobDivaltoPdf"]
         const formData = new FormData()
-        formData.append('file', divaltoFileBlob)
-        formData.append('file2', qrCodeCreatedByApi)
+        formData.append('file', blob1)
+        formData.append('file2', payload)
         const responseMerge = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength, formData,
           {
             responseType: "blob",
@@ -163,7 +183,7 @@ const storeApiQr = {
             }
           })
         if (responseMerge.status !== 200) throw Error('API merge Error')
-        commit('sendMergedFiles', { responseMerge: responseMerge.data })
+        commit(STOREMUTATIONS.SENDMERGEDFILES, responseMerge.data)
       } catch (e) {
         console.error("[Store][storeApiQr][sendMergedFiles] Echec de retour du pdf mergé (erreur 4xx)")
         throw new Error(e)

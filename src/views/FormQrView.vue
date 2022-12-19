@@ -286,24 +286,21 @@
   </v-row>
 </template>
 <script>
-// import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
-// import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
 import LoadingPopUpVue from "../components/LoadingPopUp.vue";
 import SnackBar from '../components/SnackBar.vue';
 import { SUCCESSCODE } from "@/libs/consts";
 import { ERRORCODE } from "@/libs/consts";
-
-// const regex = /,/gm;
-// const subst = `.`;
+import { STORE_ACTIONS_EXT } from '../libs/consts.js' 
+import { STOREGETTERS } from "@/libs/consts.js";
 export default {
   name: "FormQr",
   mixins: [traductionMixin],
   components: { LoadingPopUpVue, SnackBar },
   computed: {
     countriesListGetter() {
-      return this.$store.getters['storeApiQr/getCountriesList']
+      return this.$store.getters[STOREGETTERS.COUNTRIESLIST]
     },
   },
   data: () => ({
@@ -311,9 +308,9 @@ export default {
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
     cardErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
-    divaltoFile: null, // PDF file
-    divaltoFileBlob: null, // pdf file converted to Blob
-    qrFileBlob: null, // Pdf file received from API
+    // divaltoFile: null, // PDF file
+    // divaltoFileBlob: null, // pdf file converted to Blob
+    // qrFileBlob: null, // Pdf file received from API
     snackbar: { // API merge file receipt status message
       flag: false,
       text: "",
@@ -391,8 +388,8 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
-    countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
+    // isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
+    // countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
@@ -402,7 +399,7 @@ export default {
     try {
       console.log('[Views][FormQrView][mounted] Getting countries list')
       this.isGettingCountriesList = true
-      await this.$store.dispatch('storeApiQr/countriesList')
+      await this.$store.dispatch(STORE_ACTIONS_EXT.COUNTRIESLIST)
     } catch (e) {
       console.error('[Views][FormQrView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
@@ -434,28 +431,28 @@ export default {
   },
   methods: {
     readPdfGetter() {
-      return this.$store.getters['storePdf/getreadPdf']
+      return this.$store.getters[STOREGETTERS.READPDF]
     },
     unlockPdfGetter() {
-      return this.$store.getters['storePdf/getUnlockPdf']
+      return this.$store.getters[STOREGETTERS.UNLOCKPDF]
     },
     callPdfLibraryGetter() {
-      return this.$store.getters['storePdf/getCallPdfLibrary']
+      return this.$store.getters[STOREGETTERS.CALLPDFLIBRARY]
     },
     sendSinglePaymentGetter() {
-      return this.$store.getters['storeApiQr/getSendSinglePayment']
+      return this.$store.getters[STOREGETTERS.SENDSINGLEPAYMENT]
     },
     blobQrPdfGetter() {
-      return this.$store.getters['storeApiQr/getBlobQrPdf']
+      return this.$store.getters[STOREGETTERS.BLOBQRPDF]
     },
     blobDivaltoPdfGetter() {
-      return this.$store.getters['storeApiQr/getBlobDivaltoPdf']
+      return this.$store.getters[STOREGETTERS.BLOBDIVALTOPDF]
     },
     callPdfLengthLibGetter() {
-      return this.$store.getters['storePdf/getCallPdfLengthLib']
+      return this.$store.getters[STOREGETTERS.CALLPDFLENGTHLIB]
     },
     sendMergedFilesGetter() {
-      return this.$store.getters['storeApiQr/getSendMergedFiles']
+      return this.$store.getters[STOREGETTERS.SENDMERGEDFILES]
     },    
     /**
      * Drag and drop function that retrieves file, file name and file type
@@ -473,7 +470,7 @@ export default {
         if (this.isAPdf) {
           this.rawPdfFile = e.dataTransfer.files[0]
           this.cardErrorColor = false
-          await this.$store.dispatch('storePdf/readPdf', this.rawPdfFile);
+          await this.$store.dispatch(STORE_ACTIONS_EXT.READPDF, this.rawPdfFile);
           this.BuildForm();
         } else if (!this.isAPdf) {
           this.cardErrorColor = true
@@ -498,23 +495,6 @@ export default {
       this.form.amount = response.totalAmount
       this.form.nrref = response.referenceNumber
       this.form.infosupp = response.infoSupp
-    },
-    /**
-     * Function that changes the pdf file (object to Blob format)
-     * @param {*} divaltoFile -
-     * @return Blob 
-     * @author Xavier de Juan -
-     */
-    async sendDivaltoPdf(divaltoFile) {
-      console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
-      try {
-        await this.$store.dispatch('storePdf/unlockPdf', divaltoFile)
-        const pdfBytes = await this.callPdfLibraryGetter()
-        this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
-      } catch (e) {
-        console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
-        throw new Error(e)
-      }
     },
     /**
       * N_M_F
@@ -548,56 +528,11 @@ export default {
         const isValidForm = this.validateForm()
         if (isValidForm) {
           this.$refs.loadingPopUp.showLoadingPopUp()
-
-          // const payload = {
-          //   "creditorInformation": {
-          //     "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
-          //     "creditor": {
-          //       "addressType": "STRUCTURED",
-          //       "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
-          //       "streetName": process.env.VUE_APP_CREDITOR_INFORMATION_STREETNAME,
-          //       "houseNumber": process.env.VUE_APP_CREDITOR_INFORMATION_HOUSENUMBER,
-          //       "postalCode": process.env.VUE_APP_CREDITOR_INFORMATION_POSTALCODE,
-          //       "city": process.env.VUE_APP_CREDITOR_INFORMATION_CITY,
-          //       "country": process.env.VUE_APP_CREDITOR_INFORMATION_COUNTRY
-          //     }
-          //   },
-          //   "paymentAmountInformation": {
-          //     "amount": parseFloat(this.form.amount.replace(regex, subst)),
-          //     "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY
-          //   },
-          //   "ultimateDebtor": {
-          //     "addressType": "STRUCTURED",
-          //     "name": this.form.dnom,
-          //     "streetName": this.form.dstreet,
-          //     "houseNumber": this.form.dnr,
-          //     "postalCode": this.form.dnpa,
-          //     "city": this.form.dplace,
-          //     "country": this.form.dcountry
-          //   },
-          //   "paymentReference": {
-          //     "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-          //     "reference": this.form.nrref,
-          //     "additionalInformation": {
-          //       "unstructuredMessage": this.form.infosupp
-          //     }
-          //   },
-          // }
-          await this.$store.dispatch('storePdf/unlockPdf', this.rawPdfFile)
-          // await this.$store.dispatch('storeApiQr/sendSinglePayment', payload)
-          // const response = await this.sendSinglePaymentGetter()
-          // set the blog type to final pdf
-          // const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
-          // await this.$store.dispatch('storePdf/callPdfLengthLib', this.divaltoFileBlob)
-          const divaltoFileBlobLength = await this.callPdfLengthLibGetter()
-          this.divaltoFileBlob = await this.blobDivaltoPdfGetter()
-          const qrFileBlob = await this.blobQrPdfGetter()
-          const filesToMerge = {
-            pdfLength: divaltoFileBlobLength,
-            divaltoFileBlob: this.divaltoFileBlob,
-            qrCodeCreatedByApi: qrFileBlob,
+          const rawPdfAndPayload = {
+            formToApi: this.form,
+            rawPdf: this.rawPdfFile
           }
-          await this.$store.dispatch('storeApiQr/sendMergedFiles', filesToMerge)
+          await this.$store.dispatch(STORE_ACTIONS_EXT.UNLOCKPDF, rawPdfAndPayload)
           const sendToMerge = await this.sendMergedFilesGetter()
           // process to auto download it
           const fileURL = URL.createObjectURL(sendToMerge);
@@ -639,8 +574,6 @@ export default {
      */
     reset() {
       this.$refs.form.reset();
-      // this.divaltoFile = {}
-      // this.divaltoFileBlob = {}
       this.dropTakeName = ""
       this.isAPdf = false
       this.cardErrorColor = false

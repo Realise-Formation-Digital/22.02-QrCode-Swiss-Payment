@@ -18,6 +18,58 @@ const ERRORCODE = Object.freeze({
     ERRORQRCODEDOWNLOAD: 'qrCodedwnldError',
     ERRORCONVERT: 'conversionError'
 })
+const STORE_ACTIONS_INT = Object.freeze({
+    READPDF: 'readPdf',
+    UNLOCKPDF: 'unlockPdf',
+    PDFARRAYBUFFER: 'pdfArrayBuffer',
+    CALLPDFLIBRARY: 'callPdfLibrary',
+    BLOBDIVALTOPDF: 'blobDivaltoPdf',
+    CALLPDFLENGTHLIB: 'callPdfLengthLib',
+    APIPAYLOAD: 'apiPayload',
+    SENDSINGLEPAYMENT: 'sendSinglePayment',
+    BLOBQRPDF: 'blobQrPdf',
+    SENDMERGEDFILES: 'sendMergedFiles',
+    COUNTRIESLIST: 'countriesList'
+})
+const STORE_ACTIONS_EXT = Object.freeze({
+    READPDF: 'storePdf/readPdf',
+    UNLOCKPDF: 'storePdf/unlockPdf',
+    PDFARRAYBUFFER: 'storePdf/pdfArrayBuffer',
+    CALLPDFLIBRARY: 'storePdf/callPdfLibrary',
+    BLOBDIVALTOPDF: 'storePdf/blobDivaltoPdf',
+    CALLPDFLENGTHLIB: 'storePdf/callPdfLengthLib',
+    APIPAYLOAD: 'storeApiQr/apiPayload',
+    SENDSINGLEPAYMENT: 'storeApiQr/sendSinglePayment',
+    BLOBQRPDF: 'storeApiQr/blobQrPdf',
+    SENDMERGEDFILES: 'storeApiQr/sendMergedFiles',
+    COUNTRIESLIST: 'storeApiQr/countriesList'
+})
+const STOREMUTATIONS = Object.freeze({
+    READPDF: 'readPdf',
+    UNLOCKPDF: 'unlockPdf',
+    PDFARRAYBUFFER: 'pdfArrayBuffer',
+    CALLPDFLIBRARY: 'callPdfLibrary',
+    BLOBDIVALTOPDF: 'blobDivaltoPdf',
+    CALLPDFLENGTHLIB: 'callPdfLengthLib',
+    APIPAYLOAD: 'apiPayload',
+    SENDSINGLEPAYMENT: 'sendSinglePayment',
+    BLOBQRPDF: 'blobQrPdf',
+    SENDMERGEDFILES: 'sendMergedFiles',
+    COUNTRIESLIST: 'countriesList'
+})
+const STOREGETTERS = Object.freeze({
+    READPDF: 'storePdf/getReadPdf',
+    UNLOCKPDF: 'storePdf/getUnlockPdf',
+    PDFARRAYBUFFER: 'storePdf/getPdfArrayBuffer',
+    CALLPDFLIBRARY: 'storePdf/getCallPdfLibrary',
+    BLOBDIVALTOPDF: 'storePdf/getBlobDivaltoPdf',
+    CALLPDFLENGTHLIB: 'storePdf/getCallPdfLengthLib',
+    APIPAYLOAD: 'storeApiQr/getApiPayload',
+    SENDSINGLEPAYMENT: 'storeApiQr/getSendSinglePayment',
+    BLOBQRPDF: 'storeApiQr/getBlobQrPdf',
+    SENDMERGEDFILES: 'storeApiQr/getSendMergedFiles',
+    COUNTRIESLIST: 'storeApiQr/getCountriesList'
+})
 export {
     BASE_URL,
     API_KEY,
@@ -32,5 +84,9 @@ export {
     XML_CREDITOR_ACCOUNT,
     XML_ULTIMATE_DEBTOR,
     SUCCESSCODE,
-    ERRORCODE
+    ERRORCODE,
+    STORE_ACTIONS_INT,
+    STORE_ACTIONS_EXT,
+    STOREMUTATIONS,
+    STOREGETTERS
 }
