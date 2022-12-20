@@ -29,7 +29,8 @@ const STORE_ACTIONS_INT = Object.freeze({
     SENDSINGLEPAYMENT: 'sendSinglePayment',
     BLOBQRPDF: 'blobQrPdf',
     SENDMERGEDFILES: 'sendMergedFiles',
-    COUNTRIESLIST: 'countriesList'
+    COUNTRIESLIST: 'countriesList',
+    RAWXMLFILE: 'rawXmlFile',
 })
 const STORE_ACTIONS_EXT = Object.freeze({
     READPDF: 'storePdf/readPdf',
@@ -42,7 +43,8 @@ const STORE_ACTIONS_EXT = Object.freeze({
     SENDSINGLEPAYMENT: 'storeApiQr/sendSinglePayment',
     BLOBQRPDF: 'storeApiQr/blobQrPdf',
     SENDMERGEDFILES: 'storeApiQr/sendMergedFiles',
-    COUNTRIESLIST: 'storeApiQr/countriesList'
+    COUNTRIESLIST: 'storeApiQr/countriesList',
+    RAWXMLFILE: 'storeXml/actRawXmlFile'
 })
 const STOREMUTATIONS = Object.freeze({
     READPDF: 'readPdf',
@@ -55,7 +57,8 @@ const STOREMUTATIONS = Object.freeze({
     SENDSINGLEPAYMENT: 'sendSinglePayment',
     BLOBQRPDF: 'blobQrPdf',
     SENDMERGEDFILES: 'sendMergedFiles',
-    COUNTRIESLIST: 'countriesList'
+    COUNTRIESLIST: 'countriesList',
+    RAWXMLFILE: 'mutRawXmlFile',
 })
 const STOREGETTERS = Object.freeze({
     READPDF: 'storePdf/getReadPdf',
@@ -68,7 +71,8 @@ const STOREGETTERS = Object.freeze({
     SENDSINGLEPAYMENT: 'storeApiQr/getSendSinglePayment',
     BLOBQRPDF: 'storeApiQr/getBlobQrPdf',
     SENDMERGEDFILES: 'storeApiQr/getSendMergedFiles',
-    COUNTRIESLIST: 'storeApiQr/getCountriesList'
+    COUNTRIESLIST: 'storeApiQr/getCountriesList',
+    RAWXMLFILE: 'storeXml/getRawXmlFile'
 })
 export {
     BASE_URL,

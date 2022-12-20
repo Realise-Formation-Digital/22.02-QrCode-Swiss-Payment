@@ -52,10 +52,9 @@
   </v-row>
 </template>
 <script>
-import XmlService from "@/services/xmlService";
+// import XmlService from "@/services/xmlService";
 import SnackBar from '../components/SnackBar.vue'
-import { SUCCESSCODE } from "@/libs/consts.js";
-// import { ERRORCODE } from "@/libs/consts.js";
+import { STOREGETTERS, STORE_ACTIONS_EXT, SUCCESSCODE } from "@/libs/consts.js";
 export default {
   name: "xml-View",
   components: { SnackBar },
@@ -73,12 +72,15 @@ export default {
     rawFile: null
   }),
   methods: {
-    /**
-     * Drag and drop function
-     * @params - event
-     * @return - void
-     * @author Xavier de Juan
-     */
+    rawXmlFileGetter() { 
+      return this.$store.getters[STOREGETTERS.RAWXMLFILE]
+    },
+   /**
+    * Drag and drop function
+    * @param {*} e 
+    * @returns {event}
+    * @author Xavier de Juan
+    */
     async onDrop(e) {
       try {
         this.rawFile = null// Doit être en null pour fonctionner correctement
@@ -115,15 +117,16 @@ export default {
     /**
      * Function that check value and return the loading pop-up
      * @params {promise} - convert
-     * @return promise<object>
+     * @return {promise<object>}
      * @author Xavier de Juan
      */
     async fixXMLDivalto() {
       try {
-        console.log('[Component][fixXMLDivalto] Fixing xml divalto with params', this.rawFile)
+        console.log('[View][fixXMLDivalto] Fixing xml divalto with params', this.rawFile)
         const fileName = this.rawFile.name.slice(0, this.rawFile.name.length - 4)
-        const response = await XmlService.fixXMLDivalto(this.rawFile)
-
+        await this.$store.dispatch(STORE_ACTIONS_EXT.RAWXMLFILE, this.rawFile)
+        // const response = await XmlService.fixXMLDivalto(this.rawFile)
+        const response = await this.rawXmlFileGetter()
         const fileURL = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(response)], {
           type: "text/plain",
         }));
