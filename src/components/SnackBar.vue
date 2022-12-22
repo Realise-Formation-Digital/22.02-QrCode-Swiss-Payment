@@ -20,7 +20,7 @@ export default {
         /**
          * Boolean changing the message of the snackbar depending on the file that calls it.
          * @param {*} codeSuccess
-         * @return {boolean}
+         * @returns {boolean}
          * @author - Marco Tribuzio
          * @author - Xavier de Juan
          */
@@ -42,7 +42,7 @@ export default {
         /**
          * Boolean changing the message of the snackbar depending on the file that calls it.
          * @param {*} codeError
-         * @return {boolean}
+         * @returns {boolean}
          * @author - Marco Tribuzio
          * @author - Xavier de Juan
          */

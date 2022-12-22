@@ -522,7 +522,7 @@ export default {
     /**
      *Function that once form is validate send and receive object and file to the store managent
      *and download the pdf file in the computer
-     *@returns {downloaded file}
+     *@returns {object}
      *@author - Marco Tribuzio
      *@author - Xavier de Juan
      */
