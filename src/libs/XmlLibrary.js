@@ -6,7 +6,7 @@ class XmlLibrary {
     static getPrTry() {
     }
     /**
-     * 
+     * Function that analyse the file
      * @param {*} file 
      * @returns {object}
      * @author - Xavier de Juan
@@ -24,7 +24,8 @@ class XmlLibrary {
         });
     }
     /**
-     * 
+     * function that sert à rien du tout
+     * @deprecated
      * @param {*} xmlDoc 
      * @returns {void}
      * @author - Xavier de Juan
@@ -34,7 +35,7 @@ class XmlLibrary {
         console.log('ciao', test[0].childNodes[1].childNodes[0].nodeValue)
     }
     /**
-     * 
+     * function that remove UltmtDbtr from the file
      * @param {*} xmlDoc
      * @returns {void}
      * @author - Xavier de Juan
@@ -42,7 +43,6 @@ class XmlLibrary {
     static rmvTag(xmlDoc) {
         console.log("xmlDoc", xmlDoc)
         let xmlToRmv = xmlDoc.getElementsByTagName("UltmtDbtr")[0]
-        console.log("xmlToRmv", xmlToRmv)
         xmlToRmv.parentNode.removeChild(xmlToRmv)
         for (let i = 0; i < xmlToRmv.length; i++) {
             while (xmlToRmv[i].attributes.length > 0) {
@@ -52,7 +52,7 @@ class XmlLibrary {
         }
     }
     /**
-     * 
+     * Function that replace QRR tag by ISR REFERENCE
      * @param {*} xmlDoc
      * @returns {void}
      * @author - Xavier de Juan 

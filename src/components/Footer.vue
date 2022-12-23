@@ -52,7 +52,7 @@ export default {
   }),
   methods: {
     /**
-     * Link to the realise site
+     * Link to the realise site and Linkedin
      * @returns {links}
      * @author  - Marco Tribuzio
      * @author  - Xavier de Juan

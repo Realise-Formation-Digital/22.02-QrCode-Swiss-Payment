@@ -6,7 +6,7 @@ const traductionMixin = {
     /**
      * function that call the traduction function in Traductor class
      * @returns {string}
-     * @author - xavier de Juan
+     * @author - Xavier de Juan
      */
     methods: {
         traduis(key) {

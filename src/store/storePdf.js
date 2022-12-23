@@ -162,7 +162,7 @@ const storePdf = {
             try {
                 const pdfArrayBuffer = await payload.arrayBuffer()
                 const pdfLoaded = await Pdf.pdfLoad(pdfArrayBuffer)
-                const pdfLength = await Pdf.getPdfLength(pdfLoaded)
+                const pdfLength = Pdf.getPdfLength(pdfLoaded)
                 commit(STOREMUTATIONS.CALLPDFLENGTHLIB, { pdfDivaltoBlobLength: pdfLength })
             } catch (e) {
                 console.error("[store][storePdf][CallPdfLengthLib] An error has occurred when trying to get the pdf length")

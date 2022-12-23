@@ -57,10 +57,10 @@ class ApiService {
 
     /**
      * Service to send the list to the api, and receive the pdf list to download
+     * @deprecated
      * @async
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
-     * @deprecated
      * @author Marco Tribuzio
      * @author Xavier de Juan
      */
@@ -154,7 +154,7 @@ class ApiService {
     }
     /**
      * Function that makes a request to the markdown library
-     * @returns promise
+     * @returns {promise}
      * @author Xavier de Juan
      */
     static async axioRequ() {
@@ -220,12 +220,6 @@ class ApiService {
                     }
                 })
             if (response.status !== 200) throw Error('API merge Error')
-            console.log('pdfLength', pdfLength)
-            console.log('divaltoFile', divaltoFile)
-            console.log('qrCodeCreatedByApi', qrCodeCreatedByApi)
-            console.log('formData', formData)
-            console.log('formDataType', typeof formData)
-            console.log('response', response)
             return response.data
         } catch (e) {
             console.error("[Service][ApiService][mergeFiles] Echec de retour du pdf mergé (erreur 4xx)")

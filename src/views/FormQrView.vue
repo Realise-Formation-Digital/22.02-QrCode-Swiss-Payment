@@ -290,8 +290,8 @@ import { traductionMixin } from "@/mixins/traductionMixin.js";
 import Vue from "vue";
 import LoadingPopUpVue from "../components/LoadingPopUp.vue";
 import SnackBar from '../components/SnackBar.vue';
-import { SUCCESSCODE } from "@/libs/consts";
-import { ERRORCODE } from "@/libs/consts";
+import { SUCCESSCODE } from "@/libs/consts.js";
+import { ERRORCODE } from "@/libs/consts.js";
 import { STORE_ACTIONS_EXT } from '../libs/consts.js' 
 import { STOREGETTERS } from "@/libs/consts.js";
 export default {
@@ -308,9 +308,9 @@ export default {
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
     cardErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
-    // divaltoFile: null, // PDF file
-    // divaltoFileBlob: null, // pdf file converted to Blob
-    // qrFileBlob: null, // Pdf file received from API
+    // divaltoFile: null, // PDF file (((PAS NECESSAIRE)))
+    // divaltoFileBlob: null, // pdf file converted to Blob (((PAS NECESSAIRE)))
+    // qrFileBlob: null, // Pdf file received from API (((PAS NECESSAIRE)))
     snackbar: { // API merge file receipt status message
       flag: false,
       text: "",
@@ -388,7 +388,7 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    // isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
+    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
     // countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
@@ -511,6 +511,7 @@ export default {
      * (Une personne dont le nom restera secret, est coupable de cette idée et
      *  non l'auteur de ces lignes qui est bien trop gentil
      *  et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
+     * @returns {number}
      * @author - Xavier de Juan
      */
     activCountDown() {
@@ -564,7 +565,7 @@ export default {
     /**
      * Function that check required fields form if valid
      * Send the payload to the API
-     * @returns string
+     * @returns {string}
      * @author Bachir Aouad
      */
     validateForm() {

@@ -117,7 +117,7 @@ export default {
     /**
      * Function that check value and return the loading pop-up
      * @params {promise} - convert
-     * @return {promise<object>}
+     * @returns {promise<object>}
      * @author Xavier de Juan
      */
     async fixXMLDivalto() {

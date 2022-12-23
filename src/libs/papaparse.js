@@ -10,7 +10,7 @@ class ParseCsv {
         header: true,
     }
     /**
-     * 
+     * @deprecated
      * @param {*} csvFile 
      * @returns {promise - object}
      * @author - Xavier de Juan

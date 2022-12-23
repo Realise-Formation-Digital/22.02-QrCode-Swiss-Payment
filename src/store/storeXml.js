@@ -23,10 +23,10 @@ const storeXml = {
     },
     actions: {
         /**
-         * Function that fix the xml from user input 
+         * Function that modify the xml file
          * @param {*} param0 
          * @param {*} payload 
-         * @returns {object}
+         * @returns {promise - object}
          * @author xavier de Juan
          */
         async actRawXmlFile({ commit }, payload) {

@@ -63,7 +63,6 @@ const storeApiQr = {
     },
     /**
      * Function that take the form for the payload and it to the singlePayement function
-     *  
      * @param {*} param0 
      * @param {*} payload
      * @returns {void}
