@@ -25,8 +25,6 @@ const storeMarkDown = {
         async markDown(state) {
             try {
                 const response = await axios.get(MARKDWN_URL)
-                console.log("C'est quoi ça??", response)
-                console.log("C'est quoi ça??", typeof response)
                 if (response.status !== 200) console.log('Error')
                 state.commit('markDown', { text: MarkParse.txtParse(response.data) })
             } catch (e) {
