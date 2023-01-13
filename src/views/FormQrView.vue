@@ -458,7 +458,7 @@ export default {
     },
     sendMergedFilesGetter() {
       return this.$store.getters[STOREGETTERS.SENDMERGEDFILES]
-    },    
+    },
     /**
      * Drag and drop function that retrieves file, file name and file type
      * The file name is reused
@@ -543,11 +543,11 @@ export default {
           const fileURL = URL.createObjectURL(sendToMerge);
           const link = document.createElement('a');
           let date = new Date();
-          let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
+          const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
           link.href = fileURL;
-          link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
+          link.download = "Facture_" + this.form.dnom + "_" + date.toLocaleDateString('fr-CH', options) + ".pdf";
           link.click();
-          this.hideDialog()
+          this.hideDialog();
           this.reset();
           this.$refs.snackbar.handleSuccess(SUCCESSCODE.QRCODEDOWNLOADED);
         }

@@ -125,7 +125,6 @@ export default {
         console.log('[View][fixXMLDivalto] Fixing xml divalto with params', this.rawFile)
         const fileName = this.rawFile.name.slice(0, this.rawFile.name.length - 4)
         await this.$store.dispatch(STORE_ACTIONS_EXT.RAWXMLFILE, this.rawFile)
-        // const response = await XmlService.fixXMLDivalto(this.rawFile)
         const response = await this.rawXmlFileGetter()
         const fileURL = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(response)], {
           type: "text/plain",
