@@ -4,17 +4,18 @@
     <v-col></v-col>
     <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet elevation="3" outlined :color="cardErrorColor ? 'red' : 'black'" rounded>
+      <v-sheet @click="$refs.fileDragDrop.click()" elevation="3" outlined :color="cardErrorColor ? 'red' : 'black'" rounded>      
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
+            <input type="file" ref="fileDragDrop" accept="application/pdf" hidden @change="onDragDropClick($event)"/>
             <p :class="cardErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardErrorColor ? 'red--text' : 'black--text'">
-                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
+                {{ isAPdf ? 'Importation réussie' : 'Cliquez ou glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -31,7 +32,6 @@
         <!--Text fields form for the debtors -->
         <h1>{{ this.traduis('formqrcode.debiteur') }}</h1>
         <!-- todo set rules with one in the api -->
-
         <v-text-field v-model="form.dnom" counter maxlength="70" :rules="formRules.dnom"
           :label="traduis('formqrcode.nom')" required>
           <template v-slot:append>
@@ -394,6 +394,7 @@ export default {
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
     rawPdfFile: {},
+    // dragDropClickEvent: null,
   }),
   /**
    * Function that get the countries list
@@ -458,6 +459,24 @@ export default {
     },
     sendMergedFilesGetter() {
       return this.$store.getters[STOREGETTERS.SENDMERGEDFILES]
+    },
+    /**
+     * Click on drag&drop field 
+     */
+    async onDragDropClick(e) {
+      
+      try {
+        console.log("eventClick", e)
+        this.rawPdfFile = {}
+        this.rawPdfFile = e.target.files[0]
+        this.dropTakeName = e.target.files[0].name
+        this.isAPdf = true
+        this.cardErrorColor = false
+        await this.$store.dispatch(STORE_ACTIONS_EXT.READPDF, this.rawPdfFile);
+        this.BuildForm();
+      } catch (e) {
+        console.error(e) //todo handle error
+      }
     },
     /**
      * Drag and drop function that retrieves file, file name and file type
@@ -543,9 +562,12 @@ export default {
           const fileURL = URL.createObjectURL(sendToMerge);
           const link = document.createElement('a');
           let date = new Date();
-          const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
           link.href = fileURL;
-          link.download = "Facture_" + this.form.dnom + "_" + date.toLocaleDateString('fr-CH', options) + ".pdf";
+          link.download = "Facture_" + this.form.dnom
+            + "_" + date.toLocaleDateString('fr-CH', { weekday: 'long' })
+            + "_" + date.toLocaleDateString('fr-CH', { day: 'numeric' })
+            + "_" + date.toLocaleDateString('fr-CH', { month: 'long' })
+            + "_" + date.toLocaleDateString('fr-CH', { year: 'numeric' })
           link.click();
           this.hideDialog();
           this.reset();
@@ -580,8 +602,10 @@ export default {
     reset() {
       this.$refs.form.reset();
       this.dropTakeName = ""
+      this.rawPdfFile = {}
       this.isAPdf = false
       this.cardErrorColor = false
+      this.$refs.fileDragDrop.value = null
       Vue.nextTick(() => {
         this.form.dcountry = "CH"
       });
