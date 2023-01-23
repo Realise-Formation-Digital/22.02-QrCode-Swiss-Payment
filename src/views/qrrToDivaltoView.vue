@@ -6,7 +6,7 @@
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <input type="file" ref="dragDropFile" hidden  accept="text/xml" @change="dragDropClick($event)">
-          <v-card-text>
+          <v-card-text align="center">
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isXML ? 'green' : 'grey'">{{ isXML ?
@@ -14,7 +14,7 @@
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
                 {{ isXML ? 'Importation réussie' :
-                    'Cliquez ici ou glissez-déposez le fichier transmis par la poste à importer. (fichier XML)'
+                    'Cliquez ou glissez-déposez dans la zone le fichier transmis par la poste à importer. (fichier XML)'
                 }}
               </p>
             </v-row>
