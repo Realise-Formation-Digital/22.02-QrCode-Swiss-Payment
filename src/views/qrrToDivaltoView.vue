@@ -14,7 +14,7 @@
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
                 {{ isXML ? 'Importation réussie' :
-                    'Cliquez ou glissez-déposez dans la zone le fichier transmis par la poste à importer. (fichier XML)'
+                    'Cliquez ou glissez-déposez dans cette zone le fichier transmis par la poste à importer. (fichier XML)'
                 }}
               </p>
             </v-row>

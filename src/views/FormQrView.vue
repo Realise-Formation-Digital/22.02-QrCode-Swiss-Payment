@@ -15,7 +15,7 @@
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardErrorColor ? 'red--text' : 'black--text'">
-                {{ isAPdf ? 'Importation réussie' : 'Cliquez ou glissez-déposez dans la zone la facture Divalto à importer (format.pdf)' }}
+                {{ isAPdf ? 'Importation réussie' : 'Cliquez ou glissez-déposez dans cette zone la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
