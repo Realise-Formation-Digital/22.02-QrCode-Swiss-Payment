@@ -4,18 +4,21 @@
     <v-col></v-col>
     <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet @click="$refs.fileDragDrop.click()" elevation="3" outlined :color="cardErrorColor ? 'red' : 'black'" rounded>      
+      <v-sheet @click="$refs.fileDragDrop.click()" elevation="3" outlined :color="cardErrorColor ? 'red' : 'black'"
+        rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <input type="file" ref="fileDragDrop" accept="application/pdf" hidden @change="onDragDropClick($event)"/>
+            <input type="file" ref="fileDragDrop" accept="application/pdf" hidden @change="onDragDropClick($event)" />
             <p :class="cardErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
-              <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
-                  'mdi-cloud-check' : 'mdi-cloud-upload'
+              <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{
+                isAPdf?
+                              'mdi-cloud-check': 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardErrorColor ? 'red--text' : 'black--text'">
-                {{ isAPdf ? 'Importation réussie' : 'Cliquez ici ou glissez-déposez la facture Divalto à importer (format.pdf)' }}
+                {{
+              isAPdf? 'Importation réussie': 'Cliquez ici ou glissez-déposez la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -292,7 +295,7 @@ import LoadingPopUpVue from "../components/LoadingPopUp.vue";
 import SnackBar from '../components/SnackBar.vue';
 import { SUCCESSCODE } from "@/libs/consts.js";
 import { ERRORCODE } from "@/libs/consts.js";
-import { STORE_ACTIONS_EXT } from '../libs/consts.js' 
+import { STORE_ACTIONS_EXT } from '../libs/consts.js'
 import { STOREGETTERS } from "@/libs/consts.js";
 export default {
   name: "FormQr",
@@ -464,7 +467,7 @@ export default {
      * Click on drag&drop field 
      */
     async onDragDropClick(e) {
-      
+
       try {
         console.log("eventClick", e)
         this.rawPdfFile = {}
@@ -629,7 +632,7 @@ export default {
         this.cardErrorColor = true
       } else if (!this.isAPdf && isValid) {
         this.cardErrorColor = true
-      } 
+      }
     },
     /**
      * Function that hide the modal "check" form
