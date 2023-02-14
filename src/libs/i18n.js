@@ -7,9 +7,9 @@ import it from "@/locales/it.json";
 import pt from "@/locales/pt.json";
 
 /**
- * Fonction d'initiation de l'instance i18next
+ * Function that initialize i18next
+ * @returns {Promise}
  * @author Xavier de Juan
- * @return void
  */
 class Traductor {
     static async initTraductor() {
@@ -28,16 +28,21 @@ class Traductor {
         })
     }
     /**
-     * Fonction pour le changement de langue
+     * Function that change langage
      * @param {*} lng 
-     * @author Xavier de Juan
-     * @returns 
+     * @returns {Promise}
+     * @author - Xavier de Juan 
      */
     static async changeLanguage(lng) {
         await i18next.changeLanguage(lng);
         return lng
     }
-
+    /**
+     * Function that baaaahhhh!!! Pfffff!!! beuuuuuuu?? make the traduction?
+     * @param {*} key 
+     * @returns {string}
+     * @author - Xavier de Juan
+     */
     static traduction(key) {
         return i18next.t(key)
     }

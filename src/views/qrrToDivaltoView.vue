@@ -2,9 +2,10 @@
   <v-row>
     <v-col cols="3"></v-col>
     <v-col>
-      <v-sheet elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet @click="$refs.dragDropFile.click()" elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
+          <input type="file" ref="dragDropFile" hidden  accept="text/xml" @change="dragDropClick($event)">
           <v-card-text>
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
@@ -13,7 +14,7 @@
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
                 {{ isXML ? 'Importation réussie' :
-                    'Glissez-déposez le fichier transmis par la poste à importer. (fichier XML)'
+                    'Cliquez ici ou glissez-déposez le fichier transmis par la poste à importer. (fichier XML)'
                 }}
               </p>
             </v-row>
@@ -52,10 +53,9 @@
   </v-row>
 </template>
 <script>
-import XmlService from "@/services/xmlService";
+// import XmlService from "@/services/xmlService";
 import SnackBar from '../components/SnackBar.vue'
-import { SUCCESSCODE } from "@/libs/consts.js";
-// import { ERRORCODE } from "@/libs/consts.js";
+import { STOREGETTERS, STORE_ACTIONS_EXT, SUCCESSCODE } from "@/libs/consts.js";
 export default {
   name: "xml-View",
   components: { SnackBar },
@@ -73,12 +73,27 @@ export default {
     rawFile: null
   }),
   methods: {
-    /**
-     * Drag and drop function
-     * @params - event
-     * @return - void
-     * @author Xavier de Juan
-     */
+    rawXmlFileGetter() { 
+      return this.$store.getters[STOREGETTERS.RAWXMLFILE]
+    },
+   /**
+    * Drag and drop function
+    * @param {*} e 
+    * @returns {event}
+    * @author Xavier de Juan
+    */
+    async dragDropClick(e) {
+      try {
+        this.rawFile = null
+        this.rawFile = e.target.files[0]
+        this.dropTakeName = e.target.files[0].name
+        this.cardStateColor = true
+      } catch (e) {
+        console.error(e)
+        throw new Error
+      }
+      
+    },
     async onDrop(e) {
       try {
         this.rawFile = null// Doit être en null pour fonctionner correctement
@@ -115,15 +130,15 @@ export default {
     /**
      * Function that check value and return the loading pop-up
      * @params {promise} - convert
-     * @return promise<object>
+     * @returns {promise<object>}
      * @author Xavier de Juan
      */
     async fixXMLDivalto() {
       try {
-        console.log('[Component][fixXMLDivalto] Fixing xml divalto with params', this.rawFile)
+        console.log('[View][fixXMLDivalto] Fixing xml divalto with params', this.rawFile)
         const fileName = this.rawFile.name.slice(0, this.rawFile.name.length - 4)
-        const response = await XmlService.fixXMLDivalto(this.rawFile)
-
+        await this.$store.dispatch(STORE_ACTIONS_EXT.RAWXMLFILE, this.rawFile)
+        const response = await this.rawXmlFileGetter()
         const fileURL = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(response)], {
           type: "text/plain",
         }));
@@ -141,6 +156,7 @@ export default {
     clearComponent() {
       this.rawFile = null
       this.dropTakeName = ""
+      this.$refs.dragDropFile.value = null
       this.isXML = false
       this.cardStateColor = true
     }

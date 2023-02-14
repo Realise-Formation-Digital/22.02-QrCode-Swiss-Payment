@@ -10,7 +10,7 @@ class PdfService {
     /**
      * Function that calls the functions in the pdf class in the library
      * @param {*} file 
-     * @returns - promise
+     *      @returns - promise
      * @author Xavier de Juan
      */
     static async callPdfLibrary(file) {
@@ -60,14 +60,12 @@ class PdfService {
         try {
             const pdfArrayBuffer = await pdfBlob.arrayBuffer()
             const pdfLoaded = await Pdf.pdfLoad(pdfArrayBuffer)
-            console.log('ciao ', pdfLoaded)
             return Pdf.getPdfLength(pdfLoaded)
         } catch (e) {
             console.error("[Service][PdfService][CallPdfLengthLib] An error has occurred when trying to get the pdf length")
             throw new Error(e)
         }
     }
-
     static async readPdf(pdf) {
         try {
             console.log("[Service][PdfService][readPdf] Reading pdf with params", pdf)
