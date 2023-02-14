@@ -27,7 +27,5 @@ export default {
       throw new Error(e)
     }
   },
-  method: {
-  }
 }
 </script>

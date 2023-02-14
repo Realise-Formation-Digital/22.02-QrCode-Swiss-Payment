@@ -41,7 +41,7 @@
                   info
                 </v-icon>
               </template>
-              <span>Nom ou entreprise du bénéficiaire selon la désignation de compte.
+              <span>Nom ou entreprise du débiteur selon la désignation de compte.
                 Remarque: correspond toujours au titulaire du compte
                 70 caractères au maximum
                 prénom (optionnel, si disponible) et nom ou raison sociale.</span>
@@ -308,9 +308,6 @@ export default {
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
     cardErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
-    // divaltoFile: null, // PDF file (((PAS NECESSAIRE)))
-    // divaltoFileBlob: null, // pdf file converted to Blob (((PAS NECESSAIRE)))
-    // qrFileBlob: null, // Pdf file received from API (((PAS NECESSAIRE)))
     snackbar: { // API merge file receipt status message
       flag: false,
       text: "",
@@ -389,12 +386,10 @@ export default {
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
     isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
-    // countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
     rawPdfFile: {},
-    // dragDropClickEvent: null,
   }),
   /**
    * Function that get the countries list

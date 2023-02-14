@@ -10,14 +10,17 @@ const XML_NTRY_REF = 'NtryRef'
 const XML_ISR_REFERENCE = 'ISR Reference'
 const XML_DIVALTO_ACCOUNT = '010458810'
 const XML_IBAN = process.env.VUE_APP_CREDITOR_INFORMATION_IBAN
+// Snackbar success
 const SUCCESSCODE = Object.freeze({
     QRCODEDOWNLOADED: 'qrCodeDwnld',
     XMLCONVERTED: 'conversionXml'
 })
+// Snackbar error
 const ERRORCODE = Object.freeze({
     ERRORQRCODEDOWNLOAD: 'qrCodedwnldError',
     ERRORCONVERT: 'conversionError'
 })
+// Variables inside state management
 const STORE_ACTIONS_INT = Object.freeze({
     READPDF: 'readPdf',
     UNLOCKPDF: 'unlockPdf',
@@ -32,6 +35,7 @@ const STORE_ACTIONS_INT = Object.freeze({
     COUNTRIESLIST: 'countriesList',
     RAWXMLFILE: 'rawXmlFile',
 })
+// Variables outside state management
 const STORE_ACTIONS_EXT = Object.freeze({
     READPDF: 'storePdf/readPdf',
     UNLOCKPDF: 'storePdf/unlockPdf',
@@ -72,7 +76,7 @@ const STOREGETTERS = Object.freeze({
     BLOBQRPDF: 'storeApiQr/getBlobQrPdf',
     SENDMERGEDFILES: 'storeApiQr/getSendMergedFiles',
     COUNTRIESLIST: 'storeApiQr/getCountriesList',
-    RAWXMLFILE: 'storeXml/getRawXmlFile'
+    RAWXMLFILE: 'storeXml/getRawXmlFile',
 })
 export {
     BASE_URL,

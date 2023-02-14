@@ -2,18 +2,21 @@
   <v-row>
     <v-col cols="3"></v-col>
     <v-col>
-      <v-sheet @click="$refs.dragDropFile.click()" elevation="3" outlined :color="cardStateColor ? 'black' : 'red'" rounded>
+      <v-sheet @click="$refs.dragDropFile.click()" elevation="3" outlined :color="cardStateColor ? 'black' : 'red'"
+        rounded>
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
-          <input type="file" ref="dragDropFile" hidden  accept="text/xml" @change="dragDropClick($event)">
+          <input type="file" ref="dragDropFile" hidden accept="text/xml" @change="dragDropClick($event)">
           <v-card-text align="center">
             <p :class="cardStateColor ? 'black--text' : 'red--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
-              <v-icon class="mt-5" size="60" :color="isXML ? 'green' : 'grey'">{{ isXML ?
-                  'mdi-cloud-check' : 'mdi-cloud-upload'
+              <v-icon class="mt-5" size="60" :color="isXML ? 'green' : 'grey'">{{
+                isXML?
+                              'mdi-cloud-check': 'mdi-cloud-upload'
               }}</v-icon>
               <p :class="cardStateColor ? 'black--text' : 'red--text'">
-                {{ isXML ? 'Importation réussie' :
+                {{
+                  isXML? 'Importation réussie':
                     'Cliquez ou glissez-déposez dans cette zone le fichier transmis par la poste à importer. (fichier XML)'
                 }}
               </p>
@@ -73,15 +76,15 @@ export default {
     rawFile: null
   }),
   methods: {
-    rawXmlFileGetter() { 
+    rawXmlFileGetter() {
       return this.$store.getters[STOREGETTERS.RAWXMLFILE]
     },
-   /**
-    * Drag and drop function
-    * @param {*} e 
-    * @returns {event}
-    * @author Xavier de Juan
-    */
+    /**
+     * Drag and drop function
+     * @param {*} e 
+     * @returns {event}
+     * @author Xavier de Juan
+     */
     async dragDropClick(e) {
       try {
         this.rawFile = null
@@ -92,7 +95,6 @@ export default {
         console.error(e)
         throw new Error
       }
-      
     },
     async onDrop(e) {
       try {
@@ -138,6 +140,7 @@ export default {
         console.log('[View][fixXMLDivalto] Fixing xml divalto with params', this.rawFile)
         const fileName = this.rawFile.name.slice(0, this.rawFile.name.length - 4)
         await this.$store.dispatch(STORE_ACTIONS_EXT.RAWXMLFILE, this.rawFile)
+        // const response = await XmlService.fixXMLDivalto(this.rawFile)
         const response = await this.rawXmlFileGetter()
         const fileURL = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(response)], {
           type: "text/plain",
