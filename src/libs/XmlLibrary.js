@@ -1,11 +1,15 @@
+/**
+ * @class
+ * @classdesc - Wrapper of library fast-xml-parser
+ */
 class XmlLibrary {
     static getPrTry() {
     }
     /**
-     * 
+     * Function that analyse the file
      * @param {*} file 
-     * @returns {promise}
-     * @author Marco Tribuzio
+     * @returns {object}
+     * @author - Xavier de Juan
      */
     static getXMLDoc(file) {
         console.log("file", file)
@@ -24,20 +28,21 @@ class XmlLibrary {
         });
     }
     /**
-     * 
-     * @param {*} xmlDoc
-     * @author Marco Tribuzio
+     * function that sert à rien du tout
+     * @deprecated
+     * @param {*} xmlDoc 
+     * @returns {void}
+     * @author - Xavier de Juan
      */
     static setPrTry(xmlDoc) {
         const test = xmlDoc.getElementsByTagName("CdOrPrtry")
         console.log('ciao', test[0].childNodes[1].childNodes[0].nodeValue)
-        console.log('test', xmlDoc)
     }
     /**
-     * function remove the tag UltmtDbtr from the xml file
-     * @param {*} xmlDoc 
-     * @return - void
-     * @author Marco Tribuzio
+     * function that remove UltmtDbtr from the file
+     * @param {*} xmlDoc
+     * @returns {void}
+     * @author - Xavier de Juan
      */
     static rmvTag(xmlDoc) {
         let xmlToRmv = xmlDoc.getElementsByTagName("UltmtDbtr")[0]
@@ -50,10 +55,10 @@ class XmlLibrary {
         }
     }
     /**
-     * Replace QRR by ISR REFERENCE
+     * Function that replace QRR tag by ISR REFERENCE
      * @param {*} xmlDoc
-     * @return - void
-     * @author Xavier de Juan
+     * @returns {void}
+     * @author - Xavier de Juan 
      */
     static rplcTag(xmlDoc) {
         const xmlToRplc = xmlDoc.getElementsByTagName("Prtry")

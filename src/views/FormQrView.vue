@@ -4,17 +4,18 @@
     <v-col></v-col>
     <v-col align="center" lg="4" md="4" sm="12" xs="12" class="sureleve">
       <h1>Facture Divalto</h1>
-      <v-sheet elevation="3" outlined :color="dragNDropPdfErrorColor ? 'red' : 'black'" rounded>
+      <v-sheet @click="$refs.fileDragDrop.click()" elevation="3" outlined :color="cardErrorColor ? 'red' : 'black'" rounded>      
         <v-card @drop.prevent="onDrop($event)" @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
           :class="{ 'grey lighten-2': dragover }">
           <v-card-text>
-            <p :class="dragNDropPdfErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
+            <input type="file" ref="fileDragDrop" accept="application/pdf" hidden @change="onDragDropClick($event)"/>
+            <p :class="cardErrorColor ? 'red--text' : 'black--text'">{{ dropTakeName }}</p>
             <v-row class="d-flex flex-column" dense align="center" justify="center">
               <v-icon class="mt-5" size="60" :color="isAPdf ? 'green' : 'grey'">{{ isAPdf ?
                   'mdi-cloud-check' : 'mdi-cloud-upload'
               }}</v-icon>
-              <p :class="dragNDropPdfErrorColor ? 'red--text' : 'black--text'">
-                {{ isAPdf ? 'Importation réussie' : 'Glissez-déposez ici la facture Divalto à importer (format.pdf)' }}
+              <p :class="cardErrorColor ? 'red--text' : 'black--text'">
+                {{ isAPdf ? 'Importation réussie' : 'Cliquez ou glissez-déposez dans cette zone la facture Divalto à importer (format.pdf)' }}
               </p>
             </v-row>
           </v-card-text>
@@ -40,7 +41,7 @@
                   info
                 </v-icon>
               </template>
-              <span>Nom ou entreprise du bénéficiaire selon la désignation de compte.
+              <span>Nom ou entreprise du débiteur selon la désignation de compte.
                 Remarque: correspond toujours au titulaire du compte
                 70 caractères au maximum
                 prénom (optionnel, si disponible) et nom ou raison sociale.</span>
@@ -96,8 +97,9 @@
             </v-tooltip>
           </template>
         </v-text-field>
+        <!-- :items="getreadPdf" -->
         <v-autocomplete v-model="form.dcountry" :label="traduis('formqrcode.pays')" :rules="formRules.dcountry"
-          :items="countriesList" item-text="french" item-value="code">
+          :items="countriesListGetter" item-text="french" item-value="code">
         </v-autocomplete>
         <h1>{{ this.traduis('formqrcode.infoMontPaiement') }}</h1>
         <v-text-field v-model="form.amount" counter maxlength="12" :rules="formRules.amount"
@@ -158,6 +160,7 @@
               </template>
             </v-hover>
           </v-col>
+          <!-- <v-col></v-col> -->
           <v-col align="center">
             <v-hover>
               <template v-slot:default="{ hover }">
@@ -283,28 +286,29 @@
   </v-row>
 </template>
 <script>
-import ApiService from "@/services/apiService.js";
 import { traductionMixin } from "@/mixins/traductionMixin.js";
-import PdfService from '@/services/pdfService.js';
 import Vue from "vue";
 import LoadingPopUpVue from "../components/LoadingPopUp.vue";
 import SnackBar from '../components/SnackBar.vue';
-import { SUCCESSCODE } from "@/libs/consts";
-import { ERRORCODE } from "@/libs/consts";
-const regex = /,/gm;
-const subst = `.`;
+import { SUCCESSCODE } from "@/libs/consts.js";
+import { ERRORCODE } from "@/libs/consts.js";
+import { STORE_ACTIONS_EXT } from '../libs/consts.js' 
+import { STOREGETTERS } from "@/libs/consts.js";
 export default {
   name: "FormQr",
   mixins: [traductionMixin],
   components: { LoadingPopUpVue, SnackBar },
+  computed: {
+    countriesListGetter() {
+      return this.$store.getters[STOREGETTERS.COUNTRIESLIST]
+    },
+  },
   data: () => ({
     dragover: false, // Reaction to the passage of the file above the drag & drop
     dropTakeName: "", // Variable that retrieves the file name or the error message in case of no pdf
     dragNDropPdfErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
+    cardErrorColor: false, // Black or red color of the edge of the frame and the text of the drag & drop the default state is true (black color)
     isAPdf: false, // Check if it is a pdf or not
-    divaltoFile: null, // PDF file
-    divaltoFileBlob: null, // pdf file converted to Blob
-    qrFileBlob: null, // Pdf file received from API
     snackbar: { // API merge file receipt status message
       flag: false,
       text: "",
@@ -376,18 +380,22 @@ export default {
     },
     dialog: false,// Boolean modal by default
     valid: false,// Boolean form by default
-    isGettingCountriesList: null, // Liste des pays dans le dropDown du formulaire
-    countriesList: [], // Tableau vide pour la liste des pays dans le dropDown du formulaire
+    isGettingCountriesList: false, // Liste des pays dans le dropDown du formulaire
     interval: {}, // Interval timing for countDown
     countDown: 0, // countDown inactiv confirm button
     maxWidthTooltip: 350, // Taille du toolTip (icones i dans le formulaire)
     rawPdfFile: null
   }),
+  /**
+   * Function that get the countries list
+   * @returns {promise}
+   * @author - Marco Tribuzio
+   */
   async mounted() {
     try {
       console.log('[Views][FormQrView][mounted] Getting countries list')
       this.isGettingCountriesList = true
-      this.countriesList = await ApiService.getListCountries()
+      await this.$store.dispatch(STORE_ACTIONS_EXT.COUNTRIESLIST)
     } catch (e) {
       console.error('[Views][FormQrView][mounted] An error has occurred when getting countries list', e)
       //todo handle error
@@ -411,19 +419,61 @@ export default {
     /**
      * activates the modal until the value is equal.
      * @param {*} val
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     loadingPopUp(val) {
       if (!val) return
     },
   },
   methods: {
+    readPdfGetter() {
+      return this.$store.getters[STOREGETTERS.READPDF]
+    },
+    unlockPdfGetter() {
+      return this.$store.getters[STOREGETTERS.UNLOCKPDF]
+    },
+    callPdfLibraryGetter() {
+      return this.$store.getters[STOREGETTERS.CALLPDFLIBRARY]
+    },
+    sendSinglePaymentGetter() {
+      return this.$store.getters[STOREGETTERS.SENDSINGLEPAYMENT]
+    },
+    blobQrPdfGetter() {
+      return this.$store.getters[STOREGETTERS.BLOBQRPDF]
+    },
+    blobDivaltoPdfGetter() {
+      return this.$store.getters[STOREGETTERS.BLOBDIVALTOPDF]
+    },
+    callPdfLengthLibGetter() {
+      return this.$store.getters[STOREGETTERS.CALLPDFLENGTHLIB]
+    },
+    sendMergedFilesGetter() {
+      return this.$store.getters[STOREGETTERS.SENDMERGEDFILES]
+    },
+    /**
+     * Click on drag&drop field 
+     */
+    async onDragDropClick(e) {
+      
+      try {
+        console.log("eventClick", e)
+        this.rawPdfFile = {}
+        this.rawPdfFile = e.target.files[0]
+        this.dropTakeName = e.target.files[0].name
+        this.isAPdf = true
+        this.cardErrorColor = false
+        await this.$store.dispatch(STORE_ACTIONS_EXT.READPDF, this.rawPdfFile);
+        this.BuildForm();
+      } catch (e) {
+        console.error(e) //todo handle error
+      }
+    },
     /**
      * Drag and drop function that retrieves file, file name and file type
      * The file name is reused
      * File type is used to certify whether it is a pdf or not
      * @param {*} e 
-     * @author Xavier de Juan
+     * @author - Xavier de Juan
      */
     async onDrop(e) {
       try {
@@ -433,18 +483,11 @@ export default {
         this.isAPdf = e.dataTransfer.files[0].type === "application/pdf"
         if (this.isAPdf) {
           this.rawPdfFile = e.dataTransfer.files[0]
-          this.dragNDropPdfErrorColor = false
-          const response = await PdfService.readPdf(this.rawPdfFile)
-          this.form.dnom = response.name
-          this.form.dnpa = response.npa
-          this.form.dstreet = response.address
-          this.form.dnr = response.addressNumber
-          this.form.dplace = response.city
-          this.form.amount = response.totalAmount
-          this.form.nrref = response.referenceNumber
-          this.form.infosupp = response.infoSupp
+          this.cardErrorColor = false
+          await this.$store.dispatch(STORE_ACTIONS_EXT.READPDF, this.rawPdfFile);
+          this.BuildForm();
         } else if (!this.isAPdf) {
-          this.dragNDropPdfErrorColor = true
+          this.cardErrorColor = true
           this.dropTakeName = "L'importation du fichier a échoué. Le format du fichier doit être un .pdf"
         }
       } catch (e) {
@@ -452,23 +495,20 @@ export default {
       }
     },
     /**
-     * Function that changes the pdf file (object to Blob format)
-     * @param {*} divaltoFile -
-     * @return Blob 
-     * @author Xavier de Juan -
+     * Function that build form after onDrop
+     * @return {promise}
+     * @author - Xavier de Juan
      */
-    async sendDivaltoPdf(divaltoFile) {
-      console.log("[views][FormQrView][sendDivaltoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
-      try {
-        console.log("[views][FormQrView][sendDivatoPdf] Converti le fichier pdf en fichier Blob avec paramètre", divaltoFile)
-        const response = await PdfService.unlockPdf(divaltoFile)
-        const pdf = await response.data.arrayBuffer()
-        const pdfBytes = await PdfService.callPdfLibrary(pdf)
-        this.divaltoFileBlob = new Blob([pdfBytes], { type: "application/pdf" })
-      } catch (e) {
-        console.error("[views][FormQrView][sendDivaltoPdf] Erreur durant la conversion du pdf en Blob")
-        throw new Error(e)
-      }
+    async BuildForm() {
+      const response = await this.readPdfGetter();
+      this.form.dnom = response.name
+      this.form.dnpa = response.npa
+      this.form.dstreet = response.address
+      this.form.dnr = response.addressNumber
+      this.form.dplace = response.city
+      this.form.amount = response.totalAmount
+      this.form.nrref = response.referenceNumber
+      this.form.infosupp = response.infoSupp
     },
     /**
       * N_M_F
@@ -480,7 +520,8 @@ export default {
      * (Une personne dont le nom restera secret, est coupable de cette idée et
      *  non l'auteur de ces lignes qui est bien trop gentil
      *  et bienveillant pour avoir une idée si insoutenablement machiavélique et cruelle...)
-     * @author Xavier de Juan
+     * @returns {number}
+     * @author - Xavier de Juan
      */
     activCountDown() {
       this.countDown = process.env.VUE_APP_FORMQR_COUNT_CONFIRM_BUTTON
@@ -489,69 +530,36 @@ export default {
       this.countDown = 0
     },
     /**
-     *Function that call validate (see validate())
-     *Hide the "check" modal
-     *Show the loading pop-up
-     *@return void
-     *@author Marco Tribuzio
-     *@author Xavier de Juan
+     *Function that once form is validate send and receive object and file to the store managent
+     *and download the pdf file in the computer
+     *@returns {object}
+     *@author - Marco Tribuzio
+     *@author - Xavier de Juan
      */
     async confirm() {
-      console.error('[Views][FormQrView][sendCsvList] Send the form')
+      console.log('[Views][FormQrView][sendCsvList] Send the form')
       try {
         const isValidForm = this.validateForm()
         if (isValidForm) {
           this.$refs.loadingPopUp.showLoadingPopUp()
-
-          const payload = {
-            "creditorInformation": {
-              "iban": process.env.VUE_APP_CREDITOR_INFORMATION_IBAN,
-              "creditor": {
-                "addressType": "STRUCTURED",
-                "name": process.env.VUE_APP_CREDITOR_INFORMATION_NAME,
-                "streetName": process.env.VUE_APP_CREDITOR_INFORMATION_STREETNAME,
-                "houseNumber": process.env.VUE_APP_CREDITOR_INFORMATION_HOUSENUMBER,
-                "postalCode": process.env.VUE_APP_CREDITOR_INFORMATION_POSTALCODE,
-                "city": process.env.VUE_APP_CREDITOR_INFORMATION_CITY,
-                "country": process.env.VUE_APP_CREDITOR_INFORMATION_COUNTRY
-              }
-            },
-            "paymentAmountInformation": {
-              "amount": parseFloat(this.form.amount.replace(regex, subst)),
-              "currency": process.env.VUE_APP_CREDITOR_INFORMATION_CURRENCY
-            },
-            "ultimateDebtor": {
-              "addressType": "STRUCTURED",
-              "name": this.form.dnom,
-              "streetName": this.form.dstreet,
-              "houseNumber": this.form.dnr,
-              "postalCode": this.form.dnpa,
-              "city": this.form.dplace,
-              "country": this.form.dcountry
-            },
-            "paymentReference": {
-              "referenceType": process.env.VUE_APP_CREDITOR_INFORMATION_REFERENCETYPE,
-              "reference": this.form.nrref,
-              "additionalInformation": {
-                "unstructuredMessage": this.form.infosupp
-              }
-            },
+          const rawPdfAndPayload = {
+            formToApi: this.form,
+            rawPdf: this.rawPdfFile
           }
-          this.divaltoFile = await this.sendDivaltoPdf(this.rawPdfFile)
-          const response = await ApiService.sendSinglePayment(payload)
-          console.log("Response", response)
-          // set the blog type to final pdf
-          const qrFileBlob = new Blob([response.data], { type: 'application/pdf' });
-          const sendtomerge = await ApiService.mergeFiles(this.divaltoFileBlob, qrFileBlob)
+          await this.$store.dispatch(STORE_ACTIONS_EXT.UNLOCKPDF, rawPdfAndPayload)
+          const sendToMerge = await this.sendMergedFilesGetter()
           // process to auto download it
-          const fileURL = URL.createObjectURL(sendtomerge);
+          const fileURL = URL.createObjectURL(sendToMerge);
           const link = document.createElement('a');
           let date = new Date();
-          let dateActuelle = date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getFullYear());
           link.href = fileURL;
-          link.download = "Facture_" + this.form.dnom + "_" + dateActuelle + ".pdf";
+          link.download = "Facture_" + this.form.dnom
+            + "_" + date.toLocaleDateString('fr-CH', { weekday: 'long' })
+            + "_" + date.toLocaleDateString('fr-CH', { day: 'numeric' })
+            + "_" + date.toLocaleDateString('fr-CH', { month: 'long' })
+            + "_" + date.toLocaleDateString('fr-CH', { year: 'numeric' })
           link.click();
-          this.hideDialog()
+          this.hideDialog();
           this.reset();
           this.$refs.snackbar.handleSuccess(SUCCESSCODE.QRCODEDOWNLOADED);
         }
@@ -569,24 +577,25 @@ export default {
     /**
      * Function that check required fields form if valid
      * Send the payload to the API
+     * @returns {string}
      * @author Bachir Aouad
-     * @return string
      */
     validateForm() {
       return this.$refs.form.validate();
     },
     /**
      * Function that reset the form
-     * @return void
-     * @author Xavier de Juan
+     * @returns {void}
+     * @author - Xavier de Juan
+     * 
      */
     reset() {
       this.$refs.form.reset();
-      this.divaltoFile = null
-      this.divaltoFileBlob = null
       this.dropTakeName = ""
+      this.rawPdfFile = {}
       this.isAPdf = false
-      this.dragNDropPdfErrorColor = false
+      this.cardErrorColor = false
+      this.$refs.fileDragDrop.value = null
       Vue.nextTick(() => {
         this.form.dcountry = "CH"
       });
@@ -596,31 +605,55 @@ export default {
      */
     /**
      * Function that show the modal "check" form
-     * @author Xavier de Juan
-     * @return boolean/numbers
+     * @returns {boolean}
+     * @author - Xavier de Juan
      */
     showDialog() {
       const isValid = this.$refs.form.validate();
       if (this.isAPdf && isValid) {
         this.dialog = true;
         this.activCountDown();
-      } else if (!this.isAPdf || !isValid) {
-        this.dragNDropPdfErrorColor = true
-      }
+      } else if (this.isAPdf && !isValid) {
+        this.cardErrorColor = false
+      } else if (!this.isAPdf && !isValid) {
+        this.cardErrorColor = true
+      } else if (!this.isAPdf && isValid) {
+        this.cardErrorColor = true
+      } 
     },
     /**
      * Function that hide the modal "check" form
-     * @return {Boolean}
-     * @author Xavier de Juan
+     * @returns {boolean}
+     * @author - Xavier de Juan
+     
      */
     hideDialog() {
       this.dialog = false;
       this.inactivCountDown()
     },
     /**
+     * LOADING POP-UP
+     */
+    /**
+     * Function that show the loading pop-up during API's await
+     * @returns {boolean}
+     * @author - Xavier de Juan
+     */
+    showLoadingPopUp() {
+      this.loadingPopUp = true
+    },
+    /**
+     * Function that hide the loading pop-up
+     * @returns {boolean}
+     * @author - Xavier de Juan
+     */
+    hideLoadingPopUp() {
+      this.loadingPopUp = false
+    },
+    /**
      * Function that permit numbers and dot only "champ: Montant"
-     * @return {String}
-     * @author Xavier de Juan
+     * @returns {numbers/dot}
+     * @author - Xavier de Juan
      */
     nombreSeulement(e) {
       let nombres = (e.which) ? e.which : e.keyCode;

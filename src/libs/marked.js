@@ -1,7 +1,7 @@
 import { marked } from 'marked'
 /**
  * @class
- * @classdesc - Wrappers of library Markdown
+ * @classdesc - Wrapper of library Marked
  */
 class MarkParse {
     static txtParse(txtMd) {

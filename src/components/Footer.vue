@@ -52,10 +52,10 @@ export default {
   }),
   methods: {
     /**
-     * Link to the realized site
-     * @return void
-     * @author Marco Tribuzio
-     * @author Xavier de Juan
+     * Link to the realise site and Linkedin
+     * @returns {links}
+     * @author  - Marco Tribuzio
+     * @author  - Xavier de Juan
      */
     openSiteRealise() {
       window.open(process.env.VUE_APP_FOOTER_ICONS, '_blank')

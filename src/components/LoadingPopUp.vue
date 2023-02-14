@@ -21,7 +21,8 @@ export default {
         /**
          * activates the modal until the value is equal.
          * @param {*} val
-         * @author Xavier de Juan
+         * @returns {boolean}
+         * @author - Xavier de Juan
          */
         loadingPopUp(val) {
             if (!val) return

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <NavBar/>
+    <NavBar />
     <v-main>
       <v-container fill-height fluid>
         <router-view></router-view>
@@ -17,6 +17,6 @@ import FooterBar from "@/components/Footer.vue";
 
 export default {
   name: 'App',
-  components: {NavBar, FooterBar}
+  components: { NavBar, FooterBar }
 };
 </script>

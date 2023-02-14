@@ -61,7 +61,8 @@ export default {
     /**
      * Language selection function in the dropDown
      * @param {*} langSelect
-     * @author Xavier de Juan
+     * @returns {????}
+     * @author - Xavier de Juan
      */
     traductSelect(langSelect) {
         Traductor.changeLanguage(langSelect)

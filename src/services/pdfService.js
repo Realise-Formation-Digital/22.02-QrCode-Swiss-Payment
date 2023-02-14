@@ -9,7 +9,7 @@ class PdfService {
     /**
      * Function that calls the functions in the pdf class in the library
      * @param {*} file 
-     * @returns - promise
+     *      @returns - promise
      * @author Xavier de Juan
      */
     static async callPdfLibrary(file) {

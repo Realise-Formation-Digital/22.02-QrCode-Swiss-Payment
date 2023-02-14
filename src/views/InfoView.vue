@@ -1,12 +1,13 @@
 <template>
   <v-row>
     <v-col>
-      <div v-html="txtHtml" />
+      <div v-html="txtMrkDwn" />
     </v-col>
   </v-row>
 </template>
 <script>
-import ApiService from "@/services/apiService.js"
+// import ApiService from "@/services/apiService.js"
+
 export default {
   name: "Info-View",
   data: () => ({
@@ -17,15 +18,23 @@ export default {
    * @return {Promise<String>}
    * @author Xavier de Juan
    */
+  // async mounted() {
+  //   try {
+  //     console.log("Success Service request markdown")
+  //     this.txtHtml = await ApiService.axioRequ()
+  computed: {
+    txtMrkDwn() {
+      return this.$store.getters['storeMarkDown/getMarkDown']
+    }
+  },
   async mounted() {
     try {
-      console.log("Success Service request markdown")
-      this.txtHtml = await ApiService.axioRequ()
+      console.log("success request markdown")
+      // this.txtHtml = await ApiService.axioRequ()
+      await this.$store.dispatch('storeMarkDown/markDown')
     } catch (e) {
       throw new Error(e)
     }
   },
-  method: {
-  }
 }
 </script>
