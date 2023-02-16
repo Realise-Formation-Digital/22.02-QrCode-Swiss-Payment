@@ -1,5 +1,18 @@
 # Journal des modifications
+# [Version 1.2.3]
+
 - --
+
+# [Version 1.2.2]
+
+- --
+
+# [Version 1.2.1] - 12.12.2022
+## Modifié
+- Optimisation du code
+
+- --
+
 # [Version 1.2.0] - 14.11.2022
 ## Fixé
  - Bug du fichier Readme non accessible sur le serveur
@@ -9,7 +22,7 @@
  - Ajout PWA
  - Ajout commentaires dans le changelog
 ## Modifié
- - Amélioration de l'U/I et de l'U/X
+ - Amélioration de l'UI et de l'UX
 
  - --
 # [Version 1.0.3] - 07.10.2022
