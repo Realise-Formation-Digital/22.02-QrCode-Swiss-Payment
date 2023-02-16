@@ -1,6 +1,6 @@
 <template>
     <v-row>
-            <!-- Pop-up until the QR code is received or an error -->
+        <!-- Pop-up until the QR code is received or an error -->
         <v-dialog v-model="loadingPopUp" hide-overlay persistent width="300">
             <v-card color="primary" dark>
                 <v-card-text>
@@ -21,16 +21,25 @@ export default {
         /**
          * activates the modal until the value is equal.
          * @param {*} val
-         * @author Xavier de Juan
+         * @returns {boolean}
+         * @author - Xavier de Juan
          */
         loadingPopUp(val) {
             if (!val) return
         },
     },
     methods: {
+        /**
+    * Function that show the loading pop-up during API's await
+    * @author Xavier de Juan
+    */
         showLoadingPopUp() {
             this.loadingPopUp = true
         },
+        /**
+     * Function that hide the loading pop-up
+     * @author Xavier de Juan
+     */
         hideLoadingPopUp() {
             this.loadingPopUp = false
         }

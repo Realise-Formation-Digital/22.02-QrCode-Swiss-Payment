@@ -3,14 +3,13 @@ import { PDFDocument, rgb } from 'pdf-lib';
 
 /**
  * @class
- * @classdesc - Wrappers of library pdf unlocked
+ * @classdesc - Work with nodejs local server
  */
 class Pdf {
-
   /**
    * Function that takes pages and returns the last page
    * @param {*} pdfDoc - the document that has been loaded
-   * @returns - object
+   * @returns {object}
    * @author Marco Tribuzio
    * @author Xavier de Juan
    */
@@ -27,7 +26,7 @@ class Pdf {
   /**
    * Function taking the pdf page(s) and giving the length
    * @param {*} pdfDoc 
-   * @returns - array length
+   * @returns {array length}
    * @author Xavier de Juan
    */
   static getPdfLength(pdfDoc) {
@@ -40,11 +39,10 @@ class Pdf {
       throw new Error
     }
   }
-
   /**
    * Function that draws a white square instead of the BVR
    * @param {*} page
-   * @returns - void
+   * @returns {void}
    * @author Marco Tribuzio
    * @author Xavier de Juan
    */
@@ -67,7 +65,7 @@ class Pdf {
   /**
    * Function that loads the pdf file
    * @param {*} file 
-   * @returns - promise
+   * @returns {promise}
    * @author Xavier de Juan
    */
   static async pdfLoad(file) {
@@ -82,7 +80,7 @@ class Pdf {
   /**
    * Function that saves the pdf file
    * @param {*} pdfDoc 
-   * @returns - promise
+   * @returns {promise}
    * @author Xavier de Juan
    */
   static async savePdf(pdfDoc) {
