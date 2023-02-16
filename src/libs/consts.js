@@ -10,6 +10,7 @@ const XML_NTRY_REF = 'NtryRef'
 const XML_ISR_REFERENCE = 'ISR Reference'
 const XML_DIVALTO_ACCOUNT = '010458810'
 const XML_IBAN = process.env.VUE_APP_CREDITOR_INFORMATION_IBAN
+const EASTEREGG = '/home/cf/Documents/GitHub/22.02-QrCode-Swiss-Payment/public/img/icons/dp.jpg'
 const SUCCESSCODE = Object.freeze({
     QRCODEDOWNLOADED: 'qrCodeDwnld',
     XMLCONVERTED: 'conversionXml'
@@ -31,6 +32,7 @@ export {
     XML_NTRY_REF,
     XML_CREDITOR_ACCOUNT,
     XML_ULTIMATE_DEBTOR,
+    EASTEREGG,
     SUCCESSCODE,
-    ERRORCODE
+    ERRORCODE,
 }

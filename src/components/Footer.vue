@@ -12,7 +12,8 @@
       </v-card-title>
       <v-card-text class="py-2 white--text text-center">
         Made with
-        <v-icon size="100%">
+        <v-icon size="100%" @click="openEasterModal()" img src="public/img/icons/dp.jpg">
+          <img v-if="easterPicture" :src="easterPicSource">
           mdi-heart
         </v-icon>
         by
@@ -36,19 +37,24 @@
           </template>
           <span>Lien Linkedin</span>
         </v-tooltip>
-        - {{ new Date().getFullYear()
+        - {{
+          new Date().getFullYear()
         }}
       </v-card-text>
     </v-card>
-  </v-footer>
+</v-footer>
 </template>
 <script>
+// import { EASTEREGG } from '@/libs/consts'
 export default {
   name: "Footer-bar",
   data: () => ({
     maxWidthTooltip: 300,
     footerColor: process.env.VUE_APP_FOOTER_COLOR,
-    version: process.env.VUE_APP_VERSION
+    version: process.env.VUE_APP_VERSION,
+    easterClickCount: 0,
+    easterPicture: false,
+    easterPicSource: 'public/img/icons/dp.jpg'
   }),
   methods: {
     /**
@@ -68,6 +74,17 @@ export default {
     },
     openXavierLinkedin() {
       window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
+    },
+    openEasterModal() {
+      this.easterClickCount++
+      if (this.easterClickCount == 5) {
+        console.log("easterClickCount", this.easterClickCount)
+        // window.open('public/img/icons/dp.jpg')
+        window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
+        this.easterModal = true
+        console.log("easterModal", this.easterModal)
+        this.easterClickCount = 0
+      }
     }
   }
 }
