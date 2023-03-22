@@ -12,8 +12,8 @@
       </v-card-title>
       <v-card-text class="py-2 white--text text-center">
         Made with
-        <v-icon size="100%" @click="openEasterModal()" img src="public/img/icons/dp.jpg">
-          <img v-if="easterPicture" :src="easterPicSource">
+        <v-icon size="100%" @click="openEasterModal()">
+          <!-- <v-img v-if="easterPicture" src="public/img/icons/dp.jpg" alt="image"></v-img> -->
           mdi-heart
         </v-icon>
         by
@@ -54,7 +54,8 @@ export default {
     version: process.env.VUE_APP_VERSION,
     easterClickCount: 0,
     easterPicture: false,
-    easterPicSource: 'public/img/icons/dp.jpg'
+    easterPicSource: "",
+    easterModal: false
   }),
   methods: {
     /**
@@ -83,11 +84,16 @@ export default {
       window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
     },
     openEasterModal() {
+      // this.easterPicSource = false
       this.easterClickCount++
-      if (this.easterClickCount == 5) {
+      if (this.easterClickCount === 5&& !this.easterPicture) {
+        this.easterPicture = true
+        this.easterPicSource = "public/img/icons/dp.jpg"
+
         console.log("easterClickCount", this.easterClickCount)
-        // window.open('public/img/icons/dp.jpg')
-        window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
+        window.open('public/img/icons/dp.jpg', 'blank')
+        // window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
+        // this.easterPicSource = ('public/img/icons/dp.jpg')
         this.easterModal = true
         console.log("easterModal", this.easterModal)
         this.easterClickCount = 0
