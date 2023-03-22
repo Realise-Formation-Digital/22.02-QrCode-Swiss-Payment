@@ -9,7 +9,6 @@ import PdfService from "./pdfService.js";
  * @author Marco Tribuzio
  */
 class ApiService {
-
     /**
      * Checking if the iban is correct
      * @async
@@ -27,7 +26,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
     /**
      * Get the list of the countries
      * @async
@@ -52,11 +50,9 @@ class ApiService {
             throw new Error(e)
         }
     }
-
-
-
     /**
      * Service to send the list to the api, and receive the pdf list to download
+     * @deprecated
      * @async
      * @param {object[]} csvList - the list that we want to send
      * @return Promise<Object>
@@ -125,7 +121,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
     /**
      * Sending Single Payment to the api
      * @param payload
@@ -153,7 +148,7 @@ class ApiService {
     }
     /**
      * Function that makes a request to the markdown library
-     * @returns promise
+     * @returns {promise}
      * @author Xavier de Juan
      */
     static async axioRequ() {
@@ -167,7 +162,6 @@ class ApiService {
             throw new Error(e)
         }
     }
-
     /**
      * Get Two check digit
      * @param {String} referenceNumber - 27 digit reference number
@@ -191,26 +185,25 @@ class ApiService {
             throw new Error(e)
         }
     }
-
-
     /**
      * Send to API for merge
      * @param {object} divaltoFile - 
      * @param {object} qrCodeCreateByApi
+     * @return {Promise<Object>}
      * @author Marco Tribuzio
      * @author Xavier de Juan
      */
-    static async mergeFiles(divaltoFile, qrCodeCreateByApi) {
+    static async mergeFiles(divaltoFile, qrCodeCreatedByApi) {
         try {
-            console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreateByApi)
+            console.log("[Service][ApiService][mergeFiles] Send Divalto pdf files + QR pdf with params", divaltoFile, qrCodeCreatedByApi)
 
             const formData = new FormData()
             const pdfLength = await PdfService.CallPdfLengthLib(divaltoFile)
 
             formData.append('file', divaltoFile)
-            formData.append('file2', qrCodeCreateByApi)
+            formData.append('file2', qrCodeCreatedByApi)
 
-            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength , formData,
+            const response = await axios.post(BASE_URL + "/v2/pdf/merge" + API_KEY + "&onPage=" + pdfLength, formData,
                 {
                     responseType: "blob",
                     headers: {

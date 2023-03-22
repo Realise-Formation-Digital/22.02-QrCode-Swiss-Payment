@@ -16,13 +16,15 @@
             "infoMontPaiement": "Information du montant",
             "montant": "Montant",
             "numRef": "Numéro de référence (Ne doit contenir aucun espace entre les numéros)",
-            "infoFacture": "Information de facture (optionnel)",
             "infoSupp": "Information supplémentaires (optionnel)",
             "valider": "Valider",
             "effacer": "Effacer"
         },
         "modale": {
-            "verifConfirm": "Page de vérification.",
+            "verifConfirm": "Validation du formulaire",
+            "pays": "Pays",
+            "numRef": "Numéro de référence",
+            "infoSupp": "Information supplémentaires",
             "confirmer": "Confirmer",
             "annuler": "Annuler"
         },
@@ -35,9 +37,9 @@
             "montant": "Montant du paiement. L'élément doit être indiqué sans zéros non significatifs, y compris le séparateur décimal et deux décimales. Un maximum de 12 positions sont autorisées, y compris le séparateur décimal. Seul le point ('.') est autorisé comme séparateur décimal.",
             "numRef": "Numéro de référence de paiement structuré. -Remarque : La référence est soit une référence QR, soit une référence créancier (ISO 11649) Maximum 27 caractères alphanumériques. Doit être rempli si vous utilisez un QR-IBAN. Référence QR : 27 caractères numériques, calcul du chiffre de contrôle selon le modulo récursif 10 (27ème position de la référence) Creditor Reference (ISO 11649) : jusqu'à 25 caractères alphanumériques L'élément ne doit pas être renseigné pour le type de référence NO.",
             "infoFacture": "Les informations structurelles de la facture contiennent des informations codées pour l'enregistrement automatisé des paiements. Les données ne sont pas transmises avec le paiement. 140 caractères maximum.",
-            "infosupp": "Les informations non structurées peuvent être utilisées pour l'indication d'un motif de paiement ou pour des informations textuelles supplémentaires sur les paiements avec une référence structurée. 56 caractères maximum."    
+            "infosupp": "Les informations non structurées peuvent être utilisées pour l'indication d'un motif de paiement ou pour des informations textuelles supplémentaires sur les paiements avec une référence structurée. 56 caractères maximum."
         },
-        "alert": {   
+        "alert": {
             "nom": "Le champ 'Nom' est obligatoire.",
             "rue": "Le champ 'Rue' est obligatoire.",
             "numDeRue": "Le champ 'Numéro de rue' est obligatoire.",

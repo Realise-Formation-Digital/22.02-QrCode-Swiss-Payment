@@ -13,25 +13,7 @@
         <!-- Page d'accueil -->
       </span>
     </v-btn>
-
     <v-spacer></v-spacer>
-
-    <!-- ATTENTION BOUTON CACHE PROVISOIREMENT -->
-    <v-btn v-show="$route.path !=='/'" to="/xml" text plain>
-      <span class="mr-2 hide">
-        <v-icon>mdi-xml</v-icon>
-        Convertir pour Divalto
-      </span>
-    </v-btn>
-
-    <!--
-    <v-btn v-show="$route.path !=='/'" to="/csv" text plain>
-      <span class="mr-2 hide">
-        <v-icon>mdi-file-delimited-outline</v-icon>
-        Importer un fichier
-      </span>
-    </v-btn> -->
-
     <v-btn v-show="$route.path !== '/'" to="/form-qr" text plain>
       <span class="mr-2 hide">
         <v-icon>mdi-qrcode</v-icon>
@@ -39,19 +21,21 @@
         <!-- Créer une facture -->
       </span>
     </v-btn>
-    <!-- <v-col class="d-flex" cols="2">
-      <v-select :items="langSelect" item-text="value" item-value="key" @change="traductSelect"></v-select>
-    </v-col> -->
+
+    <v-btn v-show="$route.path !=='/'" to="/xml" text plain>
+      <span class="mr-2 hide">
+        <v-icon>mdi-xml</v-icon>
+        Convertir pour Divalto
+      </span>
+    </v-btn>
     <v-btn to="/Info" text plain icon>
         <v-icon>info</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
-
 <script>
 import { traductionMixin } from "@/mixins/traductionMixin.js";
 import Traductor from '@/libs/i18n.js'
-
 export default {
   name: "Nav-bar",
   mixins: [traductionMixin],
@@ -77,7 +61,8 @@ export default {
     /**
      * Language selection function in the dropDown
      * @param {*} langSelect
-     * @author Xavier de Juan
+     * @returns {????}
+     * @author - Xavier de Juan
      */
     traductSelect(langSelect) {
         Traductor.changeLanguage(langSelect)
@@ -86,7 +71,5 @@ export default {
   },
 }
 </script>
-
 <style scoped>
-
 </style>

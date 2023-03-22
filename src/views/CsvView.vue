@@ -21,12 +21,12 @@
 
       <!-- error pop-up if the QR code is not received -->
       <v-snackbar v-model="snackbarError" color="red accent-2">
-        {{  textE  }}
+        {{ textE }}
       </v-snackbar>
 
       <!-- Pop-up when the QR code is received -->
       <v-snackbar v-model="snackbarSuccess" color="success">
-        {{  textS  }}
+        {{ textS }}
       </v-snackbar>
     </v-col>
   </v-row>
@@ -55,12 +55,9 @@ export default {
 
   watch: {
     /**
-     *
      * Function that check value and return the loading pop-up
-     *
-     * @author Xavier de Juan
-     * @params {boolean}
-     * @return boolean
+     * @returns {boolean}
+     * @author - Xavier de Juan
      */
     dialogSendApi(val) {
       if (!val) return
@@ -69,13 +66,15 @@ export default {
 
   methods: {
     /**
-     *
      * Function that check value and return the loading pop-up
-     *
+     * @param {*} convert
+     * @return {Promise<Object>}
+     * @deprecated
      * @author Xavier de Juan
-     * @params {object[]????} - convert
-     * @return promise<object>
      */
+
+
+    
     async papaparse(convert) {
       let conversion = await ParseCsv.csvToJson(convert)
       this.payloadArray = conversion.map((item) => {
@@ -97,45 +96,33 @@ export default {
       return MONTANT ? parseFloat(MONTANT.replace(regex, subst)) : 0
     },
     /**
-     *
      * Function that show the snackbar when QR code is not received
-     *
+     * @returns {boolean}
      * @author Xavier de Juan
-     *
-     * @return boolean
      */
     showSnackbarError() {
       this.snackbarError = true
     },
     /**
-     *
      * Function that hide the snackbar
-     *
+     * @returns {boolean}
      * @author Xavier de Juan
-     *
-     * @return boolean
      */
     hideSnackBarError() {
       this.snackbarError = false
     },
     /**
-     *
      * Function that show the snackbar when QR code is received
-     *
+     * @returns {boolean}
      * @author Xavier de Juan
-     *
-     * @return boolean
      */
     showSnackbarSuccess() {
       this.snackbarSuccess = true
     },
     /**
-     *
      * Function that hide the snackbar
-     *
+     * @return {boolean}
      * @author Xavier de Juan
-     *
-     * @return boolean
      */
     hideSnackbarSuccess() {
       this.snackbarSuccess = false
@@ -144,15 +131,12 @@ export default {
       try {
         this.dialogSendApi = true;
         console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params',)
-
         //todo use papaparse to convert from csv to json
         //todo send to the service the json produced
         console.log('[Views][CsvView][sendCsvList] Called sendCsvList with params', this.payloadArray)
         const response = await ApiService.sendJsonList(this.payloadArray);
-
         // set the blog type to final pdf
         const file = new Blob([response.data], { type: 'application/pdf' });
-
         // process to auto download it
         const fileURL = URL.createObjectURL(file);
         const link = document.createElement('a');
@@ -161,7 +145,6 @@ export default {
         link.click();
         this.showSnackbarSuccess();
         this.dialogSendApi = false;
-
       } catch (e) {
         this.showSnackbarError();
         this.dialogSendApi = false;

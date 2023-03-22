@@ -2,55 +2,110 @@
   <v-footer dark padless>
     <v-card class="flex" flat tile>
       <v-card-title class="realiseTheme">
-        <strong class="subheading">Version {{version}}</strong>
-
+        <strong class="subheading">Version {{ version }}</strong>
         <v-spacer></v-spacer>
-
         <v-btn class="mx-4" dark icon @click="openSiteRealise()">
           <v-icon size="200%">
             mdi-web
           </v-icon>
         </v-btn>
       </v-card-title>
-
       <v-card-text class="py-2 white--text text-center">
         Made with
-        <v-icon size="100%">
+        <v-icon size="100%" @click="openEasterModal()">
+          <!-- <v-img v-if="easterPicture" src="public/img/icons/dp.jpg" alt="image"></v-img> -->
           mdi-heart
         </v-icon>
-        by<strong> Marco Tribuzio, <strong>Bachir Aouad</strong></strong> and <strong>Xavier de Juan</strong> - {{ new
-        Date().getFullYear() }}
+        by
+        <v-tooltip :max-width="maxWidthTooltip" top>
+          <template v-slot:activator="{ on, attrs }">
+            <strong v-bind="attrs" v-on="on" @click="openMarcoLinkedin()">Marco Tribuzio</strong>
+          </template>
+          <span>Lien Linkedin</span>
+        </v-tooltip>
+        ,
+        <v-tooltip :max-width="maxWidthTooltip" top>
+          <template v-slot:activator="{ on, attrs }">
+            <strong v-bind="attrs" v-on="on">Bachir Aouad</strong>
+          </template>
+          <span>Ne possède pas de compte Linkedin</span>
+        </v-tooltip>
+        and
+        <v-tooltip :max-width="maxWidthTooltip" top>
+          <template v-slot:activator="{ on, attrs }">
+            <strong v-bind="attrs" v-on="on" @click="openXavierLinkedin()">Xavier de Juan</strong>
+          </template>
+          <span>Lien Linkedin</span>
+        </v-tooltip>
+        - {{
+          new Date().getFullYear()
+        }}
       </v-card-text>
     </v-card>
-  </v-footer>
+</v-footer>
 </template>
-
 <script>
-
+// import { EASTEREGG } from '@/libs/consts'
 export default {
   name: "Footer-bar",
   data: () => ({
+    maxWidthTooltip: 300,
     footerColor: process.env.VUE_APP_FOOTER_COLOR,
-    version: process.env.VUE_APP_VERSION
+    version: process.env.VUE_APP_VERSION,
+    easterClickCount: 0,
+    easterPicture: false,
+    easterPicSource: "",
+    easterModal: false
   }),
   methods: {
     /**
-     * Link to the realized site
-     * @return void
-     * @author Marco Tribuzio
-     * @author Xavier de Juan
+     * Link to the realise site and Linkedin
+     * @returns {links}
+     * @author  - Marco Tribuzio
+     * @author  - Xavier de Juan
      */
     openSiteRealise() {
       window.open(process.env.VUE_APP_FOOTER_ICONS, '_blank')
+    },
+    /**
+    * Link to Marco's Linkedin
+    * @return void
+    * @author Xavier de Juan
+    */
+    openMarcoLinkedin() {
+      window.open('https://www.linkedin.com/in/marcotribuz/')
+    },
+    /**
+   * Link to Xavier's Linkedin
+   * @return void
+   * @author Xavier de Juan
+   */
+    openXavierLinkedin() {
+      window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
+    },
+    openEasterModal() {
+      // this.easterPicSource = false
+      this.easterClickCount++
+      if (this.easterClickCount === 5&& !this.easterPicture) {
+        this.easterPicture = true
+        this.easterPicSource = "public/img/icons/dp.jpg"
+
+        console.log("easterClickCount", this.easterClickCount)
+        window.open('public/img/icons/dp.jpg', 'blank')
+        // window.open('https://www.linkedin.com/in/xavier-de-juan-257721146')
+        // this.easterPicSource = ('public/img/icons/dp.jpg')
+        this.easterModal = true
+        console.log("easterModal", this.easterModal)
+        this.easterClickCount = 0
+      }
     }
   }
 }
 </script>
-
 <style>
 .realiseTheme {
   background-image: linear-gradient(90deg, #003da5, #41b6e6, #97d700);
-  height: 4em;
+  height: 3em;
 }
 
 .subheading {
